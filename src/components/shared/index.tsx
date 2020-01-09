@@ -36,3 +36,21 @@ export const Column: React.FC<Props> = ({ children, isFull = false }) => (
     <InnerColumn>{children}</InnerColumn>
   </StyledColumn>
 );
+
+export const Row = styled.div`
+  /* width: 100%; */
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  padding: 0;
+`;
+
+export const Background = styled.div`
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  background: linear-gradient(90deg, #2a2a2a 20%, rgba(0, 0, 0, 0) 100%),
+    url("/images/login-bg.png");
+  background-repeat: no-repeat;
+  background-position: right;
+`;

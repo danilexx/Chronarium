@@ -7,6 +7,9 @@ export const Container = styled.div`
   box-shadow: 0 4px 0 ${props => props.theme.primary};
   margin-bottom: 4px;
   padding: 1rem 3rem;
+  @media screen and (max-width: 700px) {
+    margin: 0 auto;
+  }
 `;
 
 export const Form = styled.form`

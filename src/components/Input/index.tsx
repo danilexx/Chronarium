@@ -9,8 +9,8 @@ interface Props {
 const Input: React.FC<Props> = ({ type = "text", name, ...props }) => {
   return (
     <Container>
+      <StyledInput type={type} required {...props} />
       <Label>{name}</Label>
-      <StyledInput type={type} {...props} />
     </Container>
   );
 };

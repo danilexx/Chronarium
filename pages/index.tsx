@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
-import styled from "styled-components";
 import { useFetch } from "use-http";
 import { getLocale } from "-/src/services";
 import getIsSafe from "-/src/utils/IsSafe";
-import { Column } from "-/src/components/shared";
+import { Column, Background } from "-/src/components/shared";
 import Login from "-/src/components/Login";
 
 const Home: React.FC = () => {
@@ -22,11 +21,11 @@ const Home: React.FC = () => {
   //   })();
   // }, []);
   return (
-    <>
+    <Background>
       <Column isFull>
         <Login />
       </Column>
-    </>
+    </Background>
   );
 };
 

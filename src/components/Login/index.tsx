@@ -23,8 +23,12 @@ const Login = () => {
       setSize(toChangeSize);
     }
   };
+  const handleFormResizeTimed = () => {
+    setTimeout(handleFormResize, 500);
+  };
   React.useEffect(() => {
     if (window) {
+      window.addEventListener("blur", handleFormResize);
       window.addEventListener("resize", handleFormResize);
     }
     return () => window.removeEventListener("resize", handleFormResize);
@@ -49,7 +53,7 @@ const Login = () => {
       </LoginForm>
       <RegisterForm ref={registerRef} index={index}>
         <Header>Register</Header>
-        <Form>
+        <Form onBlur={handleFormResizeTimed}>
           <Input name="Username" />
           <Input name="Email" type="email" />
           <Input name="ConfirmEmail" type="email" />

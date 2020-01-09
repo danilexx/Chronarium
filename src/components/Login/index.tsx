@@ -23,17 +23,7 @@ const Login = () => {
       setSize(toChangeSize);
     }
   };
-  const handleFormResizeTimed = () => {
-    setTimeout(handleFormResize, 500);
-  };
-  React.useEffect(() => {
-    if (window) {
-      window.addEventListener("blur", handleFormResize);
-      window.addEventListener("resize", handleFormResize);
-    }
-    return () => window.removeEventListener("resize", handleFormResize);
-  }, []);
-  React.useEffect(handleFormResize, [loginRef, registerRef, index]);
+  React.useEffect(handleFormResize, [index]);
   return (
     <Container size={size}>
       <LoginForm ref={loginRef} index={index}>
@@ -53,7 +43,7 @@ const Login = () => {
       </LoginForm>
       <RegisterForm ref={registerRef} index={index}>
         <Header>Register</Header>
-        <Form onBlur={handleFormResizeTimed}>
+        <Form>
           <Input name="Username" />
           <Input name="Email" type="email" />
           <Input name="ConfirmEmail" type="email" />

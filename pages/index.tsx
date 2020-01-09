@@ -4,6 +4,7 @@ import { getLocale } from "-/src/services";
 import getIsSafe from "-/src/utils/IsSafe";
 import { Column, Background } from "-/src/components/shared";
 import Login from "-/src/components/Login";
+import { useStoreState } from "-/src/utils/EasyPeasy";
 
 const Home: React.FC = () => {
   const [count, setCount] = React.useState(1);

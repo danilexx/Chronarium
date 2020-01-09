@@ -11,7 +11,7 @@ const Login = () => {
   const loginRef = React.useRef<HTMLDivElement>(null);
   const registerRef = React.useRef<HTMLDivElement>(null);
   const [index, setIndex] = React.useState(0);
-  React.useEffect(() => {
+  const handleFormResize = () => {
     if (loginRef && loginRef.current && registerRef && registerRef.current) {
       let toChangeSize: number;
       if (index === 1) {
@@ -22,7 +22,14 @@ const Login = () => {
 
       setSize(toChangeSize);
     }
-  }, [loginRef, registerRef, index]);
+  };
+  React.useEffect(() => {
+    if (window) {
+      window.addEventListener("resize", handleFormResize);
+    }
+    return () => window.removeEventListener("resize", handleFormResize);
+  }, []);
+  React.useEffect(handleFormResize, [loginRef, registerRef, index]);
   return (
     <Container size={size}>
       <LoginForm ref={loginRef} index={index}>

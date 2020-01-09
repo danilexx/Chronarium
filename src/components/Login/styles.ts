@@ -16,8 +16,13 @@ export const Container = styled.div<{ size: number }>`
     margin: 0 auto;
   }
   position: relative;
-  width: 25rem;
+  --form-width: 30rem;
+  width: var(--form-width);
   overflow: hidden;
+  @media screen and (max-width: 500px) {
+    --form-width: calc(100vw - 15rem);
+    padding: 3rem 4rem;
+  }
 `;
 
 export const Form = styled.form`
@@ -35,7 +40,7 @@ export const Header = styled.h1`
 `;
 
 export const LoginForm = styled.div<{ index: number }>`
-  width: 25rem;
+  min-width: var(--form-width);
   height: fit-content;
   padding: 0;
   transition: transform 0.2s ease-in-out;

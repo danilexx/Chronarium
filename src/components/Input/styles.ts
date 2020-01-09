@@ -15,7 +15,7 @@ export const Label = styled.label`
   transition: all 0.2s ease-in-out;
 `;
 export const StyledInput = styled.input`
-  max-width: 35rem;
+  max-width: var(--form-width);
   font-size: 2.2rem;
   border-radius: 5px;
   padding: 0.8rem 1rem;

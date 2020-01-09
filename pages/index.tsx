@@ -7,20 +7,6 @@ import Login from "-/src/components/Login";
 import { useStoreState } from "-/src/utils/EasyPeasy";
 
 const Home: React.FC = () => {
-  const [count, setCount] = React.useState(1);
-  const { loading, error, data } = useFetch<{ message: string }>(
-    {
-      path: getLocale.url
-    },
-    []
-  );
-  const isSafe = getIsSafe(loading, error);
-  // useEffect(() => {
-  //   (async () => {
-  //     const { data: currentLocale } = await getLocale();
-  //     setLocale(currentLocale);
-  //   })();
-  // }, []);
   return (
     <Background>
       <Column isFull>

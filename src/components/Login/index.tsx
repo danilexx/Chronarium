@@ -4,9 +4,10 @@ import Input from "../Input";
 import { Container, Form, Header, LoginForm, RegisterForm } from "./styles";
 import Button from "../Button";
 import { Buttons } from "../Button/styles";
+import LoginCard from "./subcomponents/LoginCard";
+import RegisterCard from "./subcomponents/RegisterCard";
 
 const Login = () => {
-  const { register, handleSubmit, errors } = useForm();
   const [size, setSize] = React.useState(0);
   const loginRef = React.useRef<HTMLDivElement>(null);
   const registerRef = React.useRef<HTMLDivElement>(null);
@@ -26,39 +27,8 @@ const Login = () => {
   React.useEffect(handleFormResize, [index]);
   return (
     <Container size={size}>
-      <LoginForm ref={loginRef} index={index}>
-        <Header>Login</Header>
-        <Form>
-          <Input name="Username" />
-          <Input name="Password" type="password" />
-        </Form>
-        <Buttons>
-          <Button isFull instance="primary">
-            Login
-          </Button>
-          <Button onClick={() => setIndex(1)} isFull instance="secondary">
-            Register
-          </Button>
-        </Buttons>
-      </LoginForm>
-      <RegisterForm ref={registerRef} index={index}>
-        <Header>Register</Header>
-        <Form>
-          <Input name="Username" />
-          <Input name="Email" type="email" />
-          <Input name="ConfirmEmail" type="email" />
-          <Input name="Password" type="password" />
-          <Input name="ConfirmPassword" type="password" />
-        </Form>
-        <Buttons>
-          <Button isFull instance="primary">
-            Register
-          </Button>
-          <Button onClick={() => setIndex(0)} isFull instance="secondary">
-            Voltar
-          </Button>
-        </Buttons>
-      </RegisterForm>
+      <LoginCard index={index} setIndex={setIndex} formRef={loginRef} />
+      <RegisterCard index={index} setIndex={setIndex} formRef={registerRef} />
     </Container>
   );
 };

@@ -5,15 +5,24 @@ interface Props {
   type?: string;
   name: string;
   onBlur?: any;
+  props?: any;
+  prettyName?: string;
 }
 
-const Input: React.FC<Props> = ({ type = "text", name, ...props }) => {
-  return (
-    <Container>
-      <StyledInput type={type} required {...props} />
-      <Label>{name}</Label>
-    </Container>
-  );
-};
+export type Ref = HTMLInputElement;
+
+const Input = React.forwardRef<Ref, Props>(
+  ({ type = "text", name, prettyName, ...props }, ref) => {
+    const [firstLetter, ...rest] = name;
+    const prettyRest = rest.join("");
+    const label = prettyName || firstLetter.toUpperCase() + prettyRest;
+    return (
+      <Container>
+        <StyledInput ref={ref} type={type} name={name} required {...props} />
+        <Label>{label}</Label>
+      </Container>
+    );
+  }
+);
 
 export default Input;

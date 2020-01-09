@@ -7,18 +7,29 @@ interface Props {
   isFull?: boolean;
   onClick?: any;
 }
-
-const Button: React.FC<Props> = ({
+type ButtonType = Props & React.ButtonHTMLAttributes<any>;
+const Button: React.FC<ButtonType> = ({
   instance,
   children,
   isFull = false,
+  type = "button",
   ...props
 }) => {
   return (
-    <Container isFull={isFull} instance={instance} {...props}>
+    <Container type={type} isFull={isFull} instance={instance} {...props}>
       {children}
     </Container>
   );
 };
 
 export default Button;
+interface LoadingProps {
+  loading?: boolean;
+}
+export const LoadingButton: React.FC<LoadingProps & ButtonType> = ({
+  children,
+  loading = false,
+  ...props
+}) => {
+  return <Button {...props}>{loading ? "loading..." : children}</Button>;
+};

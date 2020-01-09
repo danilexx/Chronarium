@@ -4,6 +4,7 @@ export const Container = styled.div<{ size: number }>`
   background-color: ${props => props.theme.bg2};
   width: fit-content;
   transition: height 0.5s ease-in-out 0.2s;
+  will-change: height;
   height: ${props => props.size}px;
   display: flex;
   flex-direction: row;

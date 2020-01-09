@@ -53,4 +53,8 @@ export const Background = styled.div`
     url("/images/login-bg.png");
   background-repeat: no-repeat;
   background-position: right;
+  padding: 0;
+  @media screen and (max-width: 700px) {
+    background: url("/images/login-bg.png");
+  }
 `;

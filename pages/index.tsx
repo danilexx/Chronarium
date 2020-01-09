@@ -7,7 +7,7 @@ import Login from "-/src/components/Login";
 
 const Home: React.FC = () => {
   const [count, setCount] = React.useState(1);
-  const { loading, error, data } = useFetch(
+  const { loading, error, data } = useFetch<{ message: string }>(
     {
       path: getLocale.url
     },

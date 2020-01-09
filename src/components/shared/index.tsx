@@ -27,7 +27,7 @@ export const InnerColumn = styled.div`
 `;
 
 interface Props {
-  children: ReactChild;
+  children: React.ReactNode;
   isFull?: boolean;
 }
 

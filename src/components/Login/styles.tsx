@@ -1,3 +1,4 @@
+import React, { createContext } from "react";
 import styled from "-/src/utils/StyledComponents";
 
 export const Container = styled.div<{ size: number }>`
@@ -23,9 +24,10 @@ export const Container = styled.div<{ size: number }>`
     --form-width: calc(100vw - 15rem);
     padding: 3rem 4rem;
   }
+  padding: 2rem;
 `;
 
-export const Form = styled.form`
+export const StyledForm = styled.form`
   flex: 1;
 `;
 

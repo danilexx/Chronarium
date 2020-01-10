@@ -19,7 +19,7 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   div{
-    padding: 2rem;
+    /* padding: 2rem; */
     &#__next{
       padding: 0;
     }

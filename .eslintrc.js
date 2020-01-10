@@ -30,6 +30,7 @@ module.exports = {
     "react/jsx-one-expression-per-line": "off",
     "no-unused-vars": "off",
     "react/prop-types": "off",
-    "no-param-reassign": "off"
+    "no-param-reassign": "off",
+    "camelcase": "off"
   }
 };

@@ -1,32 +1,39 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import useFetch from "use-http";
-import { Form, LoginForm, Header } from "../styles";
+import { LoginForm, Header } from "../styles";
 import Input from "-/src/components/Input";
 import { Buttons } from "../../Button/styles";
 import Button, { LoadingButton } from "../../Button";
 import { FormProps } from "./types";
+import Form from "./Form";
 
 interface LoginFormData {
   name: string;
   password: string;
 }
 
-const LoginCard: React.FC<FormProps> = ({ formRef, setIndex, index }) => {
+const LoginCard: React.FC<FormProps> = ({ formRef, onChange, index }) => {
   const [request, response] = useFetch({ path: "/sessions" });
-  const { register, handleSubmit } = useForm<LoginFormData>();
+  const { register, handleSubmit, errors, watch } = useForm<LoginFormData>();
   const onSubmit = handleSubmit(async data => {
     request.post(data);
   });
   React.useEffect(() => {
     console.log(response.data);
   }, [response.data]);
+
   return (
     <LoginForm ref={formRef} index={index}>
       <Header>Login</Header>
-      <Form onSubmit={onSubmit}>
-        <Input ref={register} name="username" />
-        <Input ref={register} name="password" type="password" />
+      <Form
+        register={register}
+        watch={watch}
+        errors={errors}
+        onSubmit={onSubmit}
+      >
+        <Input name="username" />
+        <Input name="password" type="password" />
         <Buttons>
           <LoadingButton
             loading={request.loading}
@@ -38,7 +45,7 @@ const LoginCard: React.FC<FormProps> = ({ formRef, setIndex, index }) => {
           </LoadingButton>
           <Button
             type="button"
-            onClick={() => setIndex(1)}
+            onClick={() => onChange(1)}
             isFull
             instance="secondary"
           >

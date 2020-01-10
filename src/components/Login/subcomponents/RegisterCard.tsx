@@ -1,41 +1,66 @@
-import React from "react";
-import { useForm } from "react-hook-form";
+import React, { createContext } from "react";
+import { useForm, ErrorMessage } from "react-hook-form";
 import useFetch from "use-http";
-import { RegisterForm, Header, Form } from "../styles";
+import ReactResizeDetector from "react-resize-detector";
+import { RegisterForm, Header } from "../styles";
 import Input from "../../Input";
 import { Buttons } from "../../Button/styles";
 import Button, { LoadingButton } from "../../Button";
 import { FormProps } from "./types";
+import { RegisterValidationSchema } from "./ValidationSchemas";
+import Form from "./Form";
 
-interface RegisterFormData {}
+interface RegisterFormData {
+  username: string;
+  password: string;
+  password_confirmation: string;
+  email: string;
+  email_confirmation: string;
+}
 
-const RegisterCard: React.FC<FormProps> = ({ index, setIndex, formRef }) => {
-  const { register, handleSubmit } = useForm<RegisterFormData>();
+const RegisterCard: React.FC<FormProps> = ({
+  index,
+  onChange,
+  formRef,
+  iChanged
+}) => {
+  const {
+    register,
+    handleSubmit,
+    errors,
+    formState,
+    triggerValidation,
+    watch
+  } = useForm<RegisterFormData>({
+    validationSchema: RegisterValidationSchema
+  });
   const [request, response] = useFetch({ path: "/users" });
   const onSubmit = handleSubmit(async data => {
-    await request.post(data);
-    console.log(response.data);
+    // await request.post(data);
+    console.log(data);
   });
-
+  // useUpdateEffect(() => {
+  //   iChanged();
+  // }, [errors]);
   return (
     <RegisterForm ref={formRef} index={index}>
       <Header>Register</Header>
-      <Form onSubmit={onSubmit}>
-        <Input ref={register({ required: true })} name="username" />
-        <Input ref={register({ required: true })} name="email" type="email" />
+      <Form
+        watch={watch}
+        onSubmit={onSubmit}
+        errors={errors}
+        register={register}
+      >
+        <ReactResizeDetector handleHeight onResize={iChanged} />
+        <Input name="username" />
+        <Input name="email" type="email" />
         <Input
-          ref={register({ required: true })}
           name="email_confirmation"
           prettyName="Email Confirmation"
           type="email"
         />
+        <Input name="password" type="password" />
         <Input
-          ref={register({ required: true })}
-          name="password"
-          type="password"
-        />
-        <Input
-          ref={register({ required: true })}
           name="password_confirmation"
           prettyName="Password Confirmation"
           type="password"
@@ -49,7 +74,7 @@ const RegisterCard: React.FC<FormProps> = ({ index, setIndex, formRef }) => {
           >
             Register
           </LoadingButton>
-          <Button onClick={() => setIndex(0)} isFull instance="secondary">
+          <Button onClick={() => onChange(0)} isFull instance="secondary">
             Voltar
           </Button>
         </Buttons>

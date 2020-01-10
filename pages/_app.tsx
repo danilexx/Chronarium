@@ -49,7 +49,6 @@ class MyApp extends App<{ store: any }> {
   render() {
     // eslint-disable-next-line no-shadow
     const { Component, pageProps = {}, store } = this.props;
-    console.log(process.env.SERVER_URL);
     return (
       <UrlProvider url={process.env.SERVER_URL}>
         <StoreProvider store={store}>

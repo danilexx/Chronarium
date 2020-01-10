@@ -1,9 +1,5 @@
 import React from "react";
-import { useForm } from "react-hook-form";
-import Input from "../Input";
-import { Container, Form, Header, LoginForm, RegisterForm } from "./styles";
-import Button from "../Button";
-import { Buttons } from "../Button/styles";
+import { Container } from "./styles";
 import LoginCard from "./subcomponents/LoginCard";
 import RegisterCard from "./subcomponents/RegisterCard";
 
@@ -12,6 +8,7 @@ const Login = () => {
   const loginRef = React.useRef<HTMLDivElement>(null);
   const registerRef = React.useRef<HTMLDivElement>(null);
   const [index, setIndex] = React.useState(0);
+  const [hasChanged, setHasChanged] = React.useState(0);
   const handleFormResize = () => {
     if (loginRef && loginRef.current && registerRef && registerRef.current) {
       let toChangeSize: number;
@@ -24,11 +21,26 @@ const Login = () => {
       setSize(toChangeSize);
     }
   };
-  React.useEffect(handleFormResize, [index]);
+
+  const handleChange = (nextIndex: number): void => {
+    setIndex(nextIndex);
+  };
+  const iChanged = () => setHasChanged(changed => changed + 1);
+  React.useEffect(handleFormResize, [index, hasChanged]);
   return (
     <Container size={size}>
-      <LoginCard index={index} setIndex={setIndex} formRef={loginRef} />
-      <RegisterCard index={index} setIndex={setIndex} formRef={registerRef} />
+      <LoginCard
+        index={index}
+        onChange={handleChange}
+        formRef={loginRef}
+        iChanged={iChanged}
+      />
+      <RegisterCard
+        iChanged={iChanged}
+        index={index}
+        onChange={handleChange}
+        formRef={registerRef}
+      />
     </Container>
   );
 };

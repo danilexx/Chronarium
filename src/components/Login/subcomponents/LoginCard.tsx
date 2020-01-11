@@ -17,7 +17,7 @@ interface LoginFormData {
 
 const LoginCard: React.FC<FormProps> = ({ onChange, index, onResize }) => {
   const [request, response] = useFetch({ path: "/sessions" });
-  const [Popup, { toggle, isActive }] = usePopup();
+  const [Popup, popupProps] = usePopup();
   const [ref, { height }] = useMeasure();
   React.useEffect(() => {
     onResize(height);
@@ -42,7 +42,7 @@ const LoginCard: React.FC<FormProps> = ({ onChange, index, onResize }) => {
           </LoadingButton>
           <Button
             type="button"
-            onClick={() => toggle()}
+            onClick={() => popupProps.test()}
             isFull
             instance="secondary"
           >
@@ -50,9 +50,7 @@ const LoginCard: React.FC<FormProps> = ({ onChange, index, onResize }) => {
           </Button>
         </Buttons>
       </Form>
-      <Popup isActive={isActive} onChange={toggle}>
-        Oi
-      </Popup>
+      <Popup {...popupProps}>Oi</Popup>
     </LoginForm>
   );
 };

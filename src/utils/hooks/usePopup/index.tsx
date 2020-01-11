@@ -8,16 +8,19 @@ import {
 import React, { useRef, useCallback } from "react";
 import { Portal } from "react-portal";
 import { Transition } from "react-transition-group";
-import { PopupContainer } from "./styles";
+import { PopupContainer, PopupBackground } from "./styles";
 
 interface IOptions {
   toggle: (nextValue?: boolean) => void;
   isActive: boolean;
+  onChange: (nextValue?: boolean) => void;
+  test: any;
 }
 interface IProps {
   children: any;
   isActive: boolean;
-  onChange: (nextValue: boolean) => void;
+  onChange: (nextValue?: boolean) => void;
+  important?: boolean;
 }
 interface IPopup {
   (props: IProps): null | React.ReactNode;
@@ -34,14 +37,34 @@ const transitionStyles: any = {
   entering: { opacity: 1, transform: "translate(-50%, -50%)" },
   entered: { opacity: 1, transform: "translate(-50%, -50%)" }
 };
-const Popup: React.FC<IProps> = ({ children, isActive, onChange }) => {
+const Popup: React.FC<IProps> = ({
+  children,
+  isActive,
+  onChange,
+  important = false
+}) => {
   const { width, height } = useWindowSize();
   const ref = useRef<any>();
   const close = () => {
+    // popup wont close on esc or click away
+    if (important) return;
     onChange(false);
   };
   useClickAway(ref, close);
   useKey("Escape", close);
+  const pop = (state: any) => (
+    <PopupContainer
+      ref={ref}
+      style={{
+        top: Math.round(height / 2),
+        left: Math.round(width / 2),
+        ...defaultStyles,
+        ...transitionStyles[state]
+      }}
+    >
+      {children}
+    </PopupContainer>
+  );
   return (
     <Transition
       in={isActive}
@@ -52,17 +75,11 @@ const Popup: React.FC<IProps> = ({ children, isActive, onChange }) => {
     >
       {(state: any) => (
         <Portal>
-          <PopupContainer
-            ref={ref}
-            style={{
-              top: Math.round(height / 2),
-              left: Math.round(width / 2),
-              ...defaultStyles,
-              ...transitionStyles[state]
-            }}
-          >
-            {children}
-          </PopupContainer>
+          {important ? (
+            <PopupBackground>{pop(state)}</PopupBackground>
+          ) : (
+            pop(state)
+          )}
         </Portal>
       )}
     </Transition>
@@ -86,7 +103,13 @@ const usePopup = (): [React.FC<IProps>, IOptions] => {
   // }, [isActive]);
   const options: IOptions = {
     toggle,
-    isActive
+    isActive,
+    onChange: toggle,
+    test: () => {
+      if (!isActive) {
+        toggle();
+      }
+    }
   };
 
   return [Popup, options];

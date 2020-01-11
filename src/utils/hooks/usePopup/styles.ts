@@ -10,3 +10,12 @@ export const PopupContainer = styled.div`
   height: 50px;
   width: 50px;
 `;
+
+export const PopupBackground = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+`;

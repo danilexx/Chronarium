@@ -2,14 +2,14 @@ import React from "react";
 import { Container } from "./styles";
 
 interface Props {
-  instance: "primary" | "secondary";
-  children: React.ReactNode;
+  instance?: "primary" | "secondary" | "error";
+  children?: React.ReactNode;
   isFull?: boolean;
   onClick?: any;
 }
 type ButtonType = Props & React.ButtonHTMLAttributes<any>;
 const Button: React.FC<ButtonType> = ({
-  instance,
+  instance = "primary",
   children,
   isFull = false,
   type = "button",

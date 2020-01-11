@@ -7,7 +7,8 @@ export const theme = {
   gray2: "#B6B6B6",
   primary: "#9746FF",
   txtPrimary: "#FAFAFA",
-  error: "#FF254C"
+  error: "#FF254C",
+  txtError: "#FAFAFA"
 };
 
 export type ITheme = typeof theme;

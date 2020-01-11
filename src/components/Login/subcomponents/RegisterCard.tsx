@@ -1,7 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import useFetch from "use-http";
-import ReactResizeDetector from "react-resize-detector";
 import { useUpdateEffect, useMeasure } from "react-use";
 import { RegisterForm, Header } from "../styles";
 import Input from "../../Input";

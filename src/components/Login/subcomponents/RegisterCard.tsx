@@ -2,7 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import useFetch from "use-http";
 import ReactResizeDetector from "react-resize-detector";
-import { useUpdateEffect } from "react-use";
+import { useUpdateEffect, useMeasure } from "react-use";
 import { RegisterForm, Header } from "../styles";
 import Input from "../../Input";
 import { Buttons } from "../../Button/styles";
@@ -21,13 +21,16 @@ interface RegisterFormData {
 
 const RegisterCard: React.FC<FormProps> = ({ index, onChange, onResize }) => {
   const [request, response] = useFetch({ path: "/users" });
+  const [ref, { height }] = useMeasure();
+  React.useEffect(() => {
+    onResize(height);
+  }, [height]);
   const onSubmit = async (data: any) => {
     console.log(data);
   };
   return (
-    <RegisterForm index={index}>
+    <RegisterForm ref={ref} index={index}>
       <Header>Register</Header>
-      <ReactResizeDetector handleHeight onResize={onResize} />
       <Form onSubmit={onSubmit} validationSchema={RegisterValidationSchema}>
         <Input name="username" />
         <Input name="email" type="email" />

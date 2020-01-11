@@ -11,7 +11,7 @@ const Login = () => {
   const handleFormResize = () => {
     setActiveSize(sizes[index]);
   };
-  const handleSize = (toChangeStateIndex: number) => (_: any, height: number) =>
+  const handleSize = (toChangeStateIndex: number) => (height: number) =>
     updateAt(toChangeStateIndex, height);
   React.useEffect(handleFormResize, [index, sizes]);
   return (

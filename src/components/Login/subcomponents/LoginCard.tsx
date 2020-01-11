@@ -1,7 +1,6 @@
 import React from "react";
-import { useForm } from "react-hook-form";
 import useFetch from "use-http";
-import ReactResizeDetector, { withResizeDetector } from "react-resize-detector";
+import { useMeasure } from "react-use";
 import { LoginForm, Header } from "../styles";
 import Input from "-/src/components/Input";
 import { Buttons } from "../../Button/styles";
@@ -17,13 +16,16 @@ interface LoginFormData {
 
 const LoginCard: React.FC<FormProps> = ({ onChange, index, onResize }) => {
   const [request, response] = useFetch({ path: "/sessions" });
+  const [ref, { height }] = useMeasure();
+  React.useEffect(() => {
+    onResize(height);
+  }, [height]);
   const onSubmit = async (data: any) => {
     // request.post(data);
   };
   return (
-    <LoginForm index={index}>
+    <LoginForm ref={ref} index={index}>
       <Header>Login</Header>
-      <ReactResizeDetector handleHeight onResize={onResize} />
       <Form onSubmit={onSubmit} validationSchema={loginValidationSchema}>
         <Input name="username" />
         <Input name="password" type="password" />

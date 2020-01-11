@@ -1,7 +1,8 @@
-import React, { createContext } from "react";
-import { useForm, ErrorMessage } from "react-hook-form";
+import React from "react";
+import { useForm } from "react-hook-form";
 import useFetch from "use-http";
 import ReactResizeDetector from "react-resize-detector";
+import { useUpdateEffect } from "react-use";
 import { RegisterForm, Header } from "../styles";
 import Input from "../../Input";
 import { Buttons } from "../../Button/styles";
@@ -18,40 +19,16 @@ interface RegisterFormData {
   email_confirmation: string;
 }
 
-const RegisterCard: React.FC<FormProps> = ({
-  index,
-  onChange,
-  formRef,
-  iChanged
-}) => {
-  const {
-    register,
-    handleSubmit,
-    errors,
-    formState,
-    triggerValidation,
-    watch
-  } = useForm<RegisterFormData>({
-    validationSchema: RegisterValidationSchema
-  });
+const RegisterCard: React.FC<FormProps> = ({ index, onChange, onResize }) => {
   const [request, response] = useFetch({ path: "/users" });
-  const onSubmit = handleSubmit(async data => {
-    // await request.post(data);
+  const onSubmit = async (data: any) => {
     console.log(data);
-  });
-  // useUpdateEffect(() => {
-  //   iChanged();
-  // }, [errors]);
+  };
   return (
-    <RegisterForm ref={formRef} index={index}>
+    <RegisterForm index={index}>
       <Header>Register</Header>
-      <Form
-        watch={watch}
-        onSubmit={onSubmit}
-        errors={errors}
-        register={register}
-      >
-        <ReactResizeDetector handleHeight onResize={iChanged} />
+      <ReactResizeDetector handleHeight onResize={onResize} />
+      <Form onSubmit={onSubmit} validationSchema={RegisterValidationSchema}>
         <Input name="username" />
         <Input name="email" type="email" />
         <Input
@@ -59,7 +36,7 @@ const RegisterCard: React.FC<FormProps> = ({
           prettyName="Email Confirmation"
           type="email"
         />
-        <Input name="password" type="password" />
+        <Input controlled name="password" type="password" />
         <Input
           name="password_confirmation"
           prettyName="Password Confirmation"

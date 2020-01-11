@@ -1,7 +1,6 @@
-import React, { useContext } from "react";
-import { ErrorMessage } from "react-hook-form";
+import React from "react";
+import { ErrorMessage, useFormContext, Controller } from "react-hook-form";
 import { StyledInput, Container, Label, ErrorContainer } from "./styles";
-import { FormContext } from "-/src/components/Login/subcomponents/Form";
 
 interface Props {
   type?: string;
@@ -9,28 +8,62 @@ interface Props {
   onBlur?: any;
   props?: any;
   prettyName?: string;
+  register?: any;
+  errors?: any;
+  controlled?: boolean;
 }
 
 export type Ref = HTMLInputElement;
 
 const Input = React.forwardRef<Ref, Props>(
-  ({ type = "text", name, prettyName, ...props }, ref) => {
+  (
+    {
+      type = "text",
+      name,
+      prettyName,
+      register,
+      errors,
+      controlled = false,
+      ...props
+    },
+    ref
+  ) => {
     const [firstLetter, ...rest] = name;
     const prettyRest = rest.join("");
     const label = prettyName || firstLetter.toUpperCase() + prettyRest;
-    const { register, errors, watch } = useContext(FormContext);
+    // const fieldValue = watch(name, false);
+    const {
+      control,
+      formState: { dirty, isValid },
+      watch,
+      triggerValidation
+    } = useFormContext();
+
+    const component = React.useMemo(
+      () => (
+        <StyledInput
+          ref={register || ref}
+          type={type}
+          name={name}
+          defaultValue=""
+          hasValue={watch(name) !== ""}
+          onChange={
+            controlled
+              ? () => {
+                  triggerValidation(name);
+                }
+              : () => {}
+          }
+          isWrong={Boolean(errors[name])}
+          {...props}
+        />
+      ),
+      [dirty, watch(name), errors[name]]
+    );
     return (
       <>
         <Container>
-          <StyledInput
-            ref={register || ref}
-            type={type}
-            name={name}
-            hasValue={Boolean(watch && watch(name, false))}
-            isWrong={Boolean(errors[name])}
-            required
-            {...props}
-          />
+          {component}
           <Label>{label}</Label>
         </Container>
         <ErrorContainer>

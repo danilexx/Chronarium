@@ -20,7 +20,7 @@ interface StyledInputProps {
   isWrong: boolean;
 }
 const activated = css<StyledInputProps>`
-  border: 2px solid
+  border: 1px solid
     ${props => (props.isWrong ? props.theme.error : props.theme.primary)};
   outline-color: none;
   & + ${Label} {
@@ -40,8 +40,7 @@ export const StyledInput = styled.input<StyledInputProps>`
   padding-top: 1.8rem;
   transition: color 0.2s ease-in-out;
   will-change: color;
-  &:focus,
-  &:valid {
+  &:focus{
     ${activated}
   }
   ${props => props.hasValue && activated}

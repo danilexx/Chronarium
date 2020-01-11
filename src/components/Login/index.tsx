@@ -1,45 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
+import { useList } from "react-use";
 import { Container } from "./styles";
 import LoginCard from "./subcomponents/LoginCard";
 import RegisterCard from "./subcomponents/RegisterCard";
 
 const Login = () => {
-  const [size, setSize] = React.useState(0);
-  const loginRef = React.useRef<HTMLDivElement>(null);
-  const registerRef = React.useRef<HTMLDivElement>(null);
+  const [sizes, { updateAt }] = useList([0, 0]);
+  const [activeSize, setActiveSize] = useState(0);
   const [index, setIndex] = React.useState(0);
-  const [hasChanged, setHasChanged] = React.useState(0);
   const handleFormResize = () => {
-    if (loginRef && loginRef.current && registerRef && registerRef.current) {
-      let toChangeSize: number;
-      if (index === 1) {
-        toChangeSize = registerRef.current.getBoundingClientRect().height;
-      } else {
-        toChangeSize = loginRef.current.getBoundingClientRect().height;
-      }
-
-      setSize(toChangeSize);
-    }
+    setActiveSize(sizes[index]);
   };
-
-  const handleChange = (nextIndex: number): void => {
-    setIndex(nextIndex);
-  };
-  const iChanged = () => setHasChanged(changed => changed + 1);
-  React.useEffect(handleFormResize, [index, hasChanged]);
+  const handleSize = (toChangeStateIndex: number) => (_: any, height: number) =>
+    updateAt(toChangeStateIndex, height);
+  React.useEffect(handleFormResize, [index, sizes]);
   return (
-    <Container size={size}>
-      <LoginCard
-        index={index}
-        onChange={handleChange}
-        formRef={loginRef}
-        iChanged={iChanged}
-      />
+    <Container size={activeSize}>
+      <LoginCard onResize={handleSize(0)} index={index} onChange={setIndex} />
       <RegisterCard
-        iChanged={iChanged}
         index={index}
-        onChange={handleChange}
-        formRef={registerRef}
+        onChange={setIndex}
+        onResize={handleSize(1)}
       />
     </Container>
   );

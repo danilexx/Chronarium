@@ -1,37 +1,30 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import useFetch from "use-http";
+import ReactResizeDetector, { withResizeDetector } from "react-resize-detector";
 import { LoginForm, Header } from "../styles";
 import Input from "-/src/components/Input";
 import { Buttons } from "../../Button/styles";
 import Button, { LoadingButton } from "../../Button";
 import { FormProps } from "./types";
 import Form from "./Form";
+import { loginValidationSchema } from "./ValidationSchemas";
 
 interface LoginFormData {
   name: string;
   password: string;
 }
 
-const LoginCard: React.FC<FormProps> = ({ formRef, onChange, index }) => {
+const LoginCard: React.FC<FormProps> = ({ onChange, index, onResize }) => {
   const [request, response] = useFetch({ path: "/sessions" });
-  const { register, handleSubmit, errors, watch } = useForm<LoginFormData>();
-  const onSubmit = handleSubmit(async data => {
-    request.post(data);
-  });
-  React.useEffect(() => {
-    console.log(response.data);
-  }, [response.data]);
-
+  const onSubmit = async (data: any) => {
+    // request.post(data);
+  };
   return (
-    <LoginForm ref={formRef} index={index}>
+    <LoginForm index={index}>
       <Header>Login</Header>
-      <Form
-        register={register}
-        watch={watch}
-        errors={errors}
-        onSubmit={onSubmit}
-      >
+      <ReactResizeDetector handleHeight onResize={onResize} />
+      <Form onSubmit={onSubmit} validationSchema={loginValidationSchema}>
         <Input name="username" />
         <Input name="password" type="password" />
         <Buttons>

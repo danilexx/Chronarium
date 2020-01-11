@@ -7,6 +7,9 @@ export const GlobalStyles = createGlobalStyle`
     box-sizing: border-box;
     min-height: 100vh;
   }
+  * {
+    box-sizing: border-box;
+  }
   #__next{
     display: flex;
     flex-direction: column;

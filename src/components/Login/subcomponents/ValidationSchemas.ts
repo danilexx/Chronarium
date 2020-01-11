@@ -1,51 +1,52 @@
 import * as yup from "yup";
 import isUpperCase from "-/src/utils/isUpperCase";
 import isLowerCase from "-/src/utils/isLowerCase";
+import {
+  UsernameMin,
+  PasswordMin,
+  PasswordMax,
+  Required,
+  Email,
+  EmailEqual,
+  PasswordEqual,
+  hasLowerCase,
+  hasNumber,
+  hasUpperCase
+} from "-/src/utils/YupPremades";
 
 const Yup = yup;
 
-function isEqual(ref: any) {
-  return function resolve(this: any, value: string) {
-    return value === this.resolve(ref);
-  };
-}
-
 export const RegisterValidationSchema = Yup.object({
   username: Yup.string()
-    .min(4, "Não possui mais que 4 caracteres")
-    .required("Obrigatorio"),
+    .min(...UsernameMin())
+    .required(...Required()),
   password: Yup.string()
-    .min(6, "Não possui mais que 6 caracteres")
-    .max(100, "Possui mais do que 100 caracteres")
-    .required("Obrigatorio")
-    .test(
-      "hasUpperCase",
-      "Deve haver ao menos 1 letra maiuscula",
-      (value: string) => value?.split("").some(isUpperCase)
-    )
-    .test(
-      "hasLowerCase",
-      "Deve haver ao menos 1 letra minuscula",
-      (value: string) => value?.split("").some(isLowerCase)
-    )
-    .test("hasNumber", "Deve haver ao menos 1 numero", (value: string) =>
-      // eslint-disable-next-line no-restricted-globals
-      value
-        ?.split("")
-        .some((e: string): boolean => typeof Number(e) === "number")
-    ),
+    .min(...PasswordMin())
+    .max(...PasswordMax())
+    .required(...Required())
+    .test(...hasUpperCase())
+    .test(...hasLowerCase())
+    .test(...hasNumber()),
   password_confirmation: Yup.string()
-    .required("Obrigatorio")
-    .test(
-      "isEqual",
-      "As Senhas devem ser iguais",
-      isEqual(Yup.ref("password"))
-    ),
+    .required(...Required())
+    .test(...PasswordEqual()),
   email: Yup.string()
-    .email("Email invalido")
-    .required("Obrigatorio"),
+    .email(...Email())
+    .required(...Required()),
   email_confirmation: Yup.string()
-    .email("Email invalido")
-    .required("Obrigatorio")
-    .test("isEqual", "Os Emails devem ser iguais", isEqual(Yup.ref("email")))
+    .email(...Email())
+    .required(...Required())
+    .test(...EmailEqual())
+});
+export const loginValidationSchema = Yup.object({
+  username: Yup.string()
+    .min(...UsernameMin())
+    .required(...Required()),
+  password: Yup.string()
+    .min(...PasswordMin())
+    .max(...PasswordMax())
+    .required(...Required())
+    .test(...hasUpperCase())
+    .test(...hasLowerCase())
+    .test(...hasNumber())
 });

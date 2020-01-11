@@ -21,6 +21,7 @@ export const InnerColumn = styled.div`
   justify-content: flex-start;
   margin: 0 auto;
   width: 1000px;
+  padding: 2rem;
   @media (max-width: 1020px) {
     width: 100%;
   }

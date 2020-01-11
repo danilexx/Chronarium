@@ -24,7 +24,7 @@ export const Container = styled.div<{ size: number }>`
     --form-width: calc(100vw - 15rem);
     padding: 3rem 4rem;
   }
-  padding: 2rem;
+  box-sizing: content-box;
 `;
 
 export const StyledForm = styled.form`

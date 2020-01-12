@@ -1,4 +1,4 @@
-import styled, { css } from "-/src/utils/StyledComponents";
+import styled, { css, keyframes } from "-/src/utils/StyledComponents";
 
 interface Props {
   instance: "primary" | "secondary" | "error";
@@ -36,6 +36,7 @@ const getButtonInstance = (props: any) => {
 };
 
 export const Container = styled.button<Props>`
+  overflow: hidden;
   border: none;
   padding: 1rem 4rem;
   font-size: 2rem;
@@ -63,4 +64,35 @@ export const Container = styled.button<Props>`
 export const Buttons = styled.div`
   margin: 1.5rem 0;
   padding: 0;
+`;
+
+const loading = keyframes`
+  0%{
+    transform: translateX(-100%);
+    opacity: 1;
+  }
+  90%{
+    transform: translateX(0%);
+    opacity: 0.5;
+  }
+  100%{
+    transform: translateX(0%);
+    opacity: 0;
+  }
+`;
+
+export const ButtonLoadingBar = styled.div<{ isGoing: boolean }>`
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.4);
+  /* transition: transform 2s ease-in-out; */
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translateX(-100%);
+  animation: ${props =>
+    props.isGoing &&
+    css`
+      ${loading} 4s ease-in-out
+    `};
 `;

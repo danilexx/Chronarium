@@ -1,6 +1,8 @@
 export interface Options {
   toggle: (nextValue?: boolean) => void;
   isOn: boolean;
+  show: (nextMessage: string) => void;
+  message: string;
 }
 export interface Props {
   children?: React.ReactNode;

@@ -5,6 +5,7 @@ import {
   useClickAway,
   useKey
 } from "react-use";
+import { useState } from "react";
 import { Options, PopupTypes, ErrorProps, InfoProps, Props } from "./types";
 import { BasePopup, ErrorPopup, InfoPopup } from "./components";
 
@@ -29,9 +30,16 @@ function usePopup(popupType: "error"): [React.FC<Props & ErrorProps>, Options];
 function usePopup(popupType: "base"): [React.FC<Props>, Options];
 function usePopup(popupType: PopupTypes = "base"): any {
   const [isOn, toggle] = useToggle(false);
+  const [message, setMessage] = useState("");
+  const show = (newMessage: string) => {
+    setMessage(newMessage);
+    toggle(true);
+  };
   const options: Options = {
     isOn,
-    toggle
+    toggle,
+    show,
+    message
   };
 
   return [SelectPopup(popupType), options];

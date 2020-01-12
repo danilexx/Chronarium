@@ -9,7 +9,7 @@ import { GlobalStyles } from "-/src/utils/GlobalStyles";
 import { theme } from "-/src/utils/theme";
 import Nav from "-/src/components/Nav";
 import Fonts from "-/src/utils/fonts";
-import { makeStore } from "-/src/utils/model";
+import { makeStore } from "-/src/store";
 
 if (process.env.NODE_ENV !== "production") {
   // Router.events.on("routeChangeComplete", () => {

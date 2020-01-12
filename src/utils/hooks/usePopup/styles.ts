@@ -48,6 +48,7 @@ export const Message = styled.p`
   width: 100%;
   text-align: center;
   margin: 0;
+  white-space: pre-line;
 `;
 
 export const PopupBody = styled.div`

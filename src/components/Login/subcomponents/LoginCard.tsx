@@ -1,6 +1,7 @@
 import React from "react";
 import useFetch from "use-http";
 import { useMeasure } from "react-use";
+import jwt_decode from "jwt-decode";
 import { LoginForm, Header } from "../styles";
 import Input from "-/src/components/Input";
 import { Buttons } from "../../Button/styles";
@@ -21,8 +22,18 @@ const LoginCard: React.FC<FormProps> = ({ onChange, index, onResize }) => {
   React.useEffect(() => {
     onResize(height);
   }, [height]);
+  const [Popup, popupProps] = usePopup("error");
+
   const onSubmit = async (data: any) => {
-    // request.post(data);
+    await request.post(data);
+    if (response.status === undefined) {
+      popupProps.show("Servidor Offline");
+    }
+    if (response.status === 401) {
+      popupProps.show(response.data.error.message);
+    }
+    const { token } = response.data;
+    console.log(jwt_decode(token));
   };
   return (
     <LoginForm ref={ref} index={index}>
@@ -49,6 +60,7 @@ const LoginCard: React.FC<FormProps> = ({ onChange, index, onResize }) => {
           </Button>
         </Buttons>
       </Form>
+      <Popup title="Erro" {...popupProps} />
     </LoginForm>
   );
 };

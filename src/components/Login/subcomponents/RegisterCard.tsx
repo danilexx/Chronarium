@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import useFetch from "use-http";
 import { useUpdateEffect, useMeasure } from "react-use";
@@ -9,6 +9,8 @@ import Button, { LoadingButton } from "../../Button";
 import { FormProps } from "./types";
 import { RegisterValidationSchema } from "./ValidationSchemas";
 import Form from "./Form";
+import usePopup from "-/src/utils/hooks/usePopup";
+import formatValidationErrorMessage from "-/src/utils/formatValidationErrorMessage";
 
 interface RegisterFormData {
   username: string;
@@ -20,12 +22,20 @@ interface RegisterFormData {
 
 const RegisterCard: React.FC<FormProps> = ({ index, onChange, onResize }) => {
   const [request, response] = useFetch({ path: "/users" });
+  const [Popup, popupProps] = usePopup("error");
   const [ref, { height }] = useMeasure();
   React.useEffect(() => {
     onResize(height);
   }, [height]);
   const onSubmit = async (data: any) => {
-    console.log(data);
+    await request.post(data);
+    if (response.status === undefined) {
+      popupProps.show("Servidor Offline");
+    }
+    if (response.status === 400) {
+      const error = formatValidationErrorMessage(response.data);
+      popupProps.show(error);
+    }
   };
   return (
     <RegisterForm ref={ref} index={index}>
@@ -58,6 +68,7 @@ const RegisterCard: React.FC<FormProps> = ({ index, onChange, onResize }) => {
           </Button>
         </Buttons>
       </Form>
+      <Popup {...popupProps} title="Erro" />
     </RegisterForm>
   );
 };

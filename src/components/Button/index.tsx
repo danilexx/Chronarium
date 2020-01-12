@@ -1,5 +1,5 @@
 import React from "react";
-import { Container } from "./styles";
+import { Container, ButtonLoadingBar } from "./styles";
 
 interface Props {
   instance?: "primary" | "secondary" | "error";
@@ -31,5 +31,10 @@ export const LoadingButton: React.FC<LoadingProps & ButtonType> = ({
   loading = false,
   ...props
 }) => {
-  return <Button {...props}>{loading ? "loading..." : children}</Button>;
+  return (
+    <Button {...props}>
+      {loading ? "Loading..." : children}
+      <ButtonLoadingBar isGoing={loading} />
+    </Button>
+  );
 };

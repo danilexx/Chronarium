@@ -40,8 +40,17 @@ export const StyledInput = styled.input<StyledInputProps>`
   padding-top: 1.8rem;
   transition: color 0.2s ease-in-out;
   will-change: color;
-  &:focus{
-    ${activated}
+  &:focus {
+    border: 1px solid
+      ${props => (props.isWrong ? props.theme.error : props.theme.primary)};
+    outline-color: none;
+    & + ${Label} {
+      color: ${props =>
+        props.isWrong ? props.theme.error : props.theme.primary};
+      top: 1.2rem;
+      font-size: 1.2rem;
+      transform: translateY(-50%);
+    }
   }
   ${props => props.hasValue && activated}
 `;

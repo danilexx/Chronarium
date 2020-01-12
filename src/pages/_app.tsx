@@ -50,7 +50,7 @@ class MyApp extends App<{ store: any }> {
     // eslint-disable-next-line no-shadow
     const { Component, pageProps = {}, store } = this.props;
     return (
-      <UrlProvider url={process.env.SERVER_URL}>
+      <UrlProvider url={process.env.server_url}>
         <StoreProvider store={store}>
           <ThemeProvider theme={theme}>
             <GlobalStyles />

@@ -1,6 +1,7 @@
 import axios, { AxiosResponse, AxiosInstance, AxiosRequestConfig } from "axios";
+import { UserLoginModel, UserRegisterModel } from "./types";
 
-const api = axios.create({
+export const api = axios.create({
   baseURL: process.env.SERVER_URL
 });
 type get = <T = any, R = AxiosResponse<T>>(
@@ -27,12 +28,12 @@ const selectApiMethod = (method: string): Method => {
       return api.get;
   }
 };
-const createAxiosRequest = <T>(
+const createAxiosRequest = <T, D = any>(
   url: string,
   method: string = "get",
   config?: AxiosRequestConfig
 ) => {
-  const fn = (data?: any): Promise<AxiosResponse<T>> =>
+  const fn = (data?: D): Promise<AxiosResponse<T>> =>
     data
       ? selectApiMethod(method)(url, data, config)
       : selectApiMethod(method)(url, config);
@@ -41,3 +42,11 @@ const createAxiosRequest = <T>(
 };
 
 export const getLocale = createAxiosRequest<{ message: string }>("/locale");
+export const createSession = createAxiosRequest<
+  { token: string },
+  UserLoginModel
+>("/sessions", "post");
+export const createUser = createAxiosRequest<UserLoginModel, UserRegisterModel>(
+  "/users",
+  "post"
+);

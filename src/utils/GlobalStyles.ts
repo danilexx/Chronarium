@@ -7,6 +7,9 @@ export const GlobalStyles = createGlobalStyle`
     box-sizing: border-box;
     min-height: 100vh;
   }
+  * {
+    box-sizing: border-box;
+  }
   #__next{
     display: flex;
     flex-direction: column;
@@ -19,7 +22,7 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   div{
-    padding: 2rem;
+    /* padding: 2rem; */
     &#__next{
       padding: 0;
     }

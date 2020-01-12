@@ -1,0 +1,7 @@
+{
+  "build": {
+    "env": {
+      "server_url": "https://chronarium-server.herokuapp.com"
+    }
+  }
+}

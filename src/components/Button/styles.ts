@@ -93,6 +93,6 @@ export const ButtonLoadingBar = styled.div<{ isGoing: boolean }>`
   animation: ${props =>
     props.isGoing &&
     css`
-      ${loading} 4s ease-in-out
+      ${loading} 4s ease-in-out infinite;
     `};
 `;

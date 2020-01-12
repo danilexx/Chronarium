@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import useFetch from "use-http";
 import { useUpdateEffect, useMeasure } from "react-use";
+import Router from "next/router";
 import { RegisterForm, Header } from "../styles";
 import Input from "../../Input";
 import { Buttons } from "../../Button/styles";
@@ -11,6 +12,9 @@ import { RegisterValidationSchema } from "./ValidationSchemas";
 import Form from "./Form";
 import usePopup from "-/src/utils/hooks/usePopup";
 import formatValidationErrorMessage from "-/src/utils/formatValidationErrorMessage";
+import useAwait from "-/src/utils/hooks/useAwait";
+import { useStoreState, useStoreActions } from "-/src/utils/EasyPeasy";
+import getErrorMessage from "-/src/utils/getErrorMessage";
 
 interface RegisterFormData {
   username: string;
@@ -21,20 +25,21 @@ interface RegisterFormData {
 }
 
 const RegisterCard: React.FC<FormProps> = ({ index, onChange, onResize }) => {
-  const [request, response] = useFetch({ path: "/users" });
   const [Popup, popupProps] = usePopup("error");
   const [ref, { height }] = useMeasure();
   React.useEffect(() => {
     onResize(height);
   }, [height]);
+  const register = useStoreActions(state => state.user.register);
+  const [isLoading, fetch, { toggle }] = useAwait(register);
   const onSubmit = async (data: any) => {
-    await request.post(data);
-    if (response.status === undefined) {
-      popupProps.show("Servidor Offline");
-    }
-    if (response.status === 400) {
-      const error = formatValidationErrorMessage(response.data);
-      popupProps.show(error);
+    try {
+      await fetch(data);
+      Router.push("/adventures");
+    } catch (error) {
+      const message = getErrorMessage(error);
+      toggle(false);
+      popupProps.show(message);
     }
   };
   return (
@@ -56,7 +61,7 @@ const RegisterCard: React.FC<FormProps> = ({ index, onChange, onResize }) => {
         />
         <Buttons>
           <LoadingButton
-            loading={request.loading}
+            loading={isLoading}
             isFull
             type="submit"
             instance="primary"

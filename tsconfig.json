@@ -30,7 +30,7 @@
     "node_modules"
   ],
   "include": [
-    "pages",
+    "src/pages",
     "src"
   ],
   

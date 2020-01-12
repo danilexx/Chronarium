@@ -1,7 +1,6 @@
 import React from "react";
-import useFetch from "use-http";
 import { useMeasure } from "react-use";
-import jwt_decode from "jwt-decode";
+import Router from "next/router";
 import { LoginForm, Header } from "../styles";
 import Input from "-/src/components/Input";
 import { Buttons } from "../../Button/styles";
@@ -10,6 +9,9 @@ import { FormProps } from "./types";
 import Form from "./Form";
 import { loginValidationSchema } from "./ValidationSchemas";
 import usePopup from "-/src/utils/hooks/usePopup";
+import { useStoreActions } from "-/src/utils/EasyPeasy";
+import useAwait from "-/src/utils/hooks/useAwait";
+import getErrorMessage from "-/src/utils/getErrorMessage";
 
 interface LoginFormData {
   name: string;
@@ -17,23 +19,23 @@ interface LoginFormData {
 }
 
 const LoginCard: React.FC<FormProps> = ({ onChange, index, onResize }) => {
-  const [request, response] = useFetch({ path: "/sessions" });
+  // const [request, response] = useFetch({ path: "/sessions" });
+  const login = useStoreActions(state => state.user.login);
   const [ref, { height }] = useMeasure();
   React.useEffect(() => {
     onResize(height);
   }, [height]);
+  const [isLoading, fetch, { toggle }] = useAwait(login);
   const [Popup, popupProps] = usePopup("error");
-
   const onSubmit = async (data: any) => {
-    await request.post(data);
-    if (response.status === undefined) {
-      popupProps.show("Servidor Offline");
+    try {
+      await fetch(data);
+      Router.push("/adventures");
+    } catch (error) {
+      const message = getErrorMessage(error);
+      toggle(false);
+      popupProps.show(message);
     }
-    if (response.status === 401) {
-      popupProps.show(response.data.error.message);
-    }
-    const { token } = response.data;
-    console.log(jwt_decode(token));
   };
   return (
     <LoginForm ref={ref} index={index}>
@@ -43,7 +45,7 @@ const LoginCard: React.FC<FormProps> = ({ onChange, index, onResize }) => {
         <Input name="password" type="password" />
         <Buttons>
           <LoadingButton
-            loading={request.loading}
+            loading={isLoading}
             type="submit"
             isFull
             instance="primary"

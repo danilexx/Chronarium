@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "-/src/components/Link";
 import Menu from "-/src/components/Menu";
 import {
   Container,
@@ -28,11 +29,13 @@ const Nav = () => {
     <>
       <Container ref={navRef}>
         <Collection>
-          <Logo />
+          <Link href="/">
+            <Logo />
+          </Link>
           <Links>
-            <NavItem>Inicio</NavItem>
-            <NavItem>Aventuras</NavItem>
-            <NavItem>Mestragem</NavItem>
+            <NavItem href="/">Home</NavItem>
+            <NavItem href="/adventures">Adventures</NavItem>
+            <NavItem href="/mastering">Mastering</NavItem>
           </Links>
           <Items>
             <Icon>

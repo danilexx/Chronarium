@@ -1,7 +1,7 @@
 import App from "next/app";
 import React from "react";
 import { Provider as UrlProvider } from "use-http";
-import { Router } from "next/router";
+import cookie from "react-cookies";
 import withRedux from "next-redux-wrapper";
 import { StoreProvider } from "easy-peasy";
 import styled, { ThemeProvider } from "-/src/utils/StyledComponents";
@@ -10,6 +10,8 @@ import { theme } from "-/src/utils/theme";
 import Nav from "-/src/components/Nav";
 import Fonts from "-/src/utils/fonts";
 import { makeStore } from "-/src/store";
+import isJwtExpiry from "../utils/isJwtExpiry";
+import { getNewToken } from "../services";
 
 if (process.env.NODE_ENV !== "production") {
   // Router.events.on("routeChangeComplete", () => {
@@ -30,8 +32,31 @@ interface it {
 // eslint-disable-next-line import/no-mutable-exports
 export let store: any;
 class MyApp extends App<{ store: any }> {
-  componentDidMount() {
+  async componentDidMount() {
     Fonts();
+
+    // if (isExpiry) {
+    // if (!refreshToken) return;
+    //  TODO: Testar essa budega
+    try {
+      let token = cookie.load("token");
+      const refreshToken = cookie.load("refresh_token");
+      if (!token) return;
+      const isExpiry = isJwtExpiry(token);
+      if (isExpiry) {
+        if (!refreshToken) return;
+        const response = await getNewToken({ refresh_token: refreshToken });
+        token = response.data.token;
+        cookie.save("token", token, { path: "/" });
+      }
+      this.props.store.getActions().user.setUser({ token });
+    } catch (err) {
+      cookie.remove("token");
+      cookie.remove("refresh_token");
+      console.error(err);
+    }
+    // cookie.save("token", token, { path: "/"});
+    // }
   }
 
   static async getInitialProps({ Component, ctx }: it) {

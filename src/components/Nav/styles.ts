@@ -1,5 +1,6 @@
 import styled, { css } from "-/src/utils/StyledComponents";
 import { ITheme } from "-/src/utils/theme";
+import Link from "../Link";
 
 const menuSpace: number = 1000;
 
@@ -18,20 +19,21 @@ export const Logo = styled.img.attrs({
   padding-top: 6px;
   width: 20rem;
 `;
-export const NavItem = styled.a`
+export const NavItem = styled(Link)<{ href?: string }>`
   position: relative;
   font-family: Roboto, Arial;
   font-size: 2rem;
   padding: 1.5rem 0;
   margin: 0 1rem;
   color: ${props => props.theme.gray2};
+  text-decoration: none;
   cursor: pointer;
 
   &:after {
     content: "";
     position: absolute;
     left: 0;
-    bottom: 5px;
+    bottom: 10px;
     width: 100%;
     height: 2px;
     background-color: ${props => props.theme.primary};
@@ -40,6 +42,7 @@ export const NavItem = styled.a`
     transform: scaleX(0);
   }
   &:hover {
+    color: ${props => props.theme.txtBg1};
     &:after {
       transform: scaleX(1);
     }

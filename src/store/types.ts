@@ -6,13 +6,13 @@ export interface UserModel {
   isLogged: boolean;
   token: string | null;
   id: number | null;
+  username: string;
   register: Thunk<UserModel, UserRegisterModel>;
   login: Thunk<UserModel, UserLoginModel>;
   setUser: Action<
     UserModel,
     {
       token: string;
-      id: number;
     }
   >;
 }

@@ -1,11 +1,11 @@
 import { ReactChild } from "react";
 import styled, { css } from "-/src/utils/StyledComponents";
 
-export const StyledColumn = styled.div<{ isFull?: boolean }>`
+export const StyledColumn = styled.div<{ isFull?: boolean; center?: boolean }>`
   padding: 0;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: ${props => (props.center ? "center" : "flex-start")};
   width: 100%;
   ${props =>
     props.isFull &&
@@ -30,10 +30,15 @@ export const InnerColumn = styled.div`
 interface Props {
   children: React.ReactNode;
   isFull?: boolean;
+  center?: boolean;
 }
 
-export const Column: React.FC<Props> = ({ children, isFull = false }) => (
-  <StyledColumn isFull={isFull}>
+export const Column: React.FC<Props> = ({
+  children,
+  center = false,
+  isFull = false
+}) => (
+  <StyledColumn isFull={isFull} center={center}>
     <InnerColumn>{children}</InnerColumn>
   </StyledColumn>
 );

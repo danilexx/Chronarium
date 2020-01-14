@@ -13,8 +13,15 @@ export interface UserRegisterModel {
 
 export interface SessionModel {
   token: string;
+  refreshToken: string;
 }
 
-export interface DecodedTokenModel {
+export interface UserDBModel {
+  username: string;
   id: number;
+  avatar_id: number | null;
+}
+export interface DecodedTokenModel {
+  uid: number;
+  data: UserDBModel;
 }

@@ -14,4 +14,5 @@ export const Container = styled.div<ContainerProps>`
   position: fixed;
   transition: 0.2s ease-in-out;
   transform: ${props => (props.isOpen ? "translateX(0%)" : "translateX(100%)")};
+  z-index: 10;
 `;

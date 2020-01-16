@@ -4,6 +4,8 @@ import { NewAdventureBackground, Column } from "../shared";
 import { SizeableContainer } from "../shared/form";
 import AdventureForm from "./subcomponents/AdventureForm";
 import useResizableForm from "-/src/utils/hooks/useResizableForm";
+import MasterForm from "./subcomponents/MasterForm";
+import LoreForm from "./subcomponents/LoreForm";
 
 const initialState = {
   adventureName: "",
@@ -26,6 +28,8 @@ const NewAdventure = () => {
         <Column center isFull>
           <SizeableContainer size={activeSize}>
             <AdventureForm {...formProps} onResize={formProps.handleSize(0)} />
+            <MasterForm {...formProps} onResize={formProps.handleSize(1)} />
+            <LoreForm {...formProps} onResize={formProps.handleSize(2)} />
           </SizeableContainer>
         </Column>
       </NewAdventureBackground>

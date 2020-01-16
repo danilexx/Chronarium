@@ -9,25 +9,26 @@ import useOnResize from "-/src/utils/hooks/useOnResize";
 import Textarea from "../../Input/textarea";
 import ImageDrop from "../../ImageDrop";
 
-const AdventureForm: React.FC<FormProps> = ({ setIndex, index, onResize }) => {
+const ConfigForm: React.FC<FormProps> = ({ setIndex, index, onResize }) => {
   const ref = useOnResize(onResize);
   const onSubmit = async (data: any) => {
     console.log(data);
-    setIndex(1);
+    setIndex(4);
   };
   return (
     <MainForm ref={ref} index={index}>
-      <FormHeader>Criar Aventura</FormHeader>
+      <FormHeader>Criar Mestre</FormHeader>
       <Form onSubmit={onSubmit}>
-        <ImageDrop />
-        <Input name="adventureName" prettyName="Adventure Name" />
-        <Textarea
-          name="adventureDescription"
-          prettyName="Adventure Description"
-        />
+        <Input name="initialGold" prettyName="Initial Gold" />
+        <Input name="attributesMinimum" prettyName="Minimun Attributes Points" />
+        <Input name="attributesPointsToSpend" prettyName="Attributes Points To Spend" />
+        <Input name="baseLife" prettyName="Base Life Points" />
+        <Input name="baseMana" prettyName="Base Mana Points" />
+        <Input name="baseExperience" prettyName="Base Experience Points" />
+        <Input name="otherExperiences" prettyName="Other Experiences Points" />
         <Buttons>
           <Button type="submit" isFull instance="primary">
-            Continue
+            Finish
           </Button>
         </Buttons>
       </Form>
@@ -35,4 +36,4 @@ const AdventureForm: React.FC<FormProps> = ({ setIndex, index, onResize }) => {
   );
 };
 
-export default AdventureForm;
+export default ConfigForm;

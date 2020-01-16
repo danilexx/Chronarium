@@ -9,25 +9,21 @@ import useOnResize from "-/src/utils/hooks/useOnResize";
 import Textarea from "../../Input/textarea";
 import ImageDrop from "../../ImageDrop";
 
-const AdventureForm: React.FC<FormProps> = ({ setIndex, index, onResize }) => {
+const MasterForm: React.FC<FormProps> = ({ setIndex, index, onResize }) => {
   const ref = useOnResize(onResize);
   const onSubmit = async (data: any) => {
     console.log(data);
-    setIndex(1);
+    setIndex(2);
   };
   return (
     <MainForm ref={ref} index={index}>
-      <FormHeader>Criar Aventura</FormHeader>
+      <FormHeader>Criar Mestre</FormHeader>
       <Form onSubmit={onSubmit}>
         <ImageDrop />
-        <Input name="adventureName" prettyName="Adventure Name" />
-        <Textarea
-          name="adventureDescription"
-          prettyName="Adventure Description"
-        />
+        <Input name="masterName" prettyName="Master Name" />
         <Buttons>
           <Button type="submit" isFull instance="primary">
-            Continue
+          Continue
           </Button>
         </Buttons>
       </Form>
@@ -35,4 +31,4 @@ const AdventureForm: React.FC<FormProps> = ({ setIndex, index, onResize }) => {
   );
 };
 
-export default AdventureForm;
+export default MasterForm;

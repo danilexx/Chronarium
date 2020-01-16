@@ -21,7 +21,11 @@ interface Props {
 
 export type Ref = HTMLInputElement;
 
-const Textarea = React.forwardRef<Ref, Props>(
+interface CustomProps {
+  rows?: number;
+}
+
+const Textarea = React.forwardRef<Ref, Props & CustomProps>(
   (
     {
       type = "text",
@@ -30,6 +34,7 @@ const Textarea = React.forwardRef<Ref, Props>(
       register,
       errors,
       controlled = false,
+      rows = 5,
       ...props
     },
     ref
@@ -53,6 +58,7 @@ const Textarea = React.forwardRef<Ref, Props>(
           name={name}
           defaultValue=""
           hasValue={watch(name) !== ""}
+          rows={rows}
           onChange={
             controlled
               ? () => {

@@ -18,6 +18,7 @@ export const Label = styled.label`
 interface StyledInputProps {
   hasValue: boolean;
   isWrong: boolean;
+  rows?: number;
 }
 const activated = css<StyledInputProps>`
   border: 1px solid
@@ -63,9 +64,11 @@ export const ErrorContainer = styled.p`
   margin-bottom: 0.8rem;
 `;
 
-export const StyledTextArea = styled(StyledInput).attrs({ as: "textarea" })`
+export const StyledTextArea = styled(StyledInput).attrs({
+  as: "textarea"
+})`
   resize: none;
-  height: ${2.2 * 5}rem;
+  height: ${props => 2.2 * (props.rows as number)}rem;
   & + label {
     background-color: ${props => props.theme.txtBg2};
     border-radius: 5px;

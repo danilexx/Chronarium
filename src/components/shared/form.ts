@@ -50,7 +50,7 @@ export const MainForm = styled.div<{ index: number }>`
   will-change: transform;
   transform: ${props =>
     `translateX(calc(-${props.index * 100}% - ${
-      props.index === 0 ? "0rem" : "10rem"
+      props.index === 0 ? "0rem" : `${props.index * 10}rem`
     }))`};
   margin-right: 10rem;
 `;

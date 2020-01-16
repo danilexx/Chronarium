@@ -9,22 +9,17 @@ import useOnResize from "-/src/utils/hooks/useOnResize";
 import Textarea from "../../Input/textarea";
 import ImageDrop from "../../ImageDrop";
 
-const AdventureForm: React.FC<FormProps> = ({ setIndex, index, onResize }) => {
+const LoreForm: React.FC<FormProps> = ({ setIndex, index, onResize }) => {
   const ref = useOnResize(onResize);
   const onSubmit = async (data: any) => {
     console.log(data);
-    setIndex(1);
+    setIndex(3);
   };
   return (
     <MainForm ref={ref} index={index}>
-      <FormHeader>Criar Aventura</FormHeader>
+      <FormHeader>Criar Historia</FormHeader>
       <Form onSubmit={onSubmit}>
-        <ImageDrop />
-        <Input name="adventureName" prettyName="Adventure Name" />
-        <Textarea
-          name="adventureDescription"
-          prettyName="Adventure Description"
-        />
+        <Textarea rows={8} name="adventureLore" prettyName="Adventure Lore" />
         <Buttons>
           <Button type="submit" isFull instance="primary">
             Continue
@@ -35,4 +30,4 @@ const AdventureForm: React.FC<FormProps> = ({ setIndex, index, onResize }) => {
   );
 };
 
-export default AdventureForm;
+export default LoreForm;

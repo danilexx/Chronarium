@@ -37,6 +37,7 @@ export const StyledInput = styled.input<StyledInputProps>`
   border-radius: 5px;
   padding: 0.8rem 1rem;
   border: 1px solid ${props => props.theme.gray1};
+  background-color: ${props => props.theme.txtBg2};
   padding-top: 1.8rem;
   transition: color 0.2s ease-in-out;
   will-change: color;
@@ -60,4 +61,14 @@ export const ErrorContainer = styled.p`
   color: ${props => props.theme.error};
   margin: 0 0.8rem;
   margin-bottom: 0.8rem;
+`;
+
+export const StyledTextArea = styled(StyledInput).attrs({ as: "textarea" })`
+  resize: none;
+  height: ${2.2 * 5}rem;
+  & + label {
+    background-color: ${props => props.theme.txtBg2};
+    border-radius: 5px;
+    top: 2rem;
+  }
 `;

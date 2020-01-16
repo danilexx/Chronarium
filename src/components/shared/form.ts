@@ -38,6 +38,8 @@ export const FormHeader = styled.h1`
   text-align: center;
   letter-spacing: 0.22rem;
   margin: 0.5rem 0;
+  margin-bottom: 1rem;
+  line-height: 100%;
 `;
 
 export const MainForm = styled.div<{ index: number }>`

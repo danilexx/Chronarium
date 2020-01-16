@@ -32,6 +32,8 @@ module.exports = {
     "react/prop-types": "off",
     "no-param-reassign": "off",
     "camelcase": "off",
-    "react/no-array-index-key": "off"
+    "react/no-array-index-key": "off",
+    "react/no-unescaped-entities": "off",
+    "jsx-a11y/alt-text": "off"
   }
 };

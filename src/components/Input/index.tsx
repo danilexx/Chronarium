@@ -32,12 +32,7 @@ const Input = React.forwardRef<Ref, Props>(
     const prettyRest = rest.join("");
     const label = prettyName || firstLetter.toUpperCase() + prettyRest;
     // const fieldValue = watch(name, false);
-    const {
-      control,
-      formState: { dirty, isValid },
-      watch,
-      triggerValidation
-    } = useFormContext();
+    const { triggerValidation } = useFormContext();
 
     const component = React.useMemo(
       () => (
@@ -46,7 +41,7 @@ const Input = React.forwardRef<Ref, Props>(
           type={type}
           name={name}
           defaultValue=""
-          hasValue={watch(name) !== ""}
+          required
           onChange={
             controlled
               ? () => {
@@ -58,7 +53,7 @@ const Input = React.forwardRef<Ref, Props>(
           {...props}
         />
       ),
-      [dirty, watch(name), errors[name]]
+      [errors[name]]
     );
     return (
       <>

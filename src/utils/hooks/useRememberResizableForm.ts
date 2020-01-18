@@ -13,6 +13,7 @@ type returnType = [
 ];
 
 const useRememberResizableForm = (
+  customKey = "index",
   initialList = [0, 0],
   initialIndex = 0
 ): returnType => {
@@ -20,7 +21,7 @@ const useRememberResizableForm = (
   const [sizes, { updateAt }] = useList(initialList);
   const [items, setItems] = useState(0);
   const [activeSize, setActiveSize] = useState(0);
-  const [index, setIndex] = useState(initialIndex);
+  const [index, setIndex] = useLocalStorage(customKey, initialIndex);
   const handleFormResize = () => {
     // console.log(index);
     setActiveSize(sizes[index]);

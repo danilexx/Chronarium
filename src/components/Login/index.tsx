@@ -8,7 +8,7 @@ import useResizableForm from "-/src/utils/hooks/useResizableForm";
 const Login = () => {
   const [activeSize, formProps] = useResizableForm();
   return (
-    <SizeableContainer size={activeSize}>
+    <SizeableContainer {...formProps}>
       <LoginCard {...formProps} onResize={formProps.handleSize(0)} />
       <RegisterCard {...formProps} onResize={formProps.handleSize(1)} />
     </SizeableContainer>

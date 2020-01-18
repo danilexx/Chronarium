@@ -1,5 +1,4 @@
 import styled, { css } from "-/src/utils/StyledComponents";
-import { ITheme } from "-/src/utils/theme";
 import Link from "../Link";
 
 const menuSpace: number = 1000;

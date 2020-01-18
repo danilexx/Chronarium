@@ -16,10 +16,11 @@ const Form: React.FC<FormProps> = ({
   validationSchema,
   ...props
 }) => {
-  const methods = useForm({ defaultValues, validationSchema });
-  const { handleSubmit } = methods;
+  const methods = useForm<any>({ defaultValues, validationSchema });
+  const { handleSubmit }: { handleSubmit: any } = methods;
   return (
-    <InnerForm onSubmit={handleSubmit(onSubmit)} {...props}>
+    // @ts-ignore
+    <InnerForm onSubmit={handleSubmit(onSubmit) as any} {...props}>
       <FormContext {...methods}>
         {Array.isArray(children)
           ? children.map((child: any) => {

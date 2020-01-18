@@ -43,12 +43,7 @@ const Textarea = React.forwardRef<Ref, Props & CustomProps>(
     const prettyRest = rest.join("");
     const label = prettyName || firstLetter.toUpperCase() + prettyRest;
     // const fieldValue = watch(name, false);
-    const {
-      control,
-      formState: { dirty, isValid },
-      watch,
-      triggerValidation
-    } = useFormContext();
+    const { triggerValidation } = useFormContext();
 
     const component = React.useMemo(
       () => (
@@ -57,7 +52,6 @@ const Textarea = React.forwardRef<Ref, Props & CustomProps>(
           type={type}
           name={name}
           defaultValue=""
-          hasValue={watch(name) !== ""}
           rows={rows}
           onChange={
             controlled
@@ -66,11 +60,12 @@ const Textarea = React.forwardRef<Ref, Props & CustomProps>(
                 }
               : () => {}
           }
+          required
           isWrong={Boolean(errors[name])}
           {...props}
         />
       ),
-      [dirty, watch(name), errors[name]]
+      [errors[name]]
     );
     return (
       <>

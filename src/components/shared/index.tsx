@@ -17,7 +17,7 @@ export const StyledColumn = styled.div<{ isFull?: boolean; center?: boolean }>`
 export const InnerColumn = styled.div<{ center: boolean }>`
   display: flex;
   flex-direction: column;
-  align-items: ${props => (props.center ? "center" : "flex-start")};
+  // align-items: ${props => (props.center ? "center" : "flex-start")};
   justify-content: ${props => (props.center ? "center" : "flex-start")};
   margin: 0 auto;
   width: 1000px;
@@ -31,14 +31,22 @@ interface Props {
   children?: React.ReactNode;
   isFull?: boolean;
   center?: boolean;
+  className?: string;
 }
 
-export const Column: React.FC<Props> = ({
+export const Column: React.FC<Props & React.BaseHTMLAttributes<any>> = ({
   children,
   center = false,
-  isFull = false
+  isFull = false,
+  className,
+  ...props
 }) => (
-  <StyledColumn isFull={isFull} center={center}>
+  <StyledColumn
+    className={className}
+    isFull={isFull}
+    center={center}
+    {...props}
+  >
     <InnerColumn center={center}>{children}</InnerColumn>
   </StyledColumn>
 );
@@ -68,4 +76,15 @@ export const Background = styled.div`
 export const NewAdventureBackground = styled(Background)`
   background: linear-gradient(90deg, #2a2a2a 20%, rgba(0, 0, 0, 0) 100%),
     url("/images/newAdventure.png");
+  justify-content: center;
+`;
+
+export const RowLayout = styled(Column)`
+  flex-direction: row;
+  & > div {
+    flex-direction: row;
+  }
+  /* div { */
+  /* flex-direction: row !important; */
+  /* } */
 `;

@@ -4,7 +4,7 @@ import { Provider as UrlProvider } from "use-http";
 import cookie from "react-cookies";
 import withRedux from "next-redux-wrapper";
 import { StoreProvider } from "easy-peasy";
-import styled, { ThemeProvider } from "-/src/utils/StyledComponents";
+import { ThemeProvider } from "-/src/utils/StyledComponents";
 import { GlobalStyles } from "-/src/utils/GlobalStyles";
 import { theme } from "-/src/utils/theme";
 import Nav from "-/src/components/Nav";

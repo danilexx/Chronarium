@@ -1,30 +1,70 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
+import { Controller } from "react-hook-form";
 import { Container, ImageDisplay } from "./styles";
+import getImgDataUrl from "-/src/utils/getImgDataUrl";
 
 interface Props {
-  onChange?: (file: any) => void;
+  onChange?: (file: string) => void;
+  name: string;
+  control?: any;
+  defaultValue?: string;
 }
 
-const ImageDrop: React.FC<Props> = ({ onChange }) => {
-  const [imgUrl, setImgUrl] = useState("");
-  const onDrop = useCallback(acceptedFiles => {
-    // Do something with the files
-    const fileReader = new FileReader();
-    // const blob = new Blob(acceptedFiles[0]);
-    fileReader.onloadend = () => {
-      // preview.src = reader.result;
-      setImgUrl(fileReader.result as string);
-    };
-    fileReader.readAsDataURL(acceptedFiles[0]);
-  }, []);
+interface BaseProps {
+  onChange?: (file: string) => void;
+  defaultValue?: string;
+}
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+const BaseImageDrop: React.FC<BaseProps> = ({
+  onChange,
+  defaultValue = "",
+  ...props
+}) => {
+  const [imgUrl, setImgUrl] = useState(defaultValue);
+  const onDrop = useCallback(acceptedFiles => {
+    let data;
+    (async () => {
+      data = await getImgDataUrl(acceptedFiles[0]);
+      setImgUrl(data);
+      if (onChange) {
+        onChange(data);
+      }
+    })();
+  }, []);
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: "image/*"
+  });
   return (
     <Container {...getRootProps()}>
       <input {...getInputProps()} />
-      <ImageDisplay src={imgUrl !== "" ? imgUrl : "/icons/image.svg"} />
+      <ImageDisplay
+        src={
+          imgUrl !== ""
+            ? imgUrl
+            : isDragActive
+            ? "/icons/download.svg"
+            : "/icons/image.svg"
+        }
+      />
     </Container>
+  );
+};
+
+const ImageDrop: React.FC<Props & BaseProps> = ({
+  control,
+  name,
+  defaultValue,
+  ...props
+}) => {
+  return (
+    <Controller
+      as={<BaseImageDrop defaultValue={defaultValue} />}
+      name={name}
+      control={control}
+      {...props}
+    />
   );
 };
 

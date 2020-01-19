@@ -17,7 +17,7 @@ export const StyledColumn = styled.div<{ isFull?: boolean; center?: boolean }>`
 export const InnerColumn = styled.div<{ center: boolean }>`
   display: flex;
   flex-direction: column;
-  // align-items: ${props => (props.center ? "center" : "flex-start")};
+  align-items: ${props => (props.center ? "center" : "flex-start")};
   justify-content: ${props => (props.center ? "center" : "flex-start")};
   margin: 0 auto;
   width: 1000px;
@@ -81,8 +81,10 @@ export const NewAdventureBackground = styled(Background)`
 
 export const RowLayout = styled(Column)`
   flex-direction: row;
+  flex-wrap: wrap;
   & > div {
     flex-direction: row;
+    flex-wrap: wrap;
   }
   /* div { */
   /* flex-direction: row !important; */

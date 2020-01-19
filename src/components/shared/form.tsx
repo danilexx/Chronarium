@@ -52,8 +52,7 @@ export const SizeableContainer: React.FC<SizeableContainerProps> = ({
   const ref = React.useRef<HTMLDivElement>();
   React.useEffect(() => {
     if (ref && ref.current) {
-      ref.current.style.transform = `translateX(calc(-${index * (100 / items)}%)
-      )`;
+      ref.current.style.transform = `translateX(calc(calc(var(--form-width) * -${index}) - ${index}0rem))`;
     }
   }, [index, items]);
   return (
@@ -80,10 +79,13 @@ export const FormHeader = styled.h1`
   margin: 1rem 0;
   margin-bottom: 1rem;
   line-height: 100%;
+  @media screen and (max-width: 600px) {
+    font-size: 3.5rem;
+  }
 `;
 
 export const MainForm = styled.div<{ index: number }>`
-  min-width: var(--form-width);
+  width: var(--form-width);
   height: fit-content;
   padding: 0;
   transition: transform 0.2s ease-in-out;

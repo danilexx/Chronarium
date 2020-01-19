@@ -1,5 +1,5 @@
 import { createContext, Dispatch, SetStateAction, useEffect } from "react";
-import { useLocalStorage } from "react-use";
+import { useLocalStorage, useSessionStorage } from "react-use";
 import { NewAdventureBackground, RowLayout } from "../shared";
 import { SizeableContainer } from "../shared/form";
 import AdventureForm from "./subcomponents/AdventureForm";
@@ -9,6 +9,8 @@ import LoreForm from "./subcomponents/LoreForm";
 import ConfigForm from "./subcomponents/ConfigForm";
 import ConfirmForm from "./subcomponents/ConfirmForm";
 import Stepper from "../Stepper";
+import RoomConfigForm from "./subcomponents/RoomConfig";
+import FetchForm from "./subcomponents/FetchForm";
 
 const initialState = {
   adventureName: "",
@@ -23,7 +25,9 @@ const initialState = {
   baseLife: 300,
   baseMana: 200,
   baseExperience: 50,
-  otherExperiences: 50
+  otherExperiences: 50,
+  maxPlayersQuantity: 5,
+  adventurePassword: ""
 };
 type typedInitialState = typeof initialState;
 type StateUpdater = any;
@@ -37,26 +41,32 @@ const steps = [
   { iconUrl: getUrl("master"), index: 1, name: "Master" },
   { iconUrl: getUrl("lore"), index: 2, name: "Lore" },
   { iconUrl: getUrl("config"), index: 3, name: "Config" },
-  { iconUrl: getUrl("checkout"), index: 4, name: "Checkout" }
+  { iconUrl: getUrl("config"), index: 4, name: "Room Config" },
+  { iconUrl: getUrl("checkout"), index: 5, name: "Checkout" }
 ];
 
 const NewAdventure = () => {
-  const [state, setState] = useLocalStorage("adventure", initialState);
+  const [state, setState] = useSessionStorage("adventure", initialState);
   const [activeSize, formProps] = useRememberResizableForm();
+  const handleAction = (n: number) => {
+    formProps.setIndex(n);
+  };
   return (
     <NewAdventureContext.Provider value={{ state, setState }}>
       <NewAdventureBackground>
-        <RowLayout center style={{ margin: "0 auto" }} isFull={false}>
+        <RowLayout center isFull={false}>
           <SizeableContainer {...formProps}>
             <AdventureForm {...formProps} onResize={formProps.handleSize(0)} />
             <MasterForm {...formProps} onResize={formProps.handleSize(1)} />
             <LoreForm {...formProps} onResize={formProps.handleSize(2)} />
             <ConfigForm {...formProps} onResize={formProps.handleSize(3)} />
-            <ConfirmForm {...formProps} onResize={formProps.handleSize(4)} />
+            <RoomConfigForm {...formProps} onResize={formProps.handleSize(4)} />
+            <ConfirmForm {...formProps} onResize={formProps.handleSize(5)} />
+            <FetchForm {...formProps} onResize={formProps.handleSize(6)} />
           </SizeableContainer>
           <Stepper
             activeIndex={formProps.index}
-            action={formProps.setIndex}
+            action={handleAction}
             steps={steps}
           />
         </RowLayout>

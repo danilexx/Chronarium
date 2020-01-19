@@ -1,4 +1,11 @@
-import styled from "-/src/utils/StyledComponents";
+import styled, { css } from "-/src/utils/StyledComponents";
+
+const columnP = css`
+  & > p {
+    width: 100%;
+    overflow-wrap: break-word;
+  }
+`;
 
 export const StateRow = styled.div<{ column: boolean }>`
   display: flex;
@@ -7,8 +14,9 @@ export const StateRow = styled.div<{ column: boolean }>`
   justify-content: ${props => (props.column ? "center" : "flex-start")};
   text-align: ${props => (props.column ? "center" : "left")};
   margin: 0.5rem 0;
+  ${props => props.column && columnP};
 `;
-export const Key = styled.p`
+export const Key = styled.h3`
   font-family: Roboto, Arial;
   font-size: 2rem;
   color: ${props => props.theme.gray2};

@@ -9,28 +9,34 @@ import useOnResize from "-/src/utils/hooks/useOnResize";
 import Textarea from "../../Input/textarea";
 import ImageDrop from "../../ImageDrop";
 import { NewAdventureContext } from "..";
-import { masterFormValidationSchema } from "../validationSchemas";
 
-const MasterForm: React.FC<FormProps> = ({ setIndex, index, onResize }) => {
+const RoomConfigForm: React.FC<FormProps> = ({ setIndex, index, onResize }) => {
   const ref = useOnResize(onResize);
   const { setState, state } = useContext(NewAdventureContext);
   const onSubmit = async (data: any) => {
-    setState((initialData: any) => ({ ...initialData, ...data }));
-    setIndex(2);
+    console.log(data);
+    setIndex(5);
   };
   return (
     <MainForm ref={ref} index={index}>
-      <FormHeader>Criar Mestre</FormHeader>
-      <Form
-        validationSchema={masterFormValidationSchema}
-        defaultValues={state}
-        onSubmit={onSubmit}
-      >
-        <ImageDrop defaultValue={state.masterIcon} name="masterIcon" />
-        <Input name="masterName" prettyName="Master Name" />
+      <FormHeader>Room Configuration</FormHeader>
+      <Form defaultValues={state} onSubmit={onSubmit}>
+        <Input
+          name="maxPlayersQuantity"
+          prettyName="Max Players Quantity"
+          type="number"
+          min={1}
+          max={10}
+        />
+        <Input
+          name="roomPassword"
+          prettyName="Adventure Room Password"
+          optional
+          type="password"
+        />
         <Buttons>
           <Button type="submit" isFull instance="primary">
-            Next
+            Finish
           </Button>
         </Buttons>
       </Form>
@@ -38,4 +44,4 @@ const MasterForm: React.FC<FormProps> = ({ setIndex, index, onResize }) => {
   );
 };
 
-export default MasterForm;
+export default RoomConfigForm;

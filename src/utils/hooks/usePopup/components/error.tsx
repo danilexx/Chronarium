@@ -25,7 +25,7 @@ const ErrorPopup: React.FC<Props & ErrorProps> = ({
         <Message>{message}</Message>
         <Buttons>
           <Button instance="error" onClick={handleOk}>
-            Beleza
+            :(
           </Button>
         </Buttons>
       </PopupBody>

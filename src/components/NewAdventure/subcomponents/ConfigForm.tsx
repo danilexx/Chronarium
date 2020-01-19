@@ -21,9 +21,15 @@ const ConfigForm: React.FC<FormProps> = ({ setIndex, index, onResize }) => {
     <MainForm ref={ref} index={index}>
       <FormHeader>Adventure Configuration</FormHeader>
       <Form defaultValues={state} onSubmit={onSubmit}>
-        <Input name="initialGold" prettyName="Initial Gold" type="number" />
+        <Input
+          name="initialGold"
+          max={9999}
+          prettyName="Initial Gold"
+          type="number"
+        />
         <Input
           name="attributesMinimum"
+          max={10}
           prettyName="Minimun Attributes Points"
           type="number"
         />
@@ -32,21 +38,37 @@ const ConfigForm: React.FC<FormProps> = ({ setIndex, index, onResize }) => {
           prettyName="Attributes Points To Spend"
           type="number"
         />
-        <Input name="baseLife" prettyName="Base Life Points" type="number" />
-        <Input name="baseMana" prettyName="Base Mana Points" type="number" />
+        <Input
+          name="baseLife"
+          min={100}
+          max={1000}
+          prettyName="Base Life Points"
+          type="number"
+        />
+        <Input
+          name="baseMana"
+          min={100}
+          max={1000}
+          prettyName="Base Mana Points"
+          type="number"
+        />
         <Input
           name="baseExperience"
+          min={50}
+          max={500}
           prettyName="Base Experience Points"
           type="number"
         />
         <Input
           name="otherExperiences"
+          min={50}
+          max={500}
           prettyName="Other Experiences Points"
           type="number"
         />
         <Buttons>
           <Button type="submit" isFull instance="primary">
-            Finish
+            Next
           </Button>
         </Buttons>
       </Form>

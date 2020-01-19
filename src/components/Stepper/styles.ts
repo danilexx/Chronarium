@@ -4,6 +4,11 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   margin: 5rem 5rem;
+  @media screen and (max-width: 600px) {
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
 `;
 
 export const Step = styled.img<{ active?: boolean }>`
@@ -19,5 +24,8 @@ export const Step = styled.img<{ active?: boolean }>`
   &:active,
   &:hover {
     opacity: 0.8;
+  }
+  @media screen and (max-width: 600px) {
+    margin: 0.8rem;
   }
 `;

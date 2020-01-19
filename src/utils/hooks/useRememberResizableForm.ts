@@ -1,11 +1,11 @@
-import { useList, useLocalStorage } from "react-use";
+import { useList, useLocalStorage, useSessionStorage } from "react-use";
 import React, { useState, Dispatch, SetStateAction } from "react";
 
 type returnType = [
   number,
   {
     index: number;
-    setIndex: Dispatch<SetStateAction<number>>;
+    setIndex: (toChangeIndex: number) => void;
     handleSize: (toChangeStateIndex: number) => (height: number) => void;
     size: number;
     items: number;
@@ -21,7 +21,7 @@ const useRememberResizableForm = (
   const [sizes, { updateAt }] = useList(initialList);
   const [items, setItems] = useState(0);
   const [activeSize, setActiveSize] = useState(0);
-  const [index, setIndex] = useLocalStorage(customKey, initialIndex);
+  const [index, setIndex] = useSessionStorage(customKey, initialIndex);
   const handleFormResize = () => {
     // console.log(index);
     setActiveSize(sizes[index]);

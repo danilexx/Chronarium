@@ -1,5 +1,5 @@
 import Document, { Head, Main, NextScript } from "next/document";
-import { ServerStyleSheet } from "styled-components";
+import { ServerStyleSheet } from "-/src/utils/StyledComponents";
 
 class MyDocument extends Document<{
   styleTags: {};

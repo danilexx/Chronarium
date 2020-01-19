@@ -11,6 +11,9 @@ interface Props {
   register?: any;
   errors?: any;
   controlled?: boolean;
+  optional?: boolean;
+  max?: number;
+  min?: number;
 }
 
 export type Ref = HTMLInputElement;
@@ -24,6 +27,9 @@ const Input = React.forwardRef<Ref, Props>(
       register,
       errors,
       controlled = false,
+      optional = false,
+      max = 999,
+      min = 0,
       ...props
     },
     ref
@@ -40,8 +46,10 @@ const Input = React.forwardRef<Ref, Props>(
           ref={register || ref}
           type={type}
           name={name}
+          max={max}
+          min={min}
           defaultValue=""
-          required
+          required={!optional}
           onChange={
             controlled
               ? () => {

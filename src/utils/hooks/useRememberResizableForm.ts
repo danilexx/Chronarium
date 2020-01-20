@@ -9,7 +9,8 @@ type returnType = [
     handleSize: (toChangeStateIndex: number) => (height: number) => void;
     size: number;
     items: number;
-  }
+  },
+  () => void
 ];
 
 const useRememberResizableForm = (
@@ -33,7 +34,14 @@ const useRememberResizableForm = (
     setItems(sizes.length);
   }, [sizes]);
 
-  return [activeSize, { index, setIndex, handleSize, size: activeSize, items }];
+  const reset = () => {
+    setIndex(initialIndex);
+  };
+  return [
+    activeSize,
+    { index, setIndex, handleSize, size: activeSize, items },
+    reset
+  ];
 };
 
 export default useRememberResizableForm;

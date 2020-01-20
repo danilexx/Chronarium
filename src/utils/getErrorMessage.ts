@@ -1,7 +1,10 @@
 const getErrorMessage = (error: any): string => {
   let message;
   if (error.response) {
-    const [type, newMessage] = error.response.data.error.message.split(":");
+    console.log(error.response);
+    const [type, newMessage] = error.response.data.error
+      ? error.response.data.error.message.slit(":")
+      : error.response.data.split(":");
     message = newMessage;
   } else {
     message = error.message;

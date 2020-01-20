@@ -1,15 +1,10 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
+import Router from "next/router";
 import { NewAdventureContext } from "../index";
-import { MainForm, FormHeader } from "-/src/components/shared/form";
-import { StateRow, Key, Value } from "../styles";
-import { Buttons } from "../../Button/styles";
-import Button, { LoadingButton } from "../../Button";
+import { createMaster, createAdventure } from "-/src/services";
+import { MainForm } from "-/src/components/shared/form";
 import { FormProps } from "-/src/components/shared/types";
-import Form from "-/src/components/Form";
 import useOnResize from "-/src/utils/hooks/useOnResize";
-import Textarea from "../../Input/textarea";
-import ImageDrop from "../../ImageDrop";
-import beautifyCamelCase from "-/src/utils/beautifyCamelCase";
 import usePopup from "-/src/utils/hooks/usePopup";
 import Tasker from "../../Tasker";
 
@@ -47,21 +42,59 @@ const requiredKeys = [
 const tasks = [
   { label: "Creating Master" },
   { label: "Creating Adventure" },
-  { label: "Creating Configurations" },
-  { label: "Creating Room" },
-  { label: "Finishing Up" }
+  { label: "Redirecting..." }
 ];
 
 const FetchForm: React.FC<FormProps> = ({ setIndex, index, onResize }) => {
   const ref = useOnResize(onResize);
-  const { setState, state } = useContext(NewAdventureContext);
+  const { setState, state, resetState } = useContext(NewAdventureContext);
   const [Popup, popupProps] = usePopup("error");
   const [activeTask, setActiveTask] = useState(0);
   const interval: any = useRef();
-  const start = () => {
-    interval.current = setInterval(() => {
-      setActiveTask(currentTask => currentTask + 1);
-    }, 2000);
+  const nextTask = () => {
+    setActiveTask(currentTask => currentTask + 1);
+  };
+  const start = async () => {
+    try {
+      const {
+        masterName,
+        adventureName,
+        roomPassword,
+        maxPlayersQuantity,
+        initialGold,
+        attributesMinimum,
+        attributesPointsToSpend,
+        baseLife,
+        baseMana,
+        baseExperience,
+        otherExperiences
+      } = state;
+      const masterResponse = await createMaster({
+        name: masterName
+      });
+      nextTask();
+      const adventureResponse = await createAdventure(masterResponse.data.id)({
+        name: adventureName,
+        password: roomPassword,
+        maxPlayers: maxPlayersQuantity,
+        options: {
+          default_mana: baseMana,
+          default_life: baseLife,
+          default_gold: initialGold,
+          default_attributes_points_to_spend: attributesPointsToSpend,
+          default_base_experience_value: baseExperience,
+          default_melee_experience_value: otherExperiences,
+          default_ranged_experience_value: otherExperiences,
+          default_magic_experience_value: otherExperiences,
+          default_miracle_experience_value: otherExperiences
+        }
+      });
+      nextTask();
+      Router.push(`/adventures/${adventureResponse.data.id}`);
+      resetState();
+    } catch (err) {
+      console.error(err);
+    }
   };
   useEffect(() => {
     if (index === 6) {

@@ -6,7 +6,11 @@ import {
   UserLoginModel,
   UserRegisterModel,
   SessionModel,
-  UserDBModel
+  UserDBModel,
+  MasterModel,
+  MasterCreatingModel,
+  AdventureModel,
+  AdventureCreatingModel
 } from "./types";
 
 export const api = axios.create({
@@ -69,6 +73,16 @@ export const getNewToken = createAxiosRequest<
   { refresh_token: string }
 >("/sessions", "put");
 
+export const createMaster = createAxiosRequest<
+  MasterModel,
+  MasterCreatingModel
+>("/masters", "post");
+
+export const createAdventure = (master_id: number) =>
+  createAxiosRequest<AdventureModel, AdventureCreatingModel>(
+    `/masters/${master_id}/adventures`,
+    "post"
+  );
 // api.interceptors.response.use(
 //   response => {
 //     // Return a successful response back to the calling service

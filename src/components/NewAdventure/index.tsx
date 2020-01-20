@@ -11,6 +11,7 @@ import ConfirmForm from "./subcomponents/ConfirmForm";
 import Stepper from "../Stepper";
 import RoomConfigForm from "./subcomponents/RoomConfig";
 import FetchForm from "./subcomponents/FetchForm";
+import useUserRoute from "-/src/utils/hooks/useUserRoute";
 
 const initialState = {
   adventureName: "",
@@ -27,13 +28,14 @@ const initialState = {
   baseExperience: 50,
   otherExperiences: 50,
   maxPlayersQuantity: 5,
-  adventurePassword: ""
+  roomPassword: ""
 };
 type typedInitialState = typeof initialState;
 type StateUpdater = any;
 export const NewAdventureContext = createContext({
   state: initialState,
-  setState: (newValue: StateUpdater) => {}
+  setState: (newValue: StateUpdater) => {},
+  resetState: () => {}
 });
 const getUrl = (text: string): string => `/icons/steps/${text}.svg`;
 const steps = [
@@ -46,13 +48,18 @@ const steps = [
 ];
 
 const NewAdventure = () => {
+  useUserRoute();
   const [state, setState] = useSessionStorage("adventure", initialState);
-  const [activeSize, formProps] = useRememberResizableForm();
+  const [activeSize, formProps, reset] = useRememberResizableForm();
   const handleAction = (n: number) => {
     formProps.setIndex(n);
   };
+  const resetState = () => {
+    reset();
+    setState(initialState);
+  };
   return (
-    <NewAdventureContext.Provider value={{ state, setState }}>
+    <NewAdventureContext.Provider value={{ state, setState, resetState }}>
       <NewAdventureBackground>
         <RowLayout center isFull={false}>
           <SizeableContainer {...formProps}>

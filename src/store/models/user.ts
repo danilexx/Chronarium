@@ -29,6 +29,10 @@ const user: UserModel = {
   }),
   register: thunk(async (actions, payload) => {
     const response = await createUser(payload);
+    actions.login({
+      password: payload.password,
+      username: payload.username
+    });
   })
 };
 

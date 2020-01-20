@@ -1,6 +1,7 @@
 import React from "react";
+import dynamic from "next/dynamic";
+import { useToggle } from "react-use";
 import Link from "-/src/components/Link";
-import Menu from "-/src/components/Menu";
 import {
   Container,
   Logo,
@@ -12,12 +13,13 @@ import {
 } from "./styles";
 import { FriendsIcon, HamburguerIcon } from "./icons";
 
+const Menu = dynamic(() => import("-/src/components/Menu"), { ssr: false });
 const Nav = () => {
-  const [menu, setMenu] = React.useState(true);
+  const [menu, toggle] = useToggle(false);
   const [navSize, setNavSize] = React.useState(0);
   const navRef = React.useRef<HTMLDivElement>(null);
   const handleHamburguerMenu = () => {
-    setMenu(state => !state);
+    toggle();
   };
   React.useEffect(() => {
     if (navRef && navRef.current) {
@@ -47,7 +49,7 @@ const Nav = () => {
           </Items>
         </Collection>
       </Container>
-      <Menu isOpen={menu} navSize={navSize} />
+      <Menu isOpen={menu} toggle={toggle} navSize={navSize} />
     </>
   );
 };

@@ -1,5 +1,6 @@
 import { createContext, Dispatch, SetStateAction, useEffect } from "react";
 import { useLocalStorage, useSessionStorage } from "react-use";
+import dynamic from "next/dynamic";
 import { NewAdventureBackground, RowLayout } from "../shared";
 import { SizeableContainer } from "../shared/form";
 import AdventureForm from "./subcomponents/AdventureForm";
@@ -8,11 +9,11 @@ import MasterForm from "./subcomponents/MasterForm";
 import LoreForm from "./subcomponents/LoreForm";
 import ConfigForm from "./subcomponents/ConfigForm";
 import ConfirmForm from "./subcomponents/ConfirmForm";
-import Stepper from "../Stepper";
 import RoomConfigForm from "./subcomponents/RoomConfig";
 import FetchForm from "./subcomponents/FetchForm";
 import useUserRoute from "-/src/utils/hooks/useUserRoute";
 
+const Stepper = dynamic(() => import("../Stepper"), { ssr: false });
 const initialState = {
   adventureName: "",
   adventureDescription: "",

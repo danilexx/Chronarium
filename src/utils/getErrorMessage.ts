@@ -3,7 +3,7 @@ const getErrorMessage = (error: any): string => {
   if (error.response) {
     console.log(error.response);
     const [type, newMessage] = error.response.data.error
-      ? error.response.data.error.message.slit(":")
+      ? error.response.data.error.message.split(":")
       : error.response.data.split(":");
     message = newMessage;
   } else {

@@ -6,27 +6,43 @@ interface Props {
   children?: React.ReactNode;
   isOpen: boolean;
   navSize: number;
+  toggle?: (value?: boolean) => void;
 }
 
-const Menu: React.FC<Props> = ({ children, isOpen, navSize = 0 }) => {
+const Menu: React.FC<Props> = ({ children, isOpen, toggle, navSize = 0 }) => {
   const isLogged = useStoreState(state => state.user.isLogged);
   const logout = useStoreActions(state => state.user.logout);
+  const linkAction = () => {
+    console.log("oi");
+    if (toggle) {
+      toggle();
+    }
+  };
   return (
     <Container navSize={navSize} isOpen={isOpen}>
       {isLogged ? (
         <MenuItemAction
           onClick={() => {
             logout();
+            linkAction();
           }}
         >
           Logout
         </MenuItemAction>
       ) : (
-        <MenuItem href="/login">Login</MenuItem>
+        <MenuItem onClick={linkAction} href="/login">
+          Login
+        </MenuItem>
       )}
-      <MenuItem href="/">Home</MenuItem>
-      <MenuItem href="/adventures">Adventures</MenuItem>
-      <MenuItem href="/mastering">Mastering</MenuItem>
+      <MenuItem onClick={linkAction} href="/">
+        Home
+      </MenuItem>
+      <MenuItem onClick={linkAction} href="/adventures">
+        Adventures
+      </MenuItem>
+      <MenuItem onClick={linkAction} href="/mastering">
+        Mastering
+      </MenuItem>
     </Container>
   );
 };

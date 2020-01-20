@@ -27,7 +27,7 @@ const styles = css`
   font-size: 2rem;
   padding: 1.5rem 0;
   width: 100%;
-  /* margin: 0 1rem; */
+  margin: 0;
   text-align: center;
   color: ${props => props.theme.gray2};
   cursor: pointer;

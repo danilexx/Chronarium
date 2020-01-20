@@ -13,8 +13,8 @@ const Link: React.FC<LinkProps & OwnProps> = ({
   ...props
 }) => {
   return (
-    <OriginalLink href={href} {...props}>
-      <a className={className} href={href}>
+    <OriginalLink href={href}>
+      <a className={className} {...props} href={href}>
         {children}
       </a>
     </OriginalLink>

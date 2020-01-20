@@ -50,6 +50,7 @@ const Input = React.forwardRef<Ref, Props>(
           min={min}
           defaultValue=""
           required={!optional}
+          placeholder={optional ? "Optional" : ""}
           onChange={
             controlled
               ? () => {

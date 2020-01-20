@@ -16,7 +16,9 @@ import {
 export const api = axios.create({
   baseURL: process.env.SERVER_URL,
   headers: {
-    Authorization: `Bearer ${cookie.load("token")}`
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${cookie.load("token")}`,
+    Accept: "application/json"
   }
 });
 type get = <T = any, R = AxiosResponse<T>>(
@@ -49,12 +51,19 @@ const selectApiMethod = (method: string): Method => {
 const createAxiosRequest = <T, D = any>(
   url: string,
   method: string = "get",
-  config?: AxiosRequestConfig
+  extraConfig?: AxiosRequestConfig
 ) => {
-  const fn = (data?: D): Promise<AxiosResponse<T>> =>
-    data
+  const fn = (data?: D): Promise<AxiosResponse<T>> => {
+    const baseConfig = {
+      headers: {
+        Authorization: `Bearer ${cookie.load("token")}`
+      }
+    };
+    const config = { ...baseConfig, ...extraConfig };
+    return data
       ? selectApiMethod(method)(url, data, config)
       : selectApiMethod(method)(url, config);
+  };
   fn.url = url;
   return fn;
 };

@@ -1,30 +1,27 @@
 import React from "react";
-import { useMeasure } from "react-use";
 import Router from "next/router";
-import { LoginForm, Header } from "../styles";
+import { MainForm, FormHeader } from "-/src/components/shared/form";
 import Input from "-/src/components/Input";
 import { Buttons } from "../../Button/styles";
 import Button, { LoadingButton } from "../../Button";
-import { FormProps } from "./types";
-import Form from "./Form";
+import { FormProps } from "../../shared/types";
+import Form from "-/src/components/Form";
 import { loginValidationSchema } from "./ValidationSchemas";
 import usePopup from "-/src/utils/hooks/usePopup";
 import { useStoreActions } from "-/src/utils/EasyPeasy";
 import useAwait from "-/src/utils/hooks/useAwait";
 import getErrorMessage from "-/src/utils/getErrorMessage";
+import useOnResize from "-/src/utils/hooks/useOnResize";
 
 interface LoginFormData {
   name: string;
   password: string;
 }
 
-const LoginCard: React.FC<FormProps> = ({ onChange, index, onResize }) => {
+const LoginCard: React.FC<FormProps> = ({ setIndex, index, onResize }) => {
   // const [request, response] = useFetch({ path: "/sessions" });
   const login = useStoreActions(state => state.user.login);
-  const [ref, { height }] = useMeasure();
-  React.useEffect(() => {
-    onResize(height);
-  }, [height]);
+  const ref = useOnResize(onResize);
   const [isLoading, fetch, { toggle }] = useAwait(login);
   const [Popup, popupProps] = usePopup("error");
   const onSubmit = async (data: any) => {
@@ -38,8 +35,8 @@ const LoginCard: React.FC<FormProps> = ({ onChange, index, onResize }) => {
     }
   };
   return (
-    <LoginForm ref={ref} index={index}>
-      <Header>Login</Header>
+    <MainForm ref={ref} index={index}>
+      <FormHeader>Login</FormHeader>
       <Form onSubmit={onSubmit} validationSchema={loginValidationSchema}>
         <Input name="username" />
         <Input name="password" type="password" />
@@ -54,7 +51,7 @@ const LoginCard: React.FC<FormProps> = ({ onChange, index, onResize }) => {
           </LoadingButton>
           <Button
             type="button"
-            onClick={() => onChange(1)}
+            onClick={() => setIndex(1)}
             isFull
             instance="secondary"
           >
@@ -63,7 +60,7 @@ const LoginCard: React.FC<FormProps> = ({ onChange, index, onResize }) => {
         </Buttons>
       </Form>
       <Popup title="Erro" {...popupProps} />
-    </LoginForm>
+    </MainForm>
   );
 };
 

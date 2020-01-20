@@ -1,28 +1,17 @@
 import React, { useState } from "react";
 import { useList } from "react-use";
-import { Container } from "./styles";
+import { SizeableContainer } from "-/src/components/shared/form";
 import LoginCard from "./subcomponents/LoginCard";
 import RegisterCard from "./subcomponents/RegisterCard";
+import useResizableForm from "-/src/utils/hooks/useResizableForm";
 
 const Login = () => {
-  const [sizes, { updateAt }] = useList([0, 0]);
-  const [activeSize, setActiveSize] = useState(0);
-  const [index, setIndex] = React.useState(0);
-  const handleFormResize = () => {
-    setActiveSize(sizes[index]);
-  };
-  const handleSize = (toChangeStateIndex: number) => (height: number) =>
-    updateAt(toChangeStateIndex, height);
-  React.useEffect(handleFormResize, [index, sizes]);
+  const [activeSize, formProps] = useResizableForm();
   return (
-    <Container size={activeSize}>
-      <LoginCard onResize={handleSize(0)} index={index} onChange={setIndex} />
-      <RegisterCard
-        index={index}
-        onChange={setIndex}
-        onResize={handleSize(1)}
-      />
-    </Container>
+    <SizeableContainer {...formProps}>
+      <LoginCard {...formProps} onResize={formProps.handleSize(0)} />
+      <RegisterCard {...formProps} onResize={formProps.handleSize(1)} />
+    </SizeableContainer>
   );
 };
 

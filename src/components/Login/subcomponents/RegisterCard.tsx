@@ -1,20 +1,17 @@
-import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import useFetch from "use-http";
-import { useUpdateEffect, useMeasure } from "react-use";
+import React from "react";
 import Router from "next/router";
-import { RegisterForm, Header } from "../styles";
+import { MainForm, FormHeader } from "-/src/components/shared/form";
 import Input from "../../Input";
 import { Buttons } from "../../Button/styles";
 import Button, { LoadingButton } from "../../Button";
-import { FormProps } from "./types";
+import { FormProps } from "../../shared/types";
 import { RegisterValidationSchema } from "./ValidationSchemas";
-import Form from "./Form";
+import Form from "-/src/components/Form";
 import usePopup from "-/src/utils/hooks/usePopup";
-import formatValidationErrorMessage from "-/src/utils/formatValidationErrorMessage";
 import useAwait from "-/src/utils/hooks/useAwait";
-import { useStoreState, useStoreActions } from "-/src/utils/EasyPeasy";
+import { useStoreActions } from "-/src/utils/EasyPeasy";
 import getErrorMessage from "-/src/utils/getErrorMessage";
+import useOnResize from "-/src/utils/hooks/useOnResize";
 
 interface RegisterFormData {
   username: string;
@@ -24,12 +21,9 @@ interface RegisterFormData {
   email_confirmation: string;
 }
 
-const RegisterCard: React.FC<FormProps> = ({ index, onChange, onResize }) => {
+const RegisterCard: React.FC<FormProps> = ({ index, setIndex, onResize }) => {
   const [Popup, popupProps] = usePopup("error");
-  const [ref, { height }] = useMeasure();
-  React.useEffect(() => {
-    onResize(height);
-  }, [height]);
+  const ref = useOnResize(onResize);
   const register = useStoreActions(state => state.user.register);
   const [isLoading, fetch, { toggle }] = useAwait(register);
   const onSubmit = async (data: any) => {
@@ -43,8 +37,8 @@ const RegisterCard: React.FC<FormProps> = ({ index, onChange, onResize }) => {
     }
   };
   return (
-    <RegisterForm ref={ref} index={index}>
-      <Header>Register</Header>
+    <MainForm ref={ref} index={index}>
+      <FormHeader>Register</FormHeader>
       <Form onSubmit={onSubmit} validationSchema={RegisterValidationSchema}>
         <Input name="username" />
         <Input name="email" type="email" />
@@ -68,13 +62,13 @@ const RegisterCard: React.FC<FormProps> = ({ index, onChange, onResize }) => {
           >
             Register
           </LoadingButton>
-          <Button onClick={() => onChange(0)} isFull instance="secondary">
+          <Button onClick={() => setIndex(0)} isFull instance="secondary">
             Voltar
           </Button>
         </Buttons>
       </Form>
       <Popup {...popupProps} title="Erro" />
-    </RegisterForm>
+    </MainForm>
   );
 };
 

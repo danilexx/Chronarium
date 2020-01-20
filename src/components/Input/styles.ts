@@ -16,8 +16,9 @@ export const Label = styled.label`
 `;
 
 interface StyledInputProps {
-  hasValue: boolean;
+  hasValue?: boolean;
   isWrong: boolean;
+  rows?: number;
 }
 const activated = css<StyledInputProps>`
   border: 1px solid
@@ -31,19 +32,32 @@ const activated = css<StyledInputProps>`
     transform: translateY(-50%);
   }
 `;
+const textareaActivated = css<StyledInputProps>`
+  border: 1px solid
+    ${props => (props.isWrong ? props.theme.error : props.theme.primary)};
+  outline-color: none;
+  & + label {
+    color: ${props =>
+      props.isWrong ? props.theme.error : props.theme.primary};
+    top: 1.2rem;
+    transform: translateY(-50%);
+  }
+`;
+
 export const StyledInput = styled.input<StyledInputProps>`
   max-width: var(--form-width);
   font-size: 2.2rem;
   border-radius: 5px;
   padding: 0.8rem 1rem;
   border: 1px solid ${props => props.theme.gray1};
+  background-color: ${props => props.theme.txtBg2};
   padding-top: 1.8rem;
   transition: color 0.2s ease-in-out;
   will-change: color;
-  &:focus {
+  &:focus,
+  &:valid {
     ${activated}
   }
-  ${props => props.hasValue && activated}
 `;
 
 export const Container = styled.div`
@@ -60,4 +74,22 @@ export const ErrorContainer = styled.p`
   color: ${props => props.theme.error};
   margin: 0 0.8rem;
   margin-bottom: 0.8rem;
+`;
+
+export const StyledTextArea = styled(StyledInput).attrs({
+  as: "textarea"
+})`
+  resize: none;
+  height: ${props => 2.2 * (props.rows as number)}rem;
+  padding-top: 2rem;
+  & + label {
+    background-color: ${props => props.theme.txtBg2};
+    padding: 0.4rem;
+    border-radius: 5px;
+    top: 3rem;
+  }
+  &:focus,
+  &:valid {
+    ${textareaActivated};
+  }
 `;

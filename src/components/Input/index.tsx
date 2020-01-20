@@ -11,6 +11,9 @@ interface Props {
   register?: any;
   errors?: any;
   controlled?: boolean;
+  optional?: boolean;
+  max?: number;
+  min?: number;
 }
 
 export type Ref = HTMLInputElement;
@@ -24,6 +27,9 @@ const Input = React.forwardRef<Ref, Props>(
       register,
       errors,
       controlled = false,
+      optional = false,
+      max = 999,
+      min = 0,
       ...props
     },
     ref
@@ -32,12 +38,7 @@ const Input = React.forwardRef<Ref, Props>(
     const prettyRest = rest.join("");
     const label = prettyName || firstLetter.toUpperCase() + prettyRest;
     // const fieldValue = watch(name, false);
-    const {
-      control,
-      formState: { dirty, isValid },
-      watch,
-      triggerValidation
-    } = useFormContext();
+    const { triggerValidation } = useFormContext();
 
     const component = React.useMemo(
       () => (
@@ -45,8 +46,10 @@ const Input = React.forwardRef<Ref, Props>(
           ref={register || ref}
           type={type}
           name={name}
+          max={max}
+          min={min}
           defaultValue=""
-          hasValue={watch(name) !== ""}
+          required={!optional}
           onChange={
             controlled
               ? () => {
@@ -58,7 +61,7 @@ const Input = React.forwardRef<Ref, Props>(
           {...props}
         />
       ),
-      [dirty, watch(name), errors[name]]
+      [errors[name]]
     );
     return (
       <>

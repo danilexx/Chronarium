@@ -9,6 +9,7 @@ export interface UserModel {
   username: string;
   register: Thunk<UserModel, UserRegisterModel>;
   login: Thunk<UserModel, UserLoginModel>;
+  logout: Action<UserModel>;
   setUser: Action<
     UserModel,
     {

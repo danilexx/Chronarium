@@ -13,7 +13,7 @@ import {
 import { FriendsIcon, HamburguerIcon } from "./icons";
 
 const Nav = () => {
-  const [menu, setMenu] = React.useState(false);
+  const [menu, setMenu] = React.useState(true);
   const [navSize, setNavSize] = React.useState(0);
   const navRef = React.useRef<HTMLDivElement>(null);
   const handleHamburguerMenu = () => {
@@ -47,9 +47,7 @@ const Nav = () => {
           </Items>
         </Collection>
       </Container>
-      <Menu isOpen={menu} navSize={navSize}>
-        Oi
-      </Menu>
+      <Menu isOpen={menu} navSize={navSize} />
     </>
   );
 };

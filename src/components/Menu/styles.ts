@@ -1,4 +1,5 @@
-import styled from "-/src/utils/StyledComponents";
+import styled, { css } from "-/src/utils/StyledComponents";
+import Link from "../Link";
 
 interface ContainerProps {
   isOpen?: boolean;
@@ -15,4 +16,41 @@ export const Container = styled.div<ContainerProps>`
   transition: 0.2s ease-in-out;
   transform: ${props => (props.isOpen ? "translateX(0%)" : "translateX(100%)")};
   z-index: 10;
+  display: flex;
+  flex-direction: column;
+`;
+const styles = css`
+  position: relative;
+  font-family: Roboto, Arial;
+  font-size: 3rem;
+  padding: 1.5rem 0;
+  width: 100%;
+  margin: 0 1rem;
+  text-align: center;
+  color: ${props => props.theme.gray2};
+  cursor: pointer;
+  text-decoration: none;
+  &:after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 80%;
+    height: 2px;
+    background-color: ${props => props.theme.primary};
+    transition: transform 0.2s ease-in-out;
+    will-change: transform;
+    transform: translateX(-50%) scaleX(1);
+  }
+  &:active {
+    opacity: 0.7;
+  }
+  color: ${props => props.theme.txtBg1};
+`;
+export const MenuItem = styled(Link)<{ href?: string }>`
+  ${styles}
+`;
+
+export const MenuItemAction = styled.p`
+  ${styles}
 `;

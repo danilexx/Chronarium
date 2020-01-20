@@ -20,6 +20,14 @@ const user: UserModel = {
     state.id = id;
     state.username = username;
   }),
+  logout: action((state, payload) => {
+    state.token = null;
+    state.id = null;
+    state.username = "";
+    state.isLogged = false;
+    cookie.remove("token");
+    cookie.remove("refresh_token");
+  }),
   login: thunk(async (actions, payload) => {
     const response = await createSession(payload);
     const { token, refreshToken } = response.data;

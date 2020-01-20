@@ -42,6 +42,10 @@ export const AdventureImage = styled.img`
   height: calc(var(--totalSpace) / 1.3);
   flex: 1;
   border-radius: 5px;
+
+  @media screen and (max-width: 600px) {
+    width: 100%;
+  }
 `;
 export const PlayButton = styled.img`
   background-color: ${props => props.theme.primary};

@@ -61,6 +61,7 @@ const ConfirmForm: React.FC<FormProps> = ({ setIndex, index, onResize }) => {
           .map(key => `Error: ${beautifyCamelCase(key)} is required \n`)
           .reduce((total, current) => total + current, "")
       );
+      return;
     }
 
     // setState((initialData: any) => ({ ...initialData, ...data }));

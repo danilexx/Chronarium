@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
 import Router from "next/router";
 import { NewAdventureContext } from "../index";
-import { createMaster, createAdventure } from "-/src/services";
+import { createMaster, createAdventure, uploadImage } from "-/src/services";
 import { MainForm } from "-/src/components/shared/form";
 import { FormProps } from "-/src/components/shared/types";
 import useOnResize from "-/src/utils/hooks/useOnResize";
 import usePopup from "-/src/utils/hooks/usePopup";
 import Tasker from "../../Tasker";
+import dataURItoBlob from "-/src/utils/dataURItoBlob";
 
 const blackList: string[] = ["masterIcon", "adventureIcon"];
 const columnKeys: string[] = ["adventureLore", "adventureDescription"];
@@ -40,7 +41,9 @@ const requiredKeys = [
 ];
 
 const tasks = [
+  { label: "Uploading Master's icon" },
   { label: "Creating Master" },
+  { label: "Uploading Adventure's icon" },
   { label: "Creating Adventure" },
   { label: "Redirecting..." }
 ];
@@ -56,6 +59,15 @@ const FetchForm: React.FC<FormProps> = ({ setIndex, index, onResize }) => {
   };
   const start = async () => {
     try {
+      let masterIconId;
+      if (state.masterIcon) {
+        const masterIconBlob: any = dataURItoBlob(state.masterIcon);
+        const masterIconFormData = new FormData();
+        masterIconFormData.append("file", masterIconBlob);
+        const response = await uploadImage(masterIconFormData);
+        masterIconId = response.data.id;
+      }
+      nextTask();
       const {
         masterName,
         adventureName,
@@ -70,8 +82,18 @@ const FetchForm: React.FC<FormProps> = ({ setIndex, index, onResize }) => {
         otherExperiences
       } = state;
       const masterResponse = await createMaster({
-        name: masterName
+        name: masterName,
+        ...(masterIconId ? { avatar_id: masterIconId } : {})
       });
+      nextTask();
+      let adventureIconId;
+      if (state.adventureIcon) {
+        const adventureIconBlob: any = dataURItoBlob(state.masterIcon);
+        const adventureIconFormData = new FormData();
+        adventureIconFormData.append("file", adventureIconBlob);
+        const response = await uploadImage(adventureIconFormData);
+        adventureIconId = response.data.id;
+      }
       nextTask();
       const adventureResponse = await createAdventure(masterResponse.data.id)({
         name: adventureName,
@@ -87,7 +109,8 @@ const FetchForm: React.FC<FormProps> = ({ setIndex, index, onResize }) => {
           default_ranged_experience_value: otherExperiences,
           default_magic_experience_value: otherExperiences,
           default_miracle_experience_value: otherExperiences
-        }
+        },
+        ...(adventureIconId ? { avatar_id: adventureIconId } : {})
       });
       nextTask();
       Router.push(`/adventures/${adventureResponse.data.id}`);

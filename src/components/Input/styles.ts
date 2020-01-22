@@ -1,3 +1,4 @@
+import BaseSelect from "react-select";
 import styled, { css } from "-/src/utils/StyledComponents";
 
 export const Label = styled.label`
@@ -13,6 +14,7 @@ export const Label = styled.label`
   user-select: none;
   pointer-events: none;
   transition: all 0.2s ease-in-out;
+  z-index: 5;
 `;
 
 interface StyledInputProps {
@@ -44,7 +46,7 @@ const textareaActivated = css<StyledInputProps>`
   }
 `;
 
-export const StyledInput = styled.input<StyledInputProps>`
+const baseStyle = css`
   max-width: var(--form-width);
   font-size: 2.2rem;
   border-radius: 5px;
@@ -58,6 +60,10 @@ export const StyledInput = styled.input<StyledInputProps>`
   &:valid {
     ${activated}
   }
+`;
+
+export const StyledInput = styled.input<StyledInputProps>`
+  ${baseStyle}
 `;
 
 export const Container = styled.div`
@@ -92,4 +98,36 @@ export const StyledTextArea = styled(StyledInput).attrs({
   &:valid {
     ${textareaActivated};
   }
+`;
+
+export const StyledSelect = styled(BaseSelect)`
+  /* ${baseStyle} */
+  font-family: Roboto;
+  .react-select__control{
+    ${baseStyle}
+  }
+  .react-select__menu{
+    z-index: 6;
+  }
+  .react-select__option{
+    background-color: ${props => props.theme.primary} !important;
+  }
+`;
+
+export const SelectLabel = styled.label`
+  font-family: Roboto, Arial;
+  font-size: 1.8rem;
+  color: ${props => props.theme.gray2};
+  text-indent: 0.8rem;
+  margin-bottom: 0.7rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0.5rem;
+  user-select: none;
+  pointer-events: none;
+  transition: all 0.2s ease-in-out;
+  z-index: 5;
+  color: ${props => props.theme.primary};
+  font-size: 1.2rem;
 `;

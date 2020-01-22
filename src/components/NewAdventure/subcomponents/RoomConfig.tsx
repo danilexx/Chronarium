@@ -9,24 +9,34 @@ import useOnResize from "-/src/utils/hooks/useOnResize";
 import Textarea from "../../Input/textarea";
 import ImageDrop from "../../ImageDrop";
 import { NewAdventureContext } from "..";
+import Select from "../../Input/select";
+
+const testOptions = [...Array(11)]
+  .map((_, index) => index)
+  .map(e => ({ value: e, label: e.toString() }));
 
 const RoomConfigForm: React.FC<FormProps> = ({ setIndex, index, onResize }) => {
   const ref = useOnResize(onResize);
   const { setState, state } = useContext(NewAdventureContext);
   const onSubmit = async (data: any) => {
-    console.log(data);
+    setState((initialData: any) => ({
+      ...initialData,
+      roomPassword: data.roomPassword,
+      maxPlayersQuantity: data.max.value
+    }));
     setIndex(5);
   };
   return (
     <MainForm ref={ref} index={index}>
       <FormHeader>Room Configuration</FormHeader>
       <Form defaultValues={state} onSubmit={onSubmit}>
-        <Input
-          name="maxPlayersQuantity"
+        <Select
+          name="max"
           prettyName="Max Players Quantity"
-          type="number"
-          min={1}
-          max={10}
+          defaultValue={testOptions.find(
+            e => e.value === state.maxPlayersQuantity
+          )}
+          options={testOptions}
         />
         <Input
           name="roomPassword"

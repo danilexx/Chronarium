@@ -87,6 +87,11 @@ export const createMaster = createAxiosRequest<
   MasterCreatingModel
 >("/masters", "post");
 
+export const uploadImage = createAxiosRequest<{ id: number }, FormData>(
+  "/files",
+  "post"
+);
+
 export const createAdventure = (master_id: number) =>
   createAxiosRequest<AdventureModel, AdventureCreatingModel>(
     `/masters/${master_id}/adventures`,

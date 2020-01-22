@@ -59,7 +59,7 @@ const FetchForm: React.FC<FormProps> = ({ setIndex, index, onResize }) => {
   };
   const start = async () => {
     try {
-      let masterIconId;
+      let masterIconId = null;
       if (state.masterIcon) {
         const masterIconBlob: any = dataURItoBlob(state.masterIcon);
         const masterIconFormData = new FormData();
@@ -83,10 +83,10 @@ const FetchForm: React.FC<FormProps> = ({ setIndex, index, onResize }) => {
       } = state;
       const masterResponse = await createMaster({
         name: masterName,
-        ...(masterIconId ? { avatar_id: masterIconId } : {})
+        avatar_id: masterIconId
       });
       nextTask();
-      let adventureIconId;
+      let adventureIconId = null;
       if (state.adventureIcon) {
         const adventureIconBlob: any = dataURItoBlob(state.masterIcon);
         const adventureIconFormData = new FormData();
@@ -110,7 +110,7 @@ const FetchForm: React.FC<FormProps> = ({ setIndex, index, onResize }) => {
           default_magic_experience_value: otherExperiences,
           default_miracle_experience_value: otherExperiences
         },
-        ...(adventureIconId ? { avatar_id: adventureIconId } : {})
+        avatar_id: adventureIconId
       });
       nextTask();
       Router.push(`/adventures/${adventureResponse.data.id}`);

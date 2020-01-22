@@ -34,6 +34,7 @@ export interface MasterModel {
 
 export interface MasterCreatingModel {
   name: string;
+  avatar_id: number | null;
 }
 
 export interface AdventureModel {
@@ -60,5 +61,5 @@ export interface AdventureCreatingModel {
   name: string;
   password?: string;
   maxPlayers: number;
-  icon_id?: number;
+  avatar_id: number | null;
 }

@@ -30,6 +30,7 @@ const Form: React.FC<FormProps> = ({
                       ...child.props,
                       register: methods.register,
                       errors: methods.errors,
+                      control: methods.control,
                       key: child.props.name
                     }
                   })

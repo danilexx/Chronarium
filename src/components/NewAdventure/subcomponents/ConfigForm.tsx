@@ -14,7 +14,7 @@ const ConfigForm: React.FC<FormProps> = ({ setIndex, index, onResize }) => {
   const ref = useOnResize(onResize);
   const { setState, state } = useContext(NewAdventureContext);
   const onSubmit = async (data: any) => {
-    console.log(data);
+    setState((initialData: any) => ({ ...initialData, ...data }));
     setIndex(4);
   };
   return (

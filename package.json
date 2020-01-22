@@ -52,6 +52,7 @@
     "@types/react-cookies": "^0.1.0",
     "@types/react-dom": "^16.9.4",
     "@types/react-portal": "^4.0.2",
+    "@types/react-select": "^3.0.10",
     "@types/react-transition-group": "^4.2.3",
     "@types/styled-components": "^4.4.2",
     "@types/yup": "^0.26.27",

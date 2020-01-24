@@ -56,14 +56,14 @@ const ConfigForm: React.FC<FormProps> = ({ setIndex, index, onResize }) => {
           name="baseExperience"
           min={50}
           max={500}
-          prettyName="Base Experience Points"
+          prettyName="Base Expertise Points"
           type="number"
         />
         <Input
           name="otherExperiences"
           min={50}
           max={500}
-          prettyName="Other Experiences Points"
+          prettyName="Other Expertises Points"
           type="number"
         />
         <Buttons>

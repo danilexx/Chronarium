@@ -79,7 +79,8 @@ const FetchForm: React.FC<FormProps> = ({ setIndex, index, onResize }) => {
         baseLife,
         baseMana,
         baseExperience,
-        otherExperiences
+        otherExperiences,
+        adventureDescription
       } = state;
       const masterResponse = await createMaster({
         name: masterName,
@@ -87,28 +88,31 @@ const FetchForm: React.FC<FormProps> = ({ setIndex, index, onResize }) => {
       });
       nextTask();
       let adventureIconId = null;
+      console.log(state.adventureIcon, state);
       if (state.adventureIcon) {
-        const adventureIconBlob: any = dataURItoBlob(state.masterIcon);
+        const adventureIconBlob: any = dataURItoBlob(state.adventureIcon);
         const adventureIconFormData = new FormData();
         adventureIconFormData.append("file", adventureIconBlob);
         const response = await uploadImage(adventureIconFormData);
+        console.log(response);
         adventureIconId = response.data.id;
       }
       nextTask();
       const adventureResponse = await createAdventure(masterResponse.data.id)({
         name: adventureName,
         password: roomPassword,
+        description: adventureDescription,
         maxPlayers: maxPlayersQuantity,
         options: {
           default_mana: baseMana,
           default_life: baseLife,
           default_gold: initialGold,
           default_attributes_points_to_spend: attributesPointsToSpend,
-          default_base_experience_value: baseExperience,
-          default_melee_experience_value: otherExperiences,
-          default_ranged_experience_value: otherExperiences,
-          default_magic_experience_value: otherExperiences,
-          default_miracle_experience_value: otherExperiences
+          default_base_expertise: baseExperience,
+          default_melee_expertise: otherExperiences,
+          default_ranged_expertise: otherExperiences,
+          default_magic_expertise: otherExperiences,
+          default_miracle_expertise: otherExperiences
         },
         avatar_id: adventureIconId
       });

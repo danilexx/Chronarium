@@ -1,5 +1,6 @@
 import React from "react";
-import { useRouter } from "next/router";
+import { getMyAdventures } from "-/src/services";
+import { AdventureModel } from "-/src/services/types";
 import { Column } from "-/src/components/shared";
 import { Header } from "-/src/components/Header";
 import useUserRoute from "-/src/utils/hooks/useUserRoute";
@@ -14,19 +15,36 @@ const parts = [
   { label: "Mastering", path: "/mastering" }
 ];
 
-const mastering = () => {
-  // useUserRoute();
+const mastering = ({ adventures }: { adventures: AdventureModel[] }) => {
+  useUserRoute();
+  console.log(adventures);
   return (
     <Column isFull>
       <Breadcumb parts={parts} />
       <Header>Mastering</Header>
       <Adventures>
         <CreateAdventureCard />
-        <AdventureCard />
-        <AdventureCard />
+        {adventures.map(adventure => (
+          <AdventureCard adventure={adventure} />
+        ))}
       </Adventures>
     </Column>
   );
+};
+
+mastering.getInitialProps = async (ctx: any) => {
+  try {
+    const response = await getMyAdventures(ctx);
+    console.log(response);
+    return {
+      adventures: response.data
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      adventures: []
+    };
+  }
 };
 
 export default mastering;

@@ -1,5 +1,6 @@
 /* eslint-disable no-shadow */
 import axios, { AxiosResponse, AxiosInstance, AxiosRequestConfig } from "axios";
+import cookies from "next-cookies";
 import cookie from "react-cookies";
 import Router from "next/router";
 import {
@@ -67,6 +68,26 @@ const createAxiosRequest = <T, D = any>(
   fn.url = url;
   return fn;
 };
+const createAxiosServerAuthRequest = <T, D = any>(
+  url: string,
+  method: string = "get",
+  extraConfig?: AxiosRequestConfig
+) => {
+  const fn = (context: any, data?: D): Promise<AxiosResponse<T>> => {
+    const { token } = cookies(context);
+    const baseConfig = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    };
+    const config = { ...baseConfig, ...extraConfig };
+    return data
+      ? selectApiMethod(method)(url, data, config)
+      : selectApiMethod(method)(url, config);
+  };
+  fn.url = url;
+  return fn;
+};
 
 export const getLocale = createAxiosRequest<{ message: string }>("/locale");
 export const createSession = createAxiosRequest<SessionModel, UserLoginModel>(
@@ -97,6 +118,15 @@ export const createAdventure = (master_id: number) =>
     `/masters/${master_id}/adventures`,
     "post"
   );
+
+export const getAdventures = createAxiosRequest<AdventureModel[]>(
+  `/adventures`,
+  "get"
+);
+export const getMyAdventures = createAxiosServerAuthRequest<AdventureModel[]>(
+  `/users/adventures`,
+  "get"
+);
 // api.interceptors.response.use(
 //   response => {
 //     // Return a successful response back to the calling service

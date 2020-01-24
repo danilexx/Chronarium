@@ -11,7 +11,7 @@ export const Container = styled.div`
   box-shadow: 0 4px 0 ${props => props.theme.primary};
   transition: transform 0.2s ease-in-out;
   will-change: transform;
-
+  height: fit-content;
   &:hover {
     transform: translateY(-5px);
   }
@@ -24,7 +24,7 @@ export const Adventures = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: flex-start;
   width: 100%;
 `;
 export const AdventureImageContainer = styled.div`
@@ -77,7 +77,7 @@ export const Title = styled.h3`
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  height: 2.5rem;
+  height: 3rem;
   padding: 0;
 `;
 export const Description = styled.p`
@@ -88,6 +88,7 @@ export const Description = styled.p`
   font-size: 1.5rem;
   text-align: justify;
   letter-spacing: 0.08rem;
+  word-break: break-all;
   -webkit-line-clamp: 4;
   overflow: hidden;
   -webkit-box-orient: vertical;
@@ -97,8 +98,10 @@ export const AdventureExtraInfoContainer = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  justify-content: space-around;
+  justify-content: space-between;
   padding-bottom: 0.8rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
 `;
 
 export const Icon = styled.img``;
@@ -122,6 +125,7 @@ export const CreateAdventureContainer = styled(Container)`
   justify-content: center;
   align-items: center;
   min-height: 10rem;
+  height: auto;
   padding: 2rem;
 `;
 export const Plus = styled.img.attrs({ src: "/icons/plus.svg" })`
@@ -132,5 +136,20 @@ export const Plus = styled.img.attrs({ src: "/icons/plus.svg" })`
   will-change: opacity;
   &:hover {
     opacity: 0.8;
+  }
+`;
+
+export const EmptyMessage = styled.h1`
+  font-size: 3rem;
+  font-family: Roboto, Arial;
+  color: ${props => props.theme.txtBg2};
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  text-align: center;
+  button {
+    width: auto;
+    flex: 0;
   }
 `;

@@ -5,6 +5,9 @@ export const Container = styled.div`
   flex-direction: row;
   align-items: center;
   padding: 0 0.5rem;
+  a {
+    text-decoration: none;
+  }
 `;
 export const Part = styled.p`
   color: ${props => props.theme.gray2};

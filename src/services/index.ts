@@ -138,6 +138,11 @@ export const getMessages = (adventureId: number) =>
   );
 export const sendMessage = (adventureId: number) =>
   createAxiosRequest(`/adventures/${adventureId}/social_messages`, "post");
+
+export const addFriend = createAxiosRequest<any, { username: string }>(
+  "/pending_friendships",
+  "post"
+);
 // api.interceptors.response.use(
 //   response => {
 //     // Return a successful response back to the calling service

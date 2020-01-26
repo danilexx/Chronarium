@@ -20,6 +20,7 @@
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
     "allowUmdGlobalAccess": true,
+    "noImplicitAny": false,
     "plugins": [
       {
         "name": "typescript-styled-plugin"

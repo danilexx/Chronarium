@@ -38,7 +38,7 @@ const adventures = ({
           Sorry, no adventures{" "}
           <Button
             onClick={() => {
-              Router.push("mastering/new");
+              Router.push("/mastering/new");
             }}
           >
             Create One

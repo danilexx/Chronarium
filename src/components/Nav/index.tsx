@@ -20,7 +20,7 @@ const FriendsMenu = dynamic(() => import("-/src/components/FriendsMenu"), {
 });
 const Nav = () => {
   const [menu, toggle] = useToggle(false);
-  const [friendsMenu, toggleFriends] = useToggle(true);
+  const [friendsMenu, toggleFriends] = useToggle(false);
   const [navSize, setNavSize] = React.useState(0);
   const navRef = React.useRef<HTMLDivElement>(null);
   const isLogged = useStoreState(state => state.user.isLogged);

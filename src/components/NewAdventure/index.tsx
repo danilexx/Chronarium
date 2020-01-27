@@ -10,15 +10,18 @@ import LoreForm from "./subcomponents/LoreForm";
 import ConfigForm from "./subcomponents/ConfigForm";
 import ConfirmForm from "./subcomponents/ConfirmForm";
 import RoomConfigForm from "./subcomponents/RoomConfig";
-import FetchForm from "./subcomponents/FetchForm";
 import useUserRoute from "-/src/utils/hooks/useUserRoute";
+
+const FetchForm = dynamic(() => import("./subcomponents/FetchForm"), {
+  ssr: false
+});
 
 const Stepper = dynamic(() => import("../Stepper"), { ssr: false });
 const initialState = {
   adventureName: "",
   adventureDescription: "",
-  adventureIcon: undefined,
-  masterIcon: undefined,
+  adventureIcon: "",
+  masterIcon: "",
   masterName: "",
   adventureLore: "",
   initialGold: 300,

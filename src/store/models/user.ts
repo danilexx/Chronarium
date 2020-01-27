@@ -30,10 +30,10 @@ const user: UserModel = {
   }),
   login: thunk(async (actions, payload) => {
     const response = await createSession(payload);
-    const { token, refreshToken } = response.data;
-    cookie.save("token", token, { path: "/" });
-    cookie.save("refresh_token", refreshToken, { path: "/" });
-    actions.setUser({ token });
+    // const { data } = response;
+    cookie.save("token", response.data.token, { path: "/" });
+    cookie.save("refresh_token", response.data.refreshToken, { path: "/" });
+    actions.setUser({ token: response.data.token });
   }),
   register: thunk(async (actions, payload) => {
     const response = await createUser(payload);

@@ -67,7 +67,7 @@ const AdventureCard: React.FC<Props> = ({ adventure }) => {
       <AdventureExtraInfoContainer>
         <IconSection>
           <Icon src="/icons/group.svg" />
-          <IconInfo>0/{adventure.lobby.maxPlayers}</IconInfo>
+          <IconInfo>0/{adventure.lobby?.maxPlayers}</IconInfo>
         </IconSection>
         {adventure.hasPassword && <Icon src="/icons/key.svg" />}
         <IconSection>

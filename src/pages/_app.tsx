@@ -4,14 +4,16 @@ import { Provider as UrlProvider } from "use-http";
 import cookie from "react-cookies";
 import withRedux from "next-redux-wrapper";
 import { StoreProvider } from "easy-peasy";
+import dynamic from "next/dynamic";
 import { ThemeProvider } from "-/src/utils/StyledComponents";
 import { GlobalStyles } from "-/src/utils/GlobalStyles";
 import { theme } from "-/src/utils/theme";
-import Nav from "-/src/components/Nav";
 import Fonts from "-/src/utils/fonts";
 import { makeStore } from "-/src/store";
 import isJwtExpiry from "../utils/isJwtExpiry";
 import { getNewToken } from "../services";
+
+const Nav = dynamic(() => import("-/src/components/Nav"), { ssr: false });
 
 if (process.env.NODE_ENV !== "production") {
   // Router.events.on("routeChangeComplete", () => {

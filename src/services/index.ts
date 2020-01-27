@@ -11,7 +11,8 @@ import {
   MasterModel,
   MasterCreatingModel,
   AdventureModel,
-  AdventureCreatingModel
+  AdventureCreatingModel,
+  Message
 } from "./types";
 
 export const api = axios.create({
@@ -90,7 +91,7 @@ const createAxiosServerAuthRequest = <T, D = any>(
 };
 
 export const getLocale = createAxiosRequest<{ message: string }>("/locale");
-export const createSession = createAxiosRequest<SessionModel, UserLoginModel>(
+export const createSession = createAxiosRequest<any, UserLoginModel>(
   "/sessions",
   "post"
 );
@@ -127,6 +128,31 @@ export const getMyAdventures = createAxiosServerAuthRequest<AdventureModel[]>(
   `/users/adventures`,
   "get"
 );
+
+export const getAdventure = (adventureId: number) =>
+  createAxiosServerAuthRequest(`/adventures/${adventureId}`, "get");
+
+export const getMessages = (adventureId: number) =>
+  <{ messages: Message[] }>(
+    createAxiosRequest(`/adventures/${adventureId}/social_messages`)
+  );
+export const sendMessage = (adventureId: number) =>
+  createAxiosRequest(`/adventures/${adventureId}/social_messages`, "post");
+
+export const addFriend = createAxiosRequest<any, { username: string }>(
+  "/pending_friendships",
+  "post"
+);
+
+export const getPendingFriends = createAxiosRequest("/pending_friendships");
+
+export const acceptFriendshipRequest = createAxiosRequest<
+  any,
+  { to_add_user_id: number; pending_friendship_id }
+>("/friendships", "post");
+
+export const getFriends = createAxiosRequest("/friendships");
+
 // api.interceptors.response.use(
 //   response => {
 //     // Return a successful response back to the calling service

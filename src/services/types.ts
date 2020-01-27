@@ -16,10 +16,15 @@ export interface SessionModel {
   refreshToken: string;
 }
 
+export interface Avatar {
+  path: url;
+}
+
 export interface UserDBModel {
   username: string;
   id: number;
   avatar_id: number | null;
+  avatar: null | Avatar;
 }
 export interface DecodedTokenModel {
   uid: number;
@@ -35,10 +40,6 @@ export interface MasterModel {
 export interface MasterCreatingModel {
   name: string;
   avatar_id: number | null;
-}
-
-interface Avatar {
-  url: string;
 }
 
 export interface AdventureModel {
@@ -75,4 +76,21 @@ export interface AdventureCreatingModel {
   password?: string;
   maxPlayers: number;
   avatar_id: number | null;
+}
+
+export interface Character {
+  name: string;
+  user: User;
+}
+
+export interface Master {
+  name: string;
+  user: User;
+}
+
+export interface Message {
+  message: string;
+  id: number;
+  character: null | Character;
+  master: null | Master;
 }

@@ -1,7 +1,9 @@
 {
   "build": {
     "env": {
-      "SERVER_URL": "https://chronarium-server.herokuapp.com"
+      "SERVER_URL": "https://chronarium-server.herokuapp.com",
+      "WEB_SOCKET_URL": "ws://chronarium-server.herokuapp.com",
+      "NODE_ENV":"production"
     }
   }
 }

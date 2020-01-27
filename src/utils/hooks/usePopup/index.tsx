@@ -7,7 +7,7 @@ import {
 } from "react-use";
 import { useState } from "react";
 import { Options, PopupTypes, ErrorProps, InfoProps, Props } from "./types";
-import { BasePopup, ErrorPopup, InfoPopup } from "./components";
+import { BasePopup, ErrorPopup, InfoPopup, addFriend } from "./components";
 
 const SelectPopup = (type: string) => {
   switch (type) {
@@ -20,6 +20,9 @@ const SelectPopup = (type: string) => {
     case "info": {
       return InfoPopup;
     }
+    case "addFriend": {
+      return addFriend;
+    }
     default: {
       return BasePopup;
     }
@@ -28,6 +31,7 @@ const SelectPopup = (type: string) => {
 function usePopup(popupType: "info"): [React.FC<Props & InfoProps>, Options];
 function usePopup(popupType: "error"): [React.FC<Props & ErrorProps>, Options];
 function usePopup(popupType: "base"): [React.FC<Props>, Options];
+function usePopup(popupType: "addFriend"): [React.FC<Props>, Options];
 function usePopup(popupType: PopupTypes = "base"): any {
   const [isOn, toggle] = useToggle(false);
   const [message, setMessage] = useState("");

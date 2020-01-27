@@ -1,0 +1,6 @@
+{
+  "version": 2,
+  "name": "chornarium",
+  "alias": "chronariu.sh.now",
+  "builds": [{ "src": "package.json", "use": "@now/next" }]
+}

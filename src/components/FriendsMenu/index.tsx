@@ -1,5 +1,5 @@
 import React, { ReactChild } from "react";
-import { useToggle } from "react-use";
+import { useToggle, useList } from "react-use";
 import {
   PopupHead,
   Title,
@@ -7,6 +7,7 @@ import {
   PopupBody,
   Buttons
 } from "-/src/utils/hooks/usePopup/styles";
+import isServer from "-/src/utils/isServer";
 import { LoadingButton } from "-/src/components/Button";
 import {
   Container,
@@ -16,6 +17,7 @@ import {
   Profile,
   Info,
   Username,
+  Body,
   Status,
   SectionSeparator,
   Uparrow,
@@ -29,12 +31,23 @@ import {
   AddFriend,
   Plus,
   StyledInput,
-  Error
+  Error,
+  PendingFriend,
+  Actions,
+  Accept,
+  Decline,
+  FriendMenu,
+  FriendMenuItem
 } from "./styles";
 import { useStoreState, useStoreActions } from "-/src/utils/EasyPeasy";
 import usePopup from "-/src/utils/hooks/usePopup";
 import useAwait from "-/src/utils/hooks/useAwait";
-import { addFriend } from "-/src/services";
+import {
+  addFriend,
+  getPendingFriends,
+  acceptFriendshipRequest,
+  getFriends
+} from "-/src/services";
 
 interface Props {
   children?: React.ReactNode;
@@ -43,7 +56,7 @@ interface Props {
   toggle?: (value?: boolean) => void;
 }
 
-const friends = [
+const exampleFriends = [
   {
     username: "figurante",
     status: "bom diaaaaa"
@@ -64,93 +77,176 @@ const FriendsMenu: React.FC<Props> = ({
   toggle,
   navSize = 0
 }) => {
-  const [isLoading, fetch, { toggle: toggleLoading }] = useAwait(
-    async username => {
-      const response = await addFriend({ username });
-      return response;
-    }
-  );
   const [isOnlineFriendsShowed, toggleOnlineFriends] = useToggle(true);
-  const [Popup, popupProps] = usePopup();
+  const [isPendingFriendsShowed, togglePendingFriends] = useToggle(true);
+  const [
+    pendingFriends,
+    {
+      set: setPendingFriends,
+      removeAt: removePendingFriendAt,
+      push: pushPendingFriends
+    }
+  ] = useList([]);
+  const [friends, { updateAt, set: setFriends, push: pushFriends }] = useList(
+    exampleFriends
+  );
+  const [Popup, popupProps] = usePopup("addFriend");
+  // React.useEffect(() => {
+  //   popupProps.toggle(true);
+  // }, []);
   React.useEffect(() => {
-    popupProps.toggle(true);
+    const fn = async () => {
+      try {
+        const response = await getPendingFriends();
+        setPendingFriends(response.data);
+        console.log(response.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fn();
   }, []);
-  const [username, setUsername] = React.useState("");
-  const [error, setError] = React.useState("");
+  React.useEffect(() => {
+    const fn = async () => {
+      try {
+        const response = await getFriends();
+        setFriends(response.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fn();
+  }, []);
+  const user = useStoreState(state => state.user);
+  React.useEffect(() => {
+    if (isServer()) return;
+    // eslint-disable-next-line global-require
+    const Ws = require("@adonisjs/websocket-client");
+    const ws = Ws(process.env.WEB_SOCKET_URL);
+    ws.connect();
+    ws.on("open", () => {
+      const pendingF = ws.subscribe(`pendingFriends:${user.id}`);
+      pendingF.on("new:request", data => {
+        console.log(data);
+        pushPendingFriends(data);
+        // setMessages(state => [...state, data]);
+      });
+      const friendships = ws.subscribe(`friendship:${user.id}`);
+      friendships.on("new:friend", data => {
+        console.log(data);
+        pushFriends(data);
+        // setMessages(state => [...state, data]);
+      });
+    });
+  }, []);
+
   return (
     <Container navSize={navSize} isOpen={isOpen}>
       <OwnUserSection>
         <Profile src="/images/profile.svg" />
         <Info>
-          <Username>danilex</Username>
+          <Username>{user.username}</Username>
           <Status>Online</Status>
         </Info>
       </OwnUserSection>
-      <SectionSeparator
-        onClick={() => {
-          toggleOnlineFriends();
-        }}
-      >
-        <Uparrow active={isOnlineFriendsShowed} />
-        <SectionText>Online</SectionText>
-      </SectionSeparator>
-      <Friends>
-        <AddFriend
+      <Body>
+        <SectionSeparator
+          first
           onClick={() => {
-            popupProps.toggle();
+            togglePendingFriends();
           }}
         >
-          <Plus />
-        </AddFriend>
-        {isOnlineFriendsShowed &&
-          friends.map(({ username: friendUsername, status }, index) => (
-            <Friend key={index}>
-              <FriendAvatar src="/images/profile.svg" />
-              <FriendInfo>
-                <FriendUsername>{friendUsername}</FriendUsername>
-                <FriendStatus>{status}</FriendStatus>
-              </FriendInfo>
-            </Friend>
-          ))}
-      </Friends>
-      <Popup {...popupProps}>
-        <PopupHead>
-          <Title>Add Friend</Title>
-        </PopupHead>
-        <PopupBody>
-          <Message>
-            Username:{" "}
-            <StyledInput
-              value={username}
-              onChange={e => {
-                setUsername(e.target.value);
-              }}
-              placeholder="Username"
-            />
-            {error !== "" && <Error>{error}</Error>}
-          </Message>
-          <Buttons>
-            <LoadingButton
-              loading={isLoading}
-              onClick={async () => {
-                try {
-                  const response = await fetch({ username });
-
-                  console.log(response);
-                  setUsername("");
-                  setError("");
-                  popupProps.toggle(false);
-                } catch (err) {
-                  setError(`User with username "${username}" not found`);
-                  toggleLoading(false);
-                }
+          <Uparrow active={isPendingFriendsShowed} />
+          <SectionText>Pending</SectionText>
+        </SectionSeparator>
+        {isPendingFriendsShowed && (
+          <Friends>
+            {pendingFriends.map(({ sender, id }, index) => (
+              <PendingFriend>
+                <FriendAvatar src="/images/profile.svg" />
+                <FriendInfo>
+                  <FriendUsername>{sender.username}</FriendUsername>
+                  <FriendStatus>online</FriendStatus>
+                </FriendInfo>
+                <Actions>
+                  <Accept
+                    onClick={async () => {
+                      try {
+                        removePendingFriendAt(index);
+                        const response = await acceptFriendshipRequest({
+                          to_add_user_id: sender.id,
+                          pending_friendship_id: id
+                        });
+                        console.log(response);
+                      } catch (err) {
+                        console.error(err);
+                      }
+                    }}
+                  />
+                  <Decline />
+                </Actions>
+              </PendingFriend>
+            ))}
+          </Friends>
+        )}
+        <SectionSeparator
+          onClick={() => {
+            toggleOnlineFriends();
+          }}
+        >
+          <Uparrow active={isOnlineFriendsShowed} />
+          <SectionText>Online</SectionText>
+        </SectionSeparator>
+        {isOnlineFriendsShowed && (
+          <Friends>
+            <AddFriend
+              onClick={() => {
+                popupProps.toggle();
               }}
             >
-              Add
-            </LoadingButton>
-          </Buttons>
-        </PopupBody>
-      </Popup>
+              <Plus />
+            </AddFriend>
+            {friends.map((currentFriend, index) => {
+              const {
+                username: friendUsername,
+                status = "default_status",
+                isMenuOpen
+              } = currentFriend;
+              return (
+                <>
+                  <Friend
+                    key={index}
+                    onClick={() => {
+                      setFriends(state =>
+                        state.map(e => ({ ...e, isMenuOpen: false }))
+                      );
+                      updateAt(index, {
+                        ...currentFriend,
+                        isMenuOpen: !currentFriend.isMenuOpen
+                      });
+                    }}
+                  >
+                    <FriendAvatar src="/images/profile.svg" />
+                    <FriendInfo>
+                      <FriendUsername>{friendUsername}</FriendUsername>
+                      <FriendStatus>{status}</FriendStatus>
+                    </FriendInfo>
+                    <Uparrow active={isMenuOpen} />
+                  </Friend>
+                  {isMenuOpen && (
+                    <FriendMenu>
+                      <FriendMenuItem>Invite</FriendMenuItem>
+                      <FriendMenuItem>Chat</FriendMenuItem>
+                      <FriendMenuItem>Delete</FriendMenuItem>
+                    </FriendMenu>
+                  )}
+                </>
+              );
+            })}
+          </Friends>
+        )}
+      </Body>
+      <Popup {...popupProps} />
     </Container>
   );
 };

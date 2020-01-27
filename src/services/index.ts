@@ -143,6 +143,16 @@ export const addFriend = createAxiosRequest<any, { username: string }>(
   "/pending_friendships",
   "post"
 );
+
+export const getPendingFriends = createAxiosRequest("/pending_friendships");
+
+export const acceptFriendshipRequest = createAxiosRequest<
+  any,
+  { to_add_user_id: number; pending_friendship_id }
+>("/friendships", "post");
+
+export const getFriends = createAxiosRequest("/friendships");
+
 // api.interceptors.response.use(
 //   response => {
 //     // Return a successful response back to the calling service

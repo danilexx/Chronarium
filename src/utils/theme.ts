@@ -8,7 +8,8 @@ export const theme = {
   primary: "#9746FF",
   txtPrimary: "#FAFAFA",
   error: "#FF254C",
-  txtError: "#FAFAFA"
+  txtError: "#FAFAFA",
+  green: "#00CA69"
 };
 
 export type ITheme = typeof theme;

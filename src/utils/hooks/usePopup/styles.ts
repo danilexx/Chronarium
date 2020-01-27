@@ -63,3 +63,19 @@ export const Buttons = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
 `;
+
+export const StyledInput = styled.input`
+  display: block;
+  width: 100%;
+  margin: 0.5rem 0;
+  border-radius: 5px;
+  font-size: 2rem;
+  border: none;
+  padding: 1rem;
+  color: ${props => props.theme.bg2};
+`;
+
+export const Error = styled.b`
+  color: ${props => props.theme.error};
+  font-size: 1.5rem;
+`;

@@ -65,8 +65,10 @@ const Chat = () => {
     const ws = Ws(process.env.WEB_SOCKET_URL);
     ws.connect();
     const chat = ws.subscribe(`social:${adventure.id}`);
-    chat.on("new:message", data => {
-      setMessages(state => [...state, data]);
+    ws.on("open", () => {
+      chat.on("new:message", data => {
+        setMessages(state => [...state, data]);
+      });
     });
   }, [setMessages]);
   const format = React.useMemo(() => formatMessages(user), [user]);

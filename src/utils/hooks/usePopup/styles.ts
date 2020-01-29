@@ -18,6 +18,7 @@ export const PopupContainer = styled.div<{ error?: boolean }>`
   @media screen and (max-width: 600px) {
     max-width: 90vw;
   }
+  z-index: 20;
 `;
 
 export const PopupBackground = styled.div`

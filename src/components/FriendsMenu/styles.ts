@@ -9,7 +9,7 @@ interface ContainerProps {
 export const Container = styled.div<ContainerProps>`
   height: calc(100vh - ${props => props.navSize}px);
   right: 0;
-  top: ${props => props.navSize}px;
+  bottom: 0;
   min-width: 300px;
   background-color: ${props => props.theme.bg2};
   position: fixed;
@@ -137,12 +137,12 @@ export const Friend = styled.div`
   }
   &:after {
     position: absolute;
-    bottom: -0.1rem;
+    bottom: 0;
     left: 50%;
     transform: translateX(-50%);
     content: "";
     width: 100%;
-    height: 0.2rem;
+    height: 0.1rem;
     background-color: ${props => props.theme.gray1};
     opacity: 0.2;
     border-radius: 2px;

@@ -37,8 +37,9 @@ const Nav = () => {
     if (navRef && navRef.current) {
       const size = navRef.current?.getBoundingClientRect().height;
       setNavSize(size);
+      console.log(size);
     }
-  }, []);
+  }, [navRef, navRef.current]);
   return (
     <>
       <Container ref={navRef}>

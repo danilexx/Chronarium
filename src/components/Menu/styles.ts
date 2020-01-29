@@ -9,7 +9,7 @@ interface ContainerProps {
 export const Container = styled.div<ContainerProps>`
   height: calc(100vh - ${props => props.navSize}px);
   right: 0;
-  top: ${props => props.navSize}px;
+  bottom: 0;
   min-width: 300px;
   background-color: ${props => props.theme.bg2};
   position: fixed;

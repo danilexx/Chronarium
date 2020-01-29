@@ -1,7 +1,9 @@
 {
   "build": {
     "env": {
-      "SERVER_URL": "https://chronarium-server.herokuapp.com"
+      "SERVER_URL": "https://chronarium-server.herokuapp.com",
+      "WEB_SOCKET_URL": "wss://chronarium-server.herokuapp.com/adonis-ws",
+      "NODE_ENV":"production"
     }
   }
 }

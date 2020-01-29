@@ -9,7 +9,8 @@ import {
   Links,
   Collection,
   Items,
-  Icon
+  Icon,
+  Spacer
 } from "./styles";
 import { FriendsIcon, HamburguerIcon } from "./icons";
 import { useStoreState } from "-/src/utils/EasyPeasy";
@@ -57,6 +58,7 @@ const Nav = () => {
           </Items>
         </Collection>
       </Container>
+      <Spacer navSize={navSize} />
       <Menu isOpen={menu} toggle={toggle} navSize={navSize} />
       {isLogged && (
         <FriendsMenu

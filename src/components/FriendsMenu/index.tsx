@@ -100,7 +100,6 @@ const FriendsMenu: React.FC<Props> = ({
     ws.on("open", () => {
       const pendingF = ws.subscribe(`pendingFriends:${user.id}`);
       pendingF.on("new:request", (data: any) => {
-        console.log(data);
         pushPendingFriends(data);
         // setMessages(state => [...state, data]);
       });

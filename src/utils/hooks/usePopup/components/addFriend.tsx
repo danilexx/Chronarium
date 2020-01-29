@@ -20,15 +20,13 @@ const InfoPopup: React.FC<Props & InfoProps> = ({
   ...props
 }) => {
   const { toggle } = props;
-  const [isLoading, fetch, { toggle: toggleLoading }] = useAwait(
-    async username => {
-      const response = await addFriend({ username });
-      return response;
-    }
-  );
 
   const [username, setUsername] = React.useState("");
   const [error, setError] = React.useState("");
+  const [isLoading, fetch, { toggle: toggleLoading }] = useAwait(async () => {
+    const response = await addFriend({ username });
+    return response;
+  });
   return (
     <Popup {...props}>
       <PopupHead>

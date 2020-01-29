@@ -61,7 +61,7 @@ export const Collection = styled.div`
   align-items: center;
   justify-content: flex-start;
   min-width: ${menuSpace}px;
-  padding: 0;
+  padding: 0 2rem;
   @media (max-width: ${menuSpace + 20}px) {
     min-width: 100%;
   }

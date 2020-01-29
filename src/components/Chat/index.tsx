@@ -51,6 +51,7 @@ const Chat = () => {
     })();
   }, []);
   const handleSend = async () => {
+    setText("");
     await sendMessage(adventure.id)({ message: text });
   };
   React.useEffect(() => {

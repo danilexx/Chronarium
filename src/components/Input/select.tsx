@@ -59,6 +59,7 @@ const Select = React.forwardRef<Ref, Props>(
             classNamePrefix="react-select"
             control={control}
             options={options}
+            isSearchable={false}
             defaultValue={defaultValue}
             rules={{ required: true }}
             onChange={([selected]) => {

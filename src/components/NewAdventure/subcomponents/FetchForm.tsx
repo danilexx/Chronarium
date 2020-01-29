@@ -59,7 +59,7 @@ const FetchForm: React.FC<FormProps> = ({ setIndex, index, onResize }) => {
   };
   const start = async () => {
     try {
-      let masterIconId;
+      let masterIconId: null | number = null;
       if (state.masterIcon) {
         const masterIconBlob: any = dataURItoBlob(state.masterIcon);
         const masterIconFormData = new FormData();
@@ -68,52 +68,41 @@ const FetchForm: React.FC<FormProps> = ({ setIndex, index, onResize }) => {
         masterIconId = response.data.id;
       }
       nextTask();
-      const {
-        masterName,
-        adventureName,
-        roomPassword,
-        maxPlayersQuantity,
-        initialGold,
-        attributesMinimum,
-        attributesPointsToSpend,
-        baseLife,
-        baseMana,
-        baseExperience,
-        otherExperiences
-      } = state;
       const masterResponse = await createMaster({
-        name: masterName,
-        ...(masterIconId ? { avatar_id: masterIconId } : {})
+        name: state.masterName,
+        avatar_id: masterIconId
       });
       nextTask();
-      let adventureIconId;
+      let adventureIconId: null | number = null;
       if (state.adventureIcon) {
-        const adventureIconBlob: any = dataURItoBlob(state.masterIcon);
+        const adventureIconBlob: any = dataURItoBlob(state.adventureIcon);
         const adventureIconFormData = new FormData();
         adventureIconFormData.append("file", adventureIconBlob);
         const response = await uploadImage(adventureIconFormData);
+        console.log(response);
         adventureIconId = response.data.id;
       }
       nextTask();
       const adventureResponse = await createAdventure(masterResponse.data.id)({
-        name: adventureName,
-        password: roomPassword,
-        maxPlayers: maxPlayersQuantity,
+        name: state.adventureName,
+        password: state.roomPassword,
+        description: state.adventureDescription,
+        maxPlayers: state.maxPlayersQuantity,
         options: {
-          default_mana: baseMana,
-          default_life: baseLife,
-          default_gold: initialGold,
-          default_attributes_points_to_spend: attributesPointsToSpend,
-          default_base_experience_value: baseExperience,
-          default_melee_experience_value: otherExperiences,
-          default_ranged_experience_value: otherExperiences,
-          default_magic_experience_value: otherExperiences,
-          default_miracle_experience_value: otherExperiences
+          default_mana: state.baseMana,
+          default_life: state.baseLife,
+          default_gold: state.initialGold,
+          default_attributes_points_to_spend: state.attributesPointsToSpend,
+          default_base_expertise: state.baseExperience,
+          default_melee_expertise: state.otherExperiences,
+          default_ranged_expertise: state.otherExperiences,
+          default_magic_expertise: state.otherExperiences,
+          default_miracle_expertise: state.otherExperiences
         },
-        ...(adventureIconId ? { avatar_id: adventureIconId } : {})
+        avatar_id: adventureIconId
       });
       nextTask();
-      Router.push(`/adventures/${adventureResponse.data.id}`);
+      Router.push(`/mastering/${adventureResponse.data.id}/home`);
       resetState();
     } catch (err) {
       console.error(err);
@@ -126,10 +115,7 @@ const FetchForm: React.FC<FormProps> = ({ setIndex, index, onResize }) => {
   }, [index]);
   return (
     <MainForm ref={ref} index={index}>
-      {/* <Form defaultValues={state} onSubmit={onSubmit as any}> */}
       <Tasker activeTask={activeTask} tasks={tasks} />
-      {/* <Popup title="Error Required Fields" {...popupProps} /> */}
-      {/* </Form> */}
     </MainForm>
   );
 };

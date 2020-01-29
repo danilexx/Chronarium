@@ -22,4 +22,4 @@ export interface ErrorProps {
   title: string;
   callback?: () => void;
 }
-export type PopupTypes = "info" | "base" | "error";
+export type PopupTypes = "info" | "base" | "error" | "addFriend";

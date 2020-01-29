@@ -22,6 +22,7 @@ const AdventureForm: React.FC<FormProps> = ({ setIndex, index, onResize }) => {
   const { setState, state } = useContext(NewAdventureContext);
   const onSubmit = async (data: FormData) => {
     setState((initialData: any) => ({ ...initialData, ...data }));
+    console.log(data);
     setIndex(1);
   };
 

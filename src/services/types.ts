@@ -16,10 +16,15 @@ export interface SessionModel {
   refreshToken: string;
 }
 
+export interface Avatar {
+  url: string;
+}
+
 export interface UserDBModel {
   username: string;
   id: number;
   avatar_id: number | null;
+  avatar: null | Avatar;
 }
 export interface DecodedTokenModel {
   uid: number;
@@ -34,6 +39,7 @@ export interface MasterModel {
 
 export interface MasterCreatingModel {
   name: string;
+  avatar_id: number | null;
 }
 
 export interface AdventureModel {
@@ -41,6 +47,9 @@ export interface AdventureModel {
   name: string;
   owner_id: number;
   hasPassword: boolean;
+  description: string;
+  avatar?: Avatar;
+  lobby: Lobby;
 }
 
 interface AdventureOptions {
@@ -48,17 +57,46 @@ interface AdventureOptions {
   default_life: number;
   default_gold: number;
   default_attributes_points_to_spend: number;
-  default_base_experience_value: number;
-  default_melee_experience_value: number;
-  default_ranged_experience_value: number;
-  default_magic_experience_value: number;
-  default_miracle_experience_value: number;
+  default_base_expertise: number;
+  default_melee_expertise: number;
+  default_ranged_expertise: number;
+  default_magic_expertise: number;
+  default_miracle_expertise: number;
+}
+
+interface Lobby {
+  id: number;
+  maxPlayers: number;
 }
 
 export interface AdventureCreatingModel {
   options: AdventureOptions;
   name: string;
+  description: string;
   password?: string;
   maxPlayers: number;
-  icon_id?: number;
+  avatar_id: number | null;
+}
+interface User {
+  avatar: null | Avatar;
+}
+export interface Character {
+  name: string;
+  user: User;
+}
+
+export interface Master {
+  name: string;
+  user: User;
+}
+
+export interface Message {
+  message: string;
+  id: number;
+  character: null | Character;
+  master: null | Master;
+}
+
+export interface PendingFriend {
+  sender: User;
 }

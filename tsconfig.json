@@ -20,17 +20,14 @@
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
     "allowUmdGlobalAccess": true,
+    "noImplicitAny": false,
     "plugins": [
       {
         "name": "typescript-styled-plugin"
       }
     ]
   },
-  "exclude": [
-    "node_modules"
-  ],
   "include": [
-    "src/pages",
     "src"
   ],
   

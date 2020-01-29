@@ -56,7 +56,7 @@ export const Info = styled.div`
   flex-direction: column;
   padding: 2rem;
 `;
-export const SectionSeparator = styled.div<{ first: boolean }>`
+export const SectionSeparator = styled.div<{ first?: boolean }>`
   width: 100%;
   background-color: ${props => props.theme.primary};
   padding: 1rem;

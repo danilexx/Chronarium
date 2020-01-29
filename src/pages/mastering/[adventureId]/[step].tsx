@@ -1,7 +1,7 @@
 import MasteringAdventure from "-/src/components/MasteringAdventure";
 import { getAdventure } from "-/src/services";
 
-const master = MasteringAdventure;
+const master: any = MasteringAdventure;
 
 master.getInitialProps = async (ctx: any) => {
   const response = await getAdventure(ctx.query.adventureId)(ctx);

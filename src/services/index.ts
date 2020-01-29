@@ -12,7 +12,8 @@ import {
   MasterCreatingModel,
   AdventureModel,
   AdventureCreatingModel,
-  Message
+  Message,
+  PendingFriend
 } from "./types";
 
 export const api = axios.create({
@@ -133,9 +134,7 @@ export const getAdventure = (adventureId: number) =>
   createAxiosServerAuthRequest(`/adventures/${adventureId}`, "get");
 
 export const getMessages = (adventureId: number) =>
-  <{ messages: Message[] }>(
-    createAxiosRequest(`/adventures/${adventureId}/social_messages`)
-  );
+  createAxiosRequest(`/adventures/${adventureId}/social_messages`);
 export const sendMessage = (adventureId: number) =>
   createAxiosRequest(`/adventures/${adventureId}/social_messages`, "post");
 
@@ -144,7 +143,9 @@ export const addFriend = createAxiosRequest<any, { username: string }>(
   "post"
 );
 
-export const getPendingFriends = createAxiosRequest("/pending_friendships");
+export const getPendingFriends = createAxiosRequest<PendingFriend[]>(
+  "/pending_friendships"
+);
 
 export const acceptFriendshipRequest = createAxiosRequest<
   any,

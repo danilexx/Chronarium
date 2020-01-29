@@ -17,7 +17,7 @@ export interface SessionModel {
 }
 
 export interface Avatar {
-  path: url;
+  url: string;
 }
 
 export interface UserDBModel {
@@ -77,7 +77,9 @@ export interface AdventureCreatingModel {
   maxPlayers: number;
   avatar_id: number | null;
 }
-
+interface User {
+  avatar: null | Avatar;
+}
 export interface Character {
   name: string;
   user: User;
@@ -93,4 +95,8 @@ export interface Message {
   id: number;
   character: null | Character;
   master: null | Master;
+}
+
+export interface PendingFriend {
+  sender: User;
 }

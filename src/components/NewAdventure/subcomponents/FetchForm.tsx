@@ -59,7 +59,7 @@ const FetchForm: React.FC<FormProps> = ({ setIndex, index, onResize }) => {
   };
   const start = async () => {
     try {
-      let masterIconId = null;
+      let masterIconId: null | number = null;
       if (state.masterIcon) {
         const masterIconBlob: any = dataURItoBlob(state.masterIcon);
         const masterIconFormData = new FormData();
@@ -73,7 +73,7 @@ const FetchForm: React.FC<FormProps> = ({ setIndex, index, onResize }) => {
         avatar_id: masterIconId
       });
       nextTask();
-      let adventureIconId = null;
+      let adventureIconId: null | number = null;
       if (state.adventureIcon) {
         const adventureIconBlob: any = dataURItoBlob(state.adventureIcon);
         const adventureIconFormData = new FormData();

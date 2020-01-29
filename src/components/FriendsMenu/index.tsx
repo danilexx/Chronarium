@@ -1,18 +1,9 @@
 import React, { ReactChild } from "react";
 import { useToggle, useList } from "react-use";
-import {
-  PopupHead,
-  Title,
-  Message,
-  PopupBody,
-  Buttons
-} from "-/src/utils/hooks/usePopup/styles";
 import isServer from "-/src/utils/isServer";
 import { LoadingButton } from "-/src/components/Button";
 import {
   Container,
-  MenuItem,
-  MenuItemAction,
   OwnUserSection,
   Profile,
   Info,
@@ -30,8 +21,6 @@ import {
   FriendStatus,
   AddFriend,
   Plus,
-  StyledInput,
-  Error,
   PendingFriend,
   Actions,
   Accept,
@@ -56,21 +45,6 @@ interface Props {
   toggle?: (value?: boolean) => void;
 }
 
-const exampleFriends = [
-  {
-    username: "figurante",
-    status: "bom diaaaaa"
-  },
-  {
-    username: "figurante",
-    status: "bom diaaaaa"
-  },
-  {
-    username: "figurante",
-    status: "bom diaaaaa"
-  }
-];
-
 const FriendsMenu: React.FC<Props> = ({
   children,
   isOpen,
@@ -86,10 +60,10 @@ const FriendsMenu: React.FC<Props> = ({
       removeAt: removePendingFriendAt,
       push: pushPendingFriends
     }
-  ] = useList([]);
-  const [friends, { updateAt, set: setFriends, push: pushFriends }] = useList(
-    exampleFriends
-  );
+  ] = useList<any>([]);
+  const [friends, { updateAt, set: setFriends, push: pushFriends }] = useList<
+    any
+  >([]);
   const [Popup, popupProps] = usePopup("addFriend");
   // React.useEffect(() => {
   //   popupProps.toggle(true);
@@ -97,9 +71,8 @@ const FriendsMenu: React.FC<Props> = ({
   React.useEffect(() => {
     const fn = async () => {
       try {
-        const response = await getPendingFriends();
+        const response: any = await getPendingFriends();
         setPendingFriends(response.data);
-        console.log(response.data);
       } catch (err) {
         console.error(err);
       }
@@ -109,7 +82,7 @@ const FriendsMenu: React.FC<Props> = ({
   React.useEffect(() => {
     const fn = async () => {
       try {
-        const response = await getFriends();
+        const response: any = await getFriends();
         setFriends(response.data);
       } catch (err) {
         console.error(err);
@@ -126,14 +99,13 @@ const FriendsMenu: React.FC<Props> = ({
     ws.connect();
     ws.on("open", () => {
       const pendingF = ws.subscribe(`pendingFriends:${user.id}`);
-      pendingF.on("new:request", data => {
+      pendingF.on("new:request", (data: any) => {
         console.log(data);
         pushPendingFriends(data);
         // setMessages(state => [...state, data]);
       });
       const friendships = ws.subscribe(`friendship:${user.id}`);
-      friendships.on("new:friend", data => {
-        console.log(data);
+      friendships.on("new:friend", (data: any) => {
         pushFriends(data);
         // setMessages(state => [...state, data]);
       });

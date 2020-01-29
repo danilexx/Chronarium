@@ -1,6 +1,6 @@
 import React from "react";
 import dynamic from "next/dynamic";
-import { useToggle } from "react-use";
+import { useToggle, useMeasure } from "react-use";
 import Link from "-/src/components/Link";
 import {
   Container,
@@ -21,8 +21,6 @@ const FriendsMenu = dynamic(() => import("-/src/components/FriendsMenu"), {
 const Nav = () => {
   const [menu, toggle] = useToggle(false);
   const [friendsMenu, toggleFriends] = useToggle(false);
-  const [navSize, setNavSize] = React.useState(0);
-  const navRef = React.useRef<HTMLDivElement>(null);
   const isLogged = useStoreState(state => state.user.isLogged);
 
   const handleHamburguerMenu = () => {
@@ -33,13 +31,8 @@ const Nav = () => {
     toggle(false);
     toggleFriends();
   };
-  React.useEffect(() => {
-    if (navRef && navRef.current) {
-      const size = navRef.current?.getBoundingClientRect().height;
-      setNavSize(size);
-      console.log(size);
-    }
-  }, [navRef, navRef.current]);
+  const [navRef, { height }] = useMeasure();
+  const navSize = React.useMemo(() => height + 2, [height]);
   return (
     <>
       <Container ref={navRef}>

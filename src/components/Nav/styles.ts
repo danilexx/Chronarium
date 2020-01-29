@@ -10,7 +10,6 @@ export const Container = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 2rem;
 `;
 export const Logo = styled.img.attrs({
   src: "/logo.svg"
@@ -56,7 +55,7 @@ export const Links = styled.div`
 `;
 
 export const Collection = styled.div`
-  margin: 0 auto;
+  margin: 2rem auto;
   display: flex;
   flex-direction: row;
   align-items: center;

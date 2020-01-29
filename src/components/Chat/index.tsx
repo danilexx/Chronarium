@@ -25,10 +25,10 @@ import useAwait from "-/src/utils/hooks/useAwait";
 
 const Chat = () => {
   const { adventure } = React.useContext(AdventureContext);
-  const windowRef = React.useRef();
+  const windowRef = React.useRef<HTMLDivElement>(null);
   const user = useStoreState(state => state.user);
   const [isLoading, fetch, { toggle }] = useAwait(getMessages(adventure.id));
-  const [messages, setMessages] = React.useState([]);
+  const [messages, setMessages] = React.useState<any>([]);
   const [text, setText] = useState("");
   const handleTextChange = e => {
     setText(e.target.value);

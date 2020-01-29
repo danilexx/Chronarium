@@ -1,4 +1,3 @@
-import { Router, RouteComponentProps } from "@reach/router";
 import { createContext } from "react";
 import { getAdventure } from "-/src/services";
 import { Column } from "-/src/components/shared";
@@ -6,7 +5,9 @@ import { Home, Scenes } from "./pages";
 import { Navigator } from "./sub";
 import ShallowScreens, { ShallowScreen } from "-/src/components/ShallowScreen";
 
-export const AdventureContext = createContext(null);
+export const AdventureContext = createContext<{ adventure: any }>({
+  adventure: null
+});
 
 const MasteringAdventure = ({ adventure }) => {
   return (

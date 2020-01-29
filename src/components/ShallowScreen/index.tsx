@@ -2,13 +2,31 @@ import { createContext, useState, useContext, useEffect } from "react";
 import { useRouter } from "next/router";
 import { Container, ShallowScreenContainer } from "./styles";
 
-const ShallowContext = createContext();
-
-const ShallowScreens = ({ routes = [], children, onChange }) => {
+const ShallowContext = createContext<{
+  currentScreen: string;
+  setCurrentScreen: any;
+  previousScreen: string;
+  routes: string[];
+}>({
+  currentScreen: "",
+  setCurrentScreen: () => {},
+  previousScreen: "",
+  routes: []
+});
+interface Props {
+  children: React.ReactNode;
+  routes: string[];
+  onChange?: (index: number) => void;
+}
+const ShallowScreens: React.FC<Props> = ({
+  routes = [],
+  children,
+  onChange
+}) => {
   const [currentScreen, setCurrentScreen] = useState(routes[0]);
   const router = useRouter();
   useEffect(() => {
-    setCurrentScreen(router.query.step);
+    setCurrentScreen(router.query.step as string);
   }, [router, setCurrentScreen]);
 
   const previousScreen = React.useMemo(() => {

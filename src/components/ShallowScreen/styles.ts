@@ -8,15 +8,17 @@ export const Container = styled.div`
   overflow-y: hidden;
 `;
 
-export const ShallowScreenContainer = styled.div`
+export const ShallowScreenContainer = styled.div<{
+  isActive: boolean;
+  index: number;
+}>`
   width: 100%;
   flex-shrink: 0;
   will-change: opacity;
   transition: opacity 0.3s ease-in-out;
   opacity: ${props => (props.isActive ? 1 : 0)};
   transform: translateX(
-    ${({ isActive, index }) =>
-      isActive ? `-${parseInt(index, 10) * 100}%` : "0px"}
+    ${({ isActive, index }) => (isActive ? `-${index * 100}%` : "0px")}
   );
   height: ${props => (props.isActive ? "fit-content" : "0")};
 `;

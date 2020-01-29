@@ -47,6 +47,9 @@ const selectApiMethod = (method: string): Method => {
     case "put": {
       return api.put;
     }
+    case "delete": {
+      return api.delete;
+    }
     default:
       return api.get;
   }
@@ -152,7 +155,13 @@ export const acceptFriendshipRequest = createAxiosRequest<
   { to_add_user_id: number; pending_friendship_id }
 >("/friendships", "post");
 
+export const denyFriendshipRequest = (id: number) =>
+  createAxiosRequest(`/pending_friendships/${id}`, "delete");
+
 export const getFriends = createAxiosRequest("/friendships");
+
+export const removeFriend = (to_delete_user_id: number) =>
+  createAxiosRequest(`/friendships/${to_delete_user_id}`, "delete");
 
 // api.interceptors.response.use(
 //   response => {

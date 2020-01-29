@@ -35,7 +35,9 @@ import {
   addFriend,
   getPendingFriends,
   acceptFriendshipRequest,
-  getFriends
+  denyFriendshipRequest,
+  getFriends,
+  removeFriend
 } from "-/src/services";
 
 interface Props {
@@ -61,9 +63,10 @@ const FriendsMenu: React.FC<Props> = ({
       push: pushPendingFriends
     }
   ] = useList<any>([]);
-  const [friends, { updateAt, set: setFriends, push: pushFriends }] = useList<
-    any
-  >([]);
+  const [
+    friends,
+    { updateAt, set: setFriends, push: pushFriends, removeAt: removeFriendAt }
+  ] = useList<any>([]);
   const [Popup, popupProps] = usePopup("addFriend");
   // React.useEffect(() => {
   //   popupProps.toggle(true);
@@ -83,6 +86,7 @@ const FriendsMenu: React.FC<Props> = ({
     const fn = async () => {
       try {
         const response: any = await getFriends();
+        console.log(response.data);
         setFriends(response.data);
       } catch (err) {
         console.error(err);
@@ -110,6 +114,15 @@ const FriendsMenu: React.FC<Props> = ({
       });
     });
   }, []);
+
+  const deleteFriend = React.useCallback(
+    async (id, index) => {
+      console.log(id);
+      const response = await removeFriend(id)();
+      removeFriendAt(index);
+    },
+    [removeFriendAt]
+  );
 
   return (
     <Container navSize={navSize} isOpen={isOpen}>
@@ -154,7 +167,16 @@ const FriendsMenu: React.FC<Props> = ({
                       }
                     }}
                   />
-                  <Decline />
+                  <Decline
+                    onClick={async () => {
+                      try {
+                        removePendingFriendAt(index);
+                        const response = await denyFriendshipRequest(id)();
+                      } catch (err) {
+                        console.error(err);
+                      }
+                    }}
+                  />
                 </Actions>
               </PendingFriend>
             ))}
@@ -181,7 +203,8 @@ const FriendsMenu: React.FC<Props> = ({
               const {
                 username: friendUsername,
                 status = "default_status",
-                isMenuOpen
+                isMenuOpen,
+                id
               } = currentFriend;
               return (
                 <>
@@ -208,7 +231,9 @@ const FriendsMenu: React.FC<Props> = ({
                     <FriendMenu>
                       <FriendMenuItem>Invite</FriendMenuItem>
                       <FriendMenuItem>Chat</FriendMenuItem>
-                      <FriendMenuItem>Delete</FriendMenuItem>
+                      <FriendMenuItem onClick={() => deleteFriend(id, index)}>
+                        Delete
+                      </FriendMenuItem>
                     </FriendMenu>
                   )}
                 </>

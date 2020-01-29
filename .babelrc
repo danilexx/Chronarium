@@ -1,8 +1,4 @@
 {
   "presets": ["next/babel"],
-  "plugins": [["styled-components", { "ssr": true }], ["@babel/plugin-transform-runtime", {
-    "asyncGenerators": true,
-    "generators": true,
-    "async": true
-  }]]
+  "plugins": [["styled-components", { "ssr": true }], "@babel/plugin-transform-runtime"]
 }

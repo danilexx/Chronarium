@@ -19,6 +19,7 @@ export const Container = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  z-index: 50;
 `;
 export const Logo = styled.img.attrs({
   src: "/logo.svg"

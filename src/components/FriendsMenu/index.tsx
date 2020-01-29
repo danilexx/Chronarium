@@ -112,6 +112,10 @@ const FriendsMenu: React.FC<Props> = ({
         pushFriends(data);
         // setMessages(state => [...state, data]);
       });
+      friendships.on("delete:friend", (data: any) => {
+        removeFriendAt(friends.findIndex(e => e.id === data.id));
+        // setMessages(state => [...state, data]);
+      });
     });
   }, []);
 

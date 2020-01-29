@@ -1,6 +1,6 @@
 {
   "presets": ["next/babel"],
-  "plugins": [["styled-components", { "ssr": true }], ["@babel/plugin-transform-regenerator", {
+  "plugins": [["styled-components", { "ssr": true }], ["@babel/plugin-transform-runtime", {
     "asyncGenerators": true,
     "generators": true,
     "async": true

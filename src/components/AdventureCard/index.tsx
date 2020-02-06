@@ -56,7 +56,7 @@ const AdventureCard: React.FC<Props> = ({ adventure }) => {
     <Container>
       <AdventureImageContainer>
         <AdventureImage src={image} />
-        <Link href={`/adventures/${adventure.id}`}>
+        <Link href={`/mastering/${adventure.id}/home`}>
           <PlayButton src="/icons/play.svg" />
         </Link>
       </AdventureImageContainer>

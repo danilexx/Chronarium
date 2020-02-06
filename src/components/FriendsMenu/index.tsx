@@ -2,6 +2,7 @@ import React, { ReactChild } from "react";
 import { useToggle, useList } from "react-use";
 import isServer from "-/src/utils/isServer";
 import { LoadingButton } from "-/src/components/Button";
+import { PendingFriends, Friends } from "./internals";
 import {
   Container,
   OwnUserSection,
@@ -13,32 +14,26 @@ import {
   SectionSeparator,
   Uparrow,
   SectionText,
-  Friends,
+  FriendList,
   Friend,
   FriendAvatar,
   FriendInfo,
   FriendUsername,
-  FriendStatus,
-  AddFriend,
-  Plus,
-  PendingFriend,
-  Actions,
-  Accept,
-  Decline,
-  FriendMenu,
-  FriendMenuItem
+  FriendStatus
 } from "./styles";
 import { useStoreState, useStoreActions } from "-/src/utils/EasyPeasy";
 import usePopup from "-/src/utils/hooks/usePopup";
 import useAwait from "-/src/utils/hooks/useAwait";
 import {
-  addFriend,
   getPendingFriends,
   acceptFriendshipRequest,
   denyFriendshipRequest,
   getFriends,
-  removeFriend
+  removeFriend,
+  getMyAdventures,
+  getPendingAdventures
 } from "-/src/services";
+import PendingAdventures from "./PendingAdventures";
 
 interface Props {
   children?: React.ReactNode;
@@ -46,6 +41,34 @@ interface Props {
   navSize: number;
   toggle?: (value?: boolean) => void;
 }
+
+interface FriendsContextProps {
+  isPendingFriendsShowed: any;
+  togglePendingFriends: any;
+  pendingFriends: any;
+  acceptFriendshipRequest: any;
+  removePendingFriendAt: any;
+  denyFriendshipRequest: any;
+  isOnlineFriendsShowed: any;
+  popupProps: any;
+  deleteFriend: any;
+  updateAt: any;
+  setFriends: any;
+  pushFriends: any;
+  toggleOnlineFriends: any;
+  friends: any;
+  myAdventures: any[];
+  isAdventuresShowed: any;
+  togglePendingAdventures: any;
+  pendingAdventures: any[];
+  setPendingAdventures: any;
+  isPendingAdventuresShowed: any;
+  removePendingAdventureAt: any;
+}
+
+export const FriendsContext = React.createContext<Partial<FriendsContextProps>>(
+  {}
+);
 
 const FriendsMenu: React.FC<Props> = ({
   children,
@@ -55,6 +78,7 @@ const FriendsMenu: React.FC<Props> = ({
 }) => {
   const [isOnlineFriendsShowed, toggleOnlineFriends] = useToggle(true);
   const [isPendingFriendsShowed, togglePendingFriends] = useToggle(true);
+  const [isPendingAdventuresShowed, togglePendingAdventures] = useToggle(true);
   const [
     pendingFriends,
     {
@@ -66,6 +90,15 @@ const FriendsMenu: React.FC<Props> = ({
   const [
     friends,
     { updateAt, set: setFriends, push: pushFriends, removeAt: removeFriendAt }
+  ] = useList<any>([]);
+  const [myAdventures, { set: setMyAdventures }] = useList<any>([]);
+  const [
+    pendingAdventures,
+    {
+      set: setPendingAdventures,
+      push: pushPendingAdventures,
+      removeAt: removePendingAdventureAt
+    }
   ] = useList<any>([]);
   const [Popup, popupProps] = usePopup("addFriend");
   // React.useEffect(() => {
@@ -85,9 +118,30 @@ const FriendsMenu: React.FC<Props> = ({
   React.useEffect(() => {
     const fn = async () => {
       try {
+        const response: any = await getMyAdventures();
+        setMyAdventures(response.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fn();
+  }, []);
+  React.useEffect(() => {
+    const fn = async () => {
+      try {
         const response: any = await getFriends();
-        console.log(response.data);
         setFriends(response.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fn();
+  }, []);
+  React.useEffect(() => {
+    const fn = async () => {
+      try {
+        const response: any = await getPendingAdventures();
+        setPendingAdventures(response.data);
       } catch (err) {
         console.error(err);
       }
@@ -105,149 +159,75 @@ const FriendsMenu: React.FC<Props> = ({
       const pendingF = ws.subscribe(`pendingFriends:${user.id}`);
       pendingF.on("new:request", (data: any) => {
         pushPendingFriends(data);
-        // setMessages(state => [...state, data]);
+      });
+      const pendingAdventure = ws.subscribe(`pendingAdventures:${user.id}`);
+      pendingAdventure.on("new:request", (data: any) => {
+        console.log("chegou");
+        pushPendingAdventures(data);
       });
       const friendships = ws.subscribe(`friendship:${user.id}`);
       friendships.on("new:friend", (data: any) => {
         pushFriends(data);
-        // setMessages(state => [...state, data]);
       });
       friendships.on("delete:friend", (data: any) => {
         removeFriendAt(friends.findIndex(e => e.id === data.id));
-        // setMessages(state => [...state, data]);
       });
     });
   }, []);
 
   const deleteFriend = React.useCallback(
     async (id, index) => {
-      console.log(id);
       const response = await removeFriend(id)();
       removeFriendAt(index);
     },
     [removeFriendAt]
   );
 
+  // React.useEffect(() => {
+  //   console.log(friends);
+  // }, [friends]);
+
   return (
-    <Container navSize={navSize} isOpen={isOpen}>
-      <OwnUserSection>
-        <Profile src="/images/profile.svg" />
-        <Info>
-          <Username>{user.username}</Username>
-          <Status>Online</Status>
-        </Info>
-      </OwnUserSection>
-      <Body>
-        <SectionSeparator
-          first
-          onClick={() => {
-            togglePendingFriends();
-          }}
-        >
-          <Uparrow active={isPendingFriendsShowed} />
-          <SectionText>Pending</SectionText>
-        </SectionSeparator>
-        {isPendingFriendsShowed && (
-          <Friends>
-            {pendingFriends.map(({ sender, id }, index) => (
-              <PendingFriend>
-                <FriendAvatar src="/images/profile.svg" />
-                <FriendInfo>
-                  <FriendUsername>{sender.username}</FriendUsername>
-                  <FriendStatus>online</FriendStatus>
-                </FriendInfo>
-                <Actions>
-                  <Accept
-                    onClick={async () => {
-                      try {
-                        removePendingFriendAt(index);
-                        const response = await acceptFriendshipRequest({
-                          to_add_user_id: sender.id,
-                          pending_friendship_id: id
-                        });
-                        console.log(response);
-                      } catch (err) {
-                        console.error(err);
-                      }
-                    }}
-                  />
-                  <Decline
-                    onClick={async () => {
-                      try {
-                        removePendingFriendAt(index);
-                        const response = await denyFriendshipRequest(id)();
-                      } catch (err) {
-                        console.error(err);
-                      }
-                    }}
-                  />
-                </Actions>
-              </PendingFriend>
-            ))}
-          </Friends>
-        )}
-        <SectionSeparator
-          onClick={() => {
-            toggleOnlineFriends();
-          }}
-        >
-          <Uparrow active={isOnlineFriendsShowed} />
-          <SectionText>Online</SectionText>
-        </SectionSeparator>
-        {isOnlineFriendsShowed && (
-          <Friends>
-            <AddFriend
-              onClick={() => {
-                popupProps.toggle();
-              }}
-            >
-              <Plus />
-            </AddFriend>
-            {friends.map((currentFriend, index) => {
-              const {
-                username: friendUsername,
-                status = "default_status",
-                isMenuOpen,
-                id
-              } = currentFriend;
-              return (
-                <>
-                  <Friend
-                    key={index}
-                    onClick={() => {
-                      setFriends(state =>
-                        state.map(e => ({ ...e, isMenuOpen: false }))
-                      );
-                      updateAt(index, {
-                        ...currentFriend,
-                        isMenuOpen: !currentFriend.isMenuOpen
-                      });
-                    }}
-                  >
-                    <FriendAvatar src="/images/profile.svg" />
-                    <FriendInfo>
-                      <FriendUsername>{friendUsername}</FriendUsername>
-                      <FriendStatus>{status}</FriendStatus>
-                    </FriendInfo>
-                    <Uparrow active={isMenuOpen} />
-                  </Friend>
-                  {isMenuOpen && (
-                    <FriendMenu>
-                      <FriendMenuItem>Invite</FriendMenuItem>
-                      <FriendMenuItem>Chat</FriendMenuItem>
-                      <FriendMenuItem onClick={() => deleteFriend(id, index)}>
-                        Delete
-                      </FriendMenuItem>
-                    </FriendMenu>
-                  )}
-                </>
-              );
-            })}
-          </Friends>
-        )}
-      </Body>
-      <Popup {...popupProps} />
-    </Container>
+    <FriendsContext.Provider
+      value={{
+        isPendingFriendsShowed,
+        togglePendingFriends,
+        pendingFriends,
+        acceptFriendshipRequest,
+        removePendingFriendAt,
+        denyFriendshipRequest,
+        isOnlineFriendsShowed,
+        popupProps,
+        deleteFriend,
+        updateAt,
+        setFriends,
+        pushFriends,
+        friends,
+        toggleOnlineFriends,
+        myAdventures,
+        pendingAdventures,
+        setPendingAdventures,
+        togglePendingAdventures,
+        isPendingAdventuresShowed,
+        removePendingAdventureAt
+      }}
+    >
+      <Container navSize={navSize} isOpen={isOpen}>
+        <OwnUserSection>
+          <Profile src="/images/profile.svg" />
+          <Info>
+            <Username>{user.username}</Username>
+            <Status>Online</Status>
+          </Info>
+        </OwnUserSection>
+        <Body>
+          <PendingAdventures />
+          <PendingFriends />
+          <Friends />
+        </Body>
+        <Popup {...popupProps} />
+      </Container>
+    </FriendsContext.Provider>
   );
 };
 

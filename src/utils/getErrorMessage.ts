@@ -1,7 +1,6 @@
 const getErrorMessage = (error: any): string => {
   let message;
   if (error.response) {
-    console.log(error.response);
     if (Array.isArray(error.response.data)) {
       const errorArray = error.response.data;
       return errorArray

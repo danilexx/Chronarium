@@ -1,4 +1,5 @@
-import styled, { css } from "-/src/utils/StyledComponents";
+import { darken, lighten } from "polished";
+import styled, { css, keyframes } from "-/src/utils/StyledComponents";
 import Link from "../Link";
 
 interface ContainerProps {
@@ -71,11 +72,17 @@ export const SectionSeparator = styled.div<{ first?: boolean }>`
 `;
 
 export const Uparrow = styled.img.attrs({ src: "/icons/uparrow.svg" })<{
-  active;
+  active: boolean;
+  auto?: boolean;
 }>`
   height: 1rem;
   user-select: none;
   transform: ${props => props.active && "rotate(180deg)"};
+  ${props =>
+    props.auto &&
+    css`
+      margin-left: auto;
+    `};
 `;
 
 export const SectionText = styled.p`
@@ -118,7 +125,7 @@ export const Body = styled.div`
   }
 `;
 
-export const Friends = styled.div`
+export const FriendList = styled.div`
   display: flex;
   flex-direction: column;
 `;
@@ -149,7 +156,7 @@ export const Friend = styled.div`
   }
 `;
 
-export const FriendMenu = styled.div`
+export const FriendMenuContainer = styled.div`
   /* position: absolute;
   bottom: 0.1rem;
   left: 1rem; */
@@ -173,6 +180,8 @@ export const FriendMenuItem = styled.p`
   &:hover {
     background-color: rgba(255, 255, 255, 0.5);
   }
+  display: flex;
+  align-items: center;
 `;
 
 export const FriendAvatar = styled.img`
@@ -204,7 +213,7 @@ export const FriendStatus = styled.p`
   margin: 0;
 `;
 
-export const AddFriend = styled(Friend)`
+export const AddFriendContainer = styled(Friend)`
   justify-content: center;
   align-items: center;
 `;
@@ -251,4 +260,86 @@ export const Accept = styled(actionIcon).attrs({ src: "/icons/confirm.svg" })`
 
 export const Decline = styled(actionIcon).attrs({ src: "/icons/deny.svg" })`
   background-color: ${props => props.theme.error};
+`;
+
+export const FriendSubMenu = styled(FriendMenuContainer)`
+  background-color: ${props => lighten(0.1, props.theme.bg1)};
+  padding: 0;
+`;
+export const FriendSubMenuItem = styled(FriendMenuItem)`
+  text-indent: 1rem;
+`;
+export const FriendSubSubMenu = styled(FriendMenuContainer)`
+  padding: 0;
+  background-color: ${props => lighten(0.2, props.theme.bg1)};
+`;
+export const FriendSubSubMenuItem = styled(FriendMenuItem)`
+  position: relative;
+  text-indent: 2rem;
+`;
+
+const loading = keyframes`
+  0%{
+    transform: translateX(-100%);
+    opacity: 1;
+  }
+  90%{
+    transform: translateX(0%);
+    opacity: 0.5;
+  }
+  100%{
+    transform: translateX(0%);
+    opacity: 0;
+  }
+`;
+const loadingDone = keyframes`
+  0%{
+    transform: translateX(-100%);
+    opacity: 1;
+  }
+  90%{
+    transform: translateX(0%);
+    opacity: 0.5;
+  }
+  100%{
+    transform: translateX(0%);
+    opacity: 0;
+  }
+`;
+
+export const FriendSubSubMenuItemLoadingBar = styled.div<{
+  isGoing: boolean;
+  isDone?: boolean;
+}>`
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.4);
+  /* transition: transform 2s ease-in-out; */
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translateX(-100%);
+  ${props =>
+    props.isGoing
+      ? css`
+          animation: ${loading} 4s ease-in-out infinite;
+        `
+      : props.isDone &&
+        css`
+          animation: ${loading} 1s ease-in-out infinite;
+          animation-play-state: paused;
+          background-color: ${props.theme.green};
+          animation-play-state: running;
+        `};
+`;
+
+export const PendingAdventureList = styled(FriendList)``;
+export const PendingAdventure = styled(PendingFriend)``;
+export const AdventureAvatar = styled(FriendAvatar)`
+  border-radius: 10px;
+`;
+export const AdventureInfo = styled(FriendInfo)``;
+export const AdventureName = styled(FriendUsername)``;
+export const AdventureExtraInfo = styled(FriendStatus)`
+  font-size: 1.5rem;
 `;

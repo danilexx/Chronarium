@@ -128,7 +128,10 @@ export const getAdventures = createAxiosRequest<AdventureModel[]>(
   `/adventures`,
   "get"
 );
-export const getMyAdventures = createAxiosServerAuthRequest<AdventureModel[]>(
+export const getMyMasteringAdventures = createAxiosServerAuthRequest<
+  AdventureModel[]
+>(`/masters/adventures`, "get");
+export const getMyAdventures = createAxiosRequest<AdventureModel[]>(
   `/users/adventures`,
   "get"
 );
@@ -163,6 +166,28 @@ export const getFriends = createAxiosRequest("/friendships");
 export const removeFriend = (to_delete_user_id: number) =>
   createAxiosRequest(`/friendships/${to_delete_user_id}`, "delete");
 
+export const invitePlayer = createAxiosRequest<
+  any,
+  {
+    receiver_id: number;
+    adventure_id: number;
+    as: "character" | "master";
+  }
+>("/pending_adventures", "post");
+
+export const getPendingAdventures = createAxiosRequest<any>(
+  "/pending_adventures"
+);
+
+export const acceptAdventureRequest = createAxiosRequest<
+  any,
+  {
+    master_name: null | string;
+    pending_adventure_id: number;
+  }
+>("/adventure_lobbies", "post");
+export const denyAdventureRequest = (id: number) =>
+  createAxiosRequest<any>(`/pending_adventures/${id}`, "delete");
 // api.interceptors.response.use(
 //   response => {
 //     // Return a successful response back to the calling service

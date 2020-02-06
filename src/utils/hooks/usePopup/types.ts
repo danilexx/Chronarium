@@ -22,4 +22,14 @@ export interface ErrorProps {
   title: string;
   callback?: () => void;
 }
-export type PopupTypes = "info" | "base" | "error" | "addFriend";
+
+export interface FieldProps {
+  message: string;
+  title: string;
+  callback?: (field: string) => void;
+  fieldName: string;
+  buttonText: string;
+  isLoading: boolean;
+  errorMessage: string;
+}
+export type PopupTypes = "info" | "base" | "error" | "addFriend" | "field";

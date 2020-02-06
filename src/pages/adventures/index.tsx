@@ -22,7 +22,6 @@ const adventures = ({
   adventuresData: AdventureModel[];
 }) => {
   // useUserRoute();
-  console.log(adventuresData);
   return (
     <Column isFull>
       <Breadcumb parts={parts} />

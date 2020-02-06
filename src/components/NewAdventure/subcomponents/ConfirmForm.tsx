@@ -48,7 +48,6 @@ const ConfirmForm: React.FC<FormProps> = ({ setIndex, index, onResize }) => {
   const { setState, state } = useContext(NewAdventureContext);
   const [Popup, popupProps] = usePopup("error");
   const confirm = async () => {
-    console.log(state);
     const errorKeys: string[] = [];
     Object.entries(state).forEach(([key, value]: [string, any]) => {
       if (requiredKeys.some(e => e === key) && value === "") {

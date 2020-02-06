@@ -13,7 +13,6 @@ const Menu: React.FC<Props> = ({ children, isOpen, toggle, navSize = 0 }) => {
   const isLogged = useStoreState(state => state.user.isLogged);
   const logout = useStoreActions(state => state.user.logout);
   const linkAction = () => {
-    console.log("oi");
     if (toggle) {
       toggle();
     }

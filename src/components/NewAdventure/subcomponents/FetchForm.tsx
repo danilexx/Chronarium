@@ -79,7 +79,6 @@ const FetchForm: React.FC<FormProps> = ({ setIndex, index, onResize }) => {
         const adventureIconFormData = new FormData();
         adventureIconFormData.append("file", adventureIconBlob);
         const response = await uploadImage(adventureIconFormData);
-        console.log(response);
         adventureIconId = response.data.id;
       }
       nextTask();

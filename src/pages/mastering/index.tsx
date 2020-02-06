@@ -1,5 +1,5 @@
 import React from "react";
-import { getMyAdventures } from "-/src/services";
+import { getMyMasteringAdventures } from "-/src/services";
 import { AdventureModel } from "-/src/services/types";
 import { Column } from "-/src/components/shared";
 import { Header } from "-/src/components/Header";
@@ -17,7 +17,6 @@ const parts = [
 
 const mastering = ({ adventures }: { adventures: AdventureModel[] }) => {
   useUserRoute();
-  console.log(adventures);
   return (
     <Column isFull>
       <Breadcumb parts={parts} />
@@ -34,13 +33,12 @@ const mastering = ({ adventures }: { adventures: AdventureModel[] }) => {
 
 mastering.getInitialProps = async (ctx: any) => {
   try {
-    const response = await getMyAdventures(ctx);
-    console.log(response);
+    const response = await getMyMasteringAdventures(ctx);
     return {
       adventures: response.data
     };
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     return {
       adventures: []
     };

@@ -39,7 +39,7 @@ const formatMessages = userOwner => (
   array
 ) => {
   if (index === 0) {
-    console.log(array);
+    // console.log(array);
   }
   const currentUser = user;
   const username = getUsername(user);

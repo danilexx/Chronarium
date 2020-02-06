@@ -3,13 +3,23 @@ import Link from "../Link";
 
 const menuSpace: number = 1000;
 
+export const Spacer = styled.div<{ navSize: number }>`
+  width: 100%;
+  height: ${props => props.navSize}px;
+`;
+
 export const Container = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
   background-color: ${props => props.theme.bg2};
   border-bottom: 2px solid ${props => props.theme.primary};
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  z-index: 50;
 `;
 export const Logo = styled.img.attrs({
   src: "/logo.svg"

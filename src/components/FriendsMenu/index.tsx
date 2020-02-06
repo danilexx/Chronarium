@@ -92,7 +92,14 @@ const FriendsMenu: React.FC<Props> = ({
     { updateAt, set: setFriends, push: pushFriends, removeAt: removeFriendAt }
   ] = useList<any>([]);
   const [myAdventures, { set: setMyAdventures }] = useList<any>([]);
-  const [pendingAdventures, { set: setPendingAdventures, removeAt: removePendingAdventureAt }] = useList<any>([]);
+  const [
+    pendingAdventures,
+    {
+      set: setPendingAdventures,
+      push: pushPendingAdventures,
+      removeAt: removePendingAdventureAt
+    }
+  ] = useList<any>([]);
   const [Popup, popupProps] = usePopup("addFriend");
   // React.useEffect(() => {
   //   popupProps.toggle(true);
@@ -135,7 +142,6 @@ const FriendsMenu: React.FC<Props> = ({
       try {
         const response: any = await getPendingAdventures();
         setPendingAdventures(response.data);
-        console.log(response.data);
       } catch (err) {
         console.error(err);
       }
@@ -153,16 +159,18 @@ const FriendsMenu: React.FC<Props> = ({
       const pendingF = ws.subscribe(`pendingFriends:${user.id}`);
       pendingF.on("new:request", (data: any) => {
         pushPendingFriends(data);
-        // setMessages(state => [...state, data]);
+      });
+      const pendingAdventure = ws.subscribe(`pendingAdventures:${user.id}`);
+      pendingAdventure.on("new:request", (data: any) => {
+        console.log("chegou");
+        pushPendingAdventures(data);
       });
       const friendships = ws.subscribe(`friendship:${user.id}`);
       friendships.on("new:friend", (data: any) => {
         pushFriends(data);
-        // setMessages(state => [...state, data]);
       });
       friendships.on("delete:friend", (data: any) => {
         removeFriendAt(friends.findIndex(e => e.id === data.id));
-        // setMessages(state => [...state, data]);
       });
     });
   }, []);

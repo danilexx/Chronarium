@@ -266,13 +266,16 @@ export const FriendSubMenu = styled(FriendMenuContainer)`
   background-color: ${props => lighten(0.1, props.theme.bg1)};
   padding: 0;
 `;
-export const FriendSubMenuItem = styled(FriendMenuItem)``;
+export const FriendSubMenuItem = styled(FriendMenuItem)`
+  text-indent: 1rem;
+`;
 export const FriendSubSubMenu = styled(FriendMenuContainer)`
   padding: 0;
   background-color: ${props => lighten(0.2, props.theme.bg1)};
 `;
 export const FriendSubSubMenuItem = styled(FriendMenuItem)`
   position: relative;
+  text-indent: 2rem;
 `;
 
 const loading = keyframes`

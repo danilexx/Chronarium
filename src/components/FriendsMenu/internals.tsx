@@ -220,21 +220,19 @@ export const FriendMenu = ({ currentFriend, index }) => {
   const filteredMyAdventures = myAdventures
     ? myAdventures
         .filter(adventure => {
-          if (currentFriend.lobbies.length === 0) {
+          if (currentFriend.masteringAdventures.length === 0) {
             return true;
           }
-          return currentFriend.lobbies.some(e => {
-            // console.log(adventure.id, e.adventure_id);
-            return adventure.id !== e.adventure_id;
+          return !currentFriend.masteringAdventures.some(e => {
+            return e.id === adventure.id;
           });
         })
         .filter(adventure => {
-          if (currentFriend.pendingAdventures.length === 0) {
+          if (currentFriend.lobbies.length === 0) {
             return true;
           }
-          return currentFriend.pendingAdventures.some(e => {
-            // console.log(adventure.id, e.adventure_id);
-            return adventure.id !== e.adventure_id;
+          return !currentFriend.lobbies.some(e => {
+            return adventure.id === e.adventure_id;
           });
         })
     : [];

@@ -24,8 +24,9 @@ const Navigator = () => {
       <Link to="home">Home</Link>
       <Link to="scenes">Scenes</Link>
       <Link to="npcs">Npcs</Link>
-      <Link to="npcs">Items</Link>
-      <Link to="npcs">Players</Link>
+      <Link to="items">Items</Link>
+      <Link to="skills">Skills</Link>
+      <Link to="players">Players</Link>
     </Container>
   );
 };

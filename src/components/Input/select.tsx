@@ -1,6 +1,7 @@
 import React from "react";
 
 import { ErrorMessage, useFormContext, Controller } from "react-hook-form";
+import { lighten } from "polished";
 import {
   StyledInput,
   Container,
@@ -9,6 +10,7 @@ import {
   StyledSelect,
   SelectLabel
 } from "./styles";
+import { ThemeContext } from "-/src/utils/StyledComponents";
 import isServer from "-/src/utils/isServer";
 
 interface Props {
@@ -48,6 +50,7 @@ const Select = React.forwardRef<Ref, Props>(
     const prettyRest = rest.join("");
     const label = prettyName || firstLetter.toUpperCase() + prettyRest;
     // const fieldValue = watch(name, false);
+    const theme = React.useContext(ThemeContext);
     const { triggerValidation } = useFormContext();
     return (
       <>
@@ -55,7 +58,8 @@ const Select = React.forwardRef<Ref, Props>(
           <SelectLabel>{label}</SelectLabel>
           <Controller
             as={<StyledSelect />}
-            menuPortalTarget={!isServer() && document.body}
+            {...(!isServer() ? { menuPortalTarget: document.body } : {})}
+            // menuPortalTarget={!isServer() && document.body}
             classNamePrefix="react-select"
             control={control}
             options={options}

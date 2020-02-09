@@ -1,3 +1,4 @@
+import { lighten } from "polished";
 import { createGlobalStyle } from "./StyledComponents";
 
 export const GlobalStyles = createGlobalStyle`
@@ -47,5 +48,21 @@ export const GlobalStyles = createGlobalStyle`
   span {
     font-size: 2rem;
   }
+  .react-select__option{
+    font-family: Roboto, Arial;
+    font-size: 1.5rem !important;
+    cursor: pointer !important;
+    @media (max-width: 600px) {
+      font-size: 2rem !important;
+    }
+  }
+  .react-select__option.react-select__option--is-selected{
+    background-color: ${props => props.theme.primary} !important;
+    color: ${props => props.theme.txtPrimary} !important;
+  }
+  .react-select__option.react-select__option--is-focused{
+    background-color: ${props => lighten(0.25, props.theme.primary)} !important;
+  }
+
 
 `;

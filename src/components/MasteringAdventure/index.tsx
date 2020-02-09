@@ -1,7 +1,7 @@
 import { createContext } from "react";
 import { getAdventure } from "-/src/services";
 import { Column } from "-/src/components/shared";
-import { Home, Scenes, Items, Skills } from "./pages";
+import { Home, Scenes, Items, Skills, CreateSkill } from "./pages";
 import { Navigator } from "./sub";
 import ShallowScreens, { ShallowScreen } from "-/src/components/ShallowScreen";
 
@@ -14,7 +14,9 @@ const MasteringAdventure = ({ adventure }) => {
     <Column isFull>
       <Navigator />
       <AdventureContext.Provider value={{ adventure }}>
-        <ShallowScreens routes={["home", "scenes", "items", "skills"]}>
+        <ShallowScreens
+          routes={["home", "scenes", "items", "skills", "create-skill"]}
+        >
           <RouterPage route="home">
             <Home />
           </RouterPage>
@@ -26,6 +28,9 @@ const MasteringAdventure = ({ adventure }) => {
           </RouterPage>
           <RouterPage route="skills">
             <Skills />
+          </RouterPage>
+          <RouterPage route="create-skill">
+            <CreateSkill />
           </RouterPage>
         </ShallowScreens>
       </AdventureContext.Provider>

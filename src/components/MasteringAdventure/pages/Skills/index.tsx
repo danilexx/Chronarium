@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import {
   Container,
   SkillRow,
@@ -12,9 +13,15 @@ import {
 } from "./styles";
 
 const Skills = () => {
+  const router = useRouter();
+  const route = "/mastering/[adventureId]/[step]";
+  const as = `/mastering/${router.query.adventureId}/create-skill`;
+  function goToCreateSkill() {
+    router.push(route, as || route, { shallow: true });
+  }
   return (
     <Container>
-      <SkillRow>
+      <SkillRow onClick={goToCreateSkill}>
         <PlusButton />
       </SkillRow>
       {[...Array(3)].map((e, index) => (

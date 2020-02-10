@@ -56,6 +56,7 @@ const baseStyle = css`
   padding-top: 1.8rem;
   transition: color 0.2s ease-in-out;
   will-change: color;
+
   &:focus,
   &:valid {
     ${activated}
@@ -66,12 +67,17 @@ export const StyledInput = styled.input<StyledInputProps>`
   ${baseStyle}
 `;
 
-export const Container = styled.div`
+export const Container = styled.div<{ isFull?: boolean }>`
   display: flex;
   flex-direction: column;
   padding: 0;
   margin-bottom: 0.8rem;
   position: relative;
+  ${props =>
+    props.isFull &&
+    css`
+      flex: 1;
+    `}
 `;
 
 export const ErrorContainer = styled.p`

@@ -14,6 +14,9 @@ interface Props {
   optional?: boolean;
   max?: number;
   min?: number;
+  isFull?: boolean;
+  noError?: boolean;
+  style?: any;
 }
 
 export type Ref = HTMLInputElement;
@@ -30,13 +33,20 @@ const Input = React.forwardRef<Ref, Props>(
       optional = false,
       max = 999,
       min = 0,
+      isFull = false,
+      noError = false,
+      style = {},
       ...props
     },
     ref
   ) => {
     const [firstLetter, ...rest] = name;
     const prettyRest = rest.join("");
-    const label = prettyName || firstLetter.toUpperCase() + prettyRest;
+    const label =
+      prettyName !== undefined
+        ? prettyName
+        : firstLetter.toUpperCase() + prettyRest;
+    console.log(Boolean(prettyName));
     // const fieldValue = watch(name, false);
     const { triggerValidation } = useFormContext();
 
@@ -66,13 +76,15 @@ const Input = React.forwardRef<Ref, Props>(
     );
     return (
       <>
-        <Container>
+        <Container style={style} isFull={isFull}>
           {component}
           <Label>{label}</Label>
         </Container>
-        <ErrorContainer>
-          <ErrorMessage errors={errors} name={name} />
-        </ErrorContainer>
+        {noError || (
+          <ErrorContainer>
+            <ErrorMessage errors={errors} name={name} />
+          </ErrorContainer>
+        )}
       </>
     );
   }

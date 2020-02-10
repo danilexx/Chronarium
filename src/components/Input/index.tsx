@@ -27,8 +27,6 @@ const Input = React.forwardRef<Ref, Props>(
       type = "text",
       name,
       prettyName,
-      register,
-      errors,
       controlled = false,
       optional = false,
       max = 999,
@@ -40,20 +38,25 @@ const Input = React.forwardRef<Ref, Props>(
     },
     ref
   ) => {
+    const { triggerValidation, register, errors, control } = useFormContext();
     const [firstLetter, ...rest] = name;
     const prettyRest = rest.join("");
     const label =
       prettyName !== undefined
         ? prettyName
         : firstLetter.toUpperCase() + prettyRest;
-    console.log(Boolean(prettyName));
-    // const fieldValue = watch(name, false);
-    const { triggerValidation } = useFormContext();
 
     const component = React.useMemo(
       () => (
         <StyledInput
-          ref={register || ref}
+          ref={currentRef => {
+            if (register) {
+              register(currentRef);
+            }
+            if (ref) {
+              ref(currentRef);
+            }
+          }}
           type={type}
           name={name}
           max={max}

@@ -188,6 +188,10 @@ export const acceptAdventureRequest = createAxiosRequest<
 >("/adventure_lobbies", "post");
 export const denyAdventureRequest = (id: number) =>
   createAxiosRequest<any>(`/pending_adventures/${id}`, "delete");
+
+export const createSkill = (adventrureId: number) =>
+  createAxiosRequest<any>(`/adventures/${adventrureId}/skills`, "post");
+
 // api.interceptors.response.use(
 //   response => {
 //     // Return a successful response back to the calling service

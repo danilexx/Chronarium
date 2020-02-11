@@ -6,3 +6,5 @@ const getFileFormDataFromImageUri = (fileUri: string): FormData => {
   formData.append("file", blob);
   return formData;
 };
+
+export default getFileFormDataFromImageUri;

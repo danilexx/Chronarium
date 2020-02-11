@@ -190,7 +190,18 @@ export const denyAdventureRequest = (id: number) =>
   createAxiosRequest<any>(`/pending_adventures/${id}`, "delete");
 
 export const createSkill = (adventrureId: number) =>
-  createAxiosRequest<any>(`/adventures/${adventrureId}/skills`, "post");
+  createAxiosRequest<
+    any,
+    {
+      mana_cost: number;
+      name: string;
+      description: string;
+      value: number;
+    }
+  >(`/adventures/${adventrureId}/skills`, "post");
+
+export const getSkills = (adventureId: number) =>
+  createAxiosRequest<any>(`/adventures/${adventureId}/skills`);
 
 // api.interceptors.response.use(
 //   response => {

@@ -1,4 +1,5 @@
 import * as Yup from "yup";
+import { useRouter} from "next/router";
 import { Container } from "./styles";
 import Form from "-/src/components/Form";
 import Input from "-/src/components/Input";
@@ -9,6 +10,8 @@ import { FormHeader } from "-/src/components/shared/form";
 import { LoadingButton } from "-/src/components/Button";
 import { createSkill } from "-/src/services";
 import { AdventureContext } from "-/src/components/MasteringAdventure";
+import { getPush } from "-/src/components/MasteringAdventure/utils";
+import useAwait from "-/src/utils/hooks/useAwait";
 
 const CreateSkillValidationSchema = Yup.object({
   name: Yup.string().required(),
@@ -46,10 +49,18 @@ const damageTypes = [
 
 const CreateSkill = () => {
   const { adventure } = React.useContext(AdventureContext);
+  const router = useRouter();
+  const [isLoading, fetch, { toggle }] = useAwait(createSkill(adventure.id));
+
   const handleSkillCreation = async data => {
     data.type = data.type.value;
-    const response = await createSkill(adventure.id)(data);
-    console.log(data);
+    try {
+      const response = await fetch(data);
+      getPush(router)("/skills");
+    } catch (err) {
+      toggle(false);
+      console.error(err);
+    }
   };
 
   return (
@@ -82,7 +93,7 @@ const CreateSkill = () => {
           type="number"
           prettyName="Mana Cost"
         />
-        <LoadingButton type="submit" isFull loading={false}>
+        <LoadingButton type="submit" isFull loading={isLoading}>
           Create
         </LoadingButton>
       </Form>

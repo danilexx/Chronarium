@@ -83,6 +83,7 @@ export const Info = styled.div`
   font-family: Roboto, Arial;
   color: ${props => props.theme.txtBg2};
   margin: 0 0.7rem;
+  text-transform: capitalize;
 `;
 
 export const DamageTypeIcon = styled(DamageIcon).attrs({

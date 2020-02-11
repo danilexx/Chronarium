@@ -26,13 +26,11 @@ export const SkillRow = styled.div`
     border-color: ${props => props.theme.primary};
   }
 `;
-export const SkillImage = styled.img.attrs({
-  src: "/images/skill.svg"
-})`
+export const SkillImage = styled.img`
   margin: 0 1rem;
-  border-radius: 5px;
+  border-radius: 10px;
   background-color: ${props => props.theme.primary};
-  padding: 0.5rem;
+  /* padding: 0.5rem; */
   width: 6rem;
   height: 6rem;
 `;

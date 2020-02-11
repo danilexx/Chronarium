@@ -44,10 +44,10 @@ const Skills = () => {
       </SkillRow>
       {skills.length > 0 &&
         skills.map((skill, index) => {
-          const { name, type, value, mana_cost } = skill;
+          const { name, type, value, mana_cost, icon } = skill;
           return (
             <SkillRow>
-              <SkillImage />
+              <SkillImage src={icon ? icon.url : "/images/skill.svg"} />
               <SkillName>{name}</SkillName>
               <FixedInfo>
                 <Info>

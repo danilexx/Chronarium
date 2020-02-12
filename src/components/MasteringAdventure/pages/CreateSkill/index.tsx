@@ -12,7 +12,6 @@ import { createSkill, uploadImage } from "-/src/services";
 import { AdventureContext } from "-/src/components/MasteringAdventure";
 import { getPush } from "-/src/components/MasteringAdventure/utils";
 import useAwait from "-/src/utils/hooks/useAwait";
-
 import getFileFormDataFromImageUri from "-/src/utils/getFileFormDataFromImageUri";
 
 const CreateSkillValidationSchema = Yup.object({

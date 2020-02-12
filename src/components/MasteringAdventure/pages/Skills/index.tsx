@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useList } from "react-use";
-
 import { Portal } from "react-portal";
+import UpdateSkillPopup from "./updateSkillPopup";
 import {
   Container,
   Row,
@@ -12,13 +12,15 @@ import {
 } from "./styles";
 import SkillCard from "-/src/components/SkillCard";
 import useAwait from "-/src/utils/hooks/useAwait";
-import { getSkills } from "-/src/services";
+import { getSkills, deleteSkill } from "-/src/services";
 import { getPush } from "-/src/components/MasteringAdventure/utils";
+import usePopup from "-/src/utils/hooks/usePopup";
 
 const Skills = () => {
+  const [, methods] = usePopup("base");
   const router = useRouter();
   const { adventureId } = router.query;
-  const [skills, { set, updateAt }] = useList([]);
+  const [skills, { set, updateAt, removeAt }] = useList([]);
   const [isLoading, fetch, { toggle }] = useAwait(getSkills(adventureId));
   const toggleMenu = currentIndex => {
     const currentSkill = skills[currentIndex];
@@ -28,7 +30,22 @@ const Skills = () => {
       ...currentSkill,
       isMenuShowed: !currentCondition
     });
-    console.log(skills);
+  };
+  const handleCallback = React.useCallback(
+    updatedSkill => {
+      const desiredIndex = skills.findIndex(e => e.id === updatedSkill.id);
+      updateAt(desiredIndex, updatedSkill);
+    },
+    [skills]
+  );
+  const [updateSkill, setUpdateSkill] = React.useState({});
+  const handleUpdate = (skill, index) => {
+    methods.toggle(true);
+    setUpdateSkill(skill);
+  };
+  const handleDelete = async (id, index) => {
+    removeAt(index);
+    await deleteSkill(adventureId, id)();
   };
   React.useEffect(() => {
     const getAsync = async () => {
@@ -59,8 +76,15 @@ const Skills = () => {
           />
           {skill.isMenuShowed && (
             <SkillMenu>
-              <SkillMenuItem>Update</SkillMenuItem>
-              <SkillMenuItem delete>Delete</SkillMenuItem>
+              <SkillMenuItem onClick={() => handleUpdate(skill, index)}>
+                Update
+              </SkillMenuItem>
+              <SkillMenuItem
+                delete
+                onClick={() => handleDelete(skill.id, index)}
+              >
+                Delete
+              </SkillMenuItem>
             </SkillMenu>
           )}
           {index === 0 && (
@@ -80,6 +104,11 @@ const Skills = () => {
           )}
         </>
       ))}
+      <UpdateSkillPopup
+        skill={updateSkill}
+        cb={handleCallback}
+        methods={methods}
+      />
     </Container>
   );
 };

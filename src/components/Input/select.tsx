@@ -27,9 +27,15 @@ interface Props {
   min?: number;
   control?: any;
   options?: any;
+  portalMenu?: boolean;
   defaultValue?: { value: any; label: string };
 }
-
+const portalStyles = {
+  menuPortal: provided => ({
+    ...provided,
+    zIndex: 90
+  })
+};
 export type Ref = HTMLInputElement;
 
 const Select = React.forwardRef<Ref, Props>(
@@ -42,6 +48,7 @@ const Select = React.forwardRef<Ref, Props>(
       register,
       control,
       options,
+      portalMenu = true,
       ...props
     },
     ref
@@ -58,11 +65,14 @@ const Select = React.forwardRef<Ref, Props>(
           <SelectLabel>{label}</SelectLabel>
           <Controller
             as={<StyledSelect />}
-            {...(!isServer() ? { menuPortalTarget: document.body } : {})}
+            {...(!isServer() && portalMenu === true
+              ? { menuPortalTarget: document.body }
+              : {})}
             // menuPortalTarget={!isServer() && document.body}
             classNamePrefix="react-select"
             control={control}
             options={options}
+            styles={portalStyles}
             isSearchable={false}
             defaultValue={defaultValue}
             rules={{ required: true }}

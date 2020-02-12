@@ -58,6 +58,7 @@ export const PopupBody = styled.div`
   padding: 1rem 2rem;
   max-height: 80vh;
   overflow: auto;
+  z-index: 0;
   ${customScrollBar}
 `;
 

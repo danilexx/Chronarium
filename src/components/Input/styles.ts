@@ -108,16 +108,11 @@ export const StyledTextArea = styled(StyledInput).attrs({
 
 export const StyledSelect = styled(BaseSelect)`
   /* ${baseStyle} */
-  font-family: Roboto;
+  font-family: Roboto, Arial;
   .react-select__control{
     ${baseStyle}
   }
-  .react-select__menu{
-    z-index: 6;
-  }
-  .react-select__option{
-    background-color: ${props => props.theme.primary} !important;
-  }
+
 `;
 
 export const SelectLabel = styled.label`

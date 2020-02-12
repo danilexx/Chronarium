@@ -1,5 +1,6 @@
 import { lighten } from "polished";
 import { createGlobalStyle } from "./StyledComponents";
+import customScrollBar from "-/src/utils/customScrollBar";
 
 export const GlobalStyles = createGlobalStyle`
   html, body {
@@ -48,9 +49,16 @@ export const GlobalStyles = createGlobalStyle`
   span {
     font-size: 2rem;
   }
+  .react-select__menu{
+    z-index: 60 !important;
+    /* ${customScrollBar} */
+    /* overflow: auto; */
+  }
   .react-select__option{
+    z-index: 60 !important;
     font-family: Roboto, Arial;
     font-size: 1.5rem !important;
+    color: ${props => props.theme.bg1} !important;
     cursor: pointer !important;
     @media (max-width: 600px) {
       font-size: 2rem !important;

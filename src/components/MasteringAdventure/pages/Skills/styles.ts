@@ -1,4 +1,5 @@
-import styled from "-/src/utils/StyledComponents";
+import ReactTooltip from "react-tooltip";
+import styled, { css } from "-/src/utils/StyledComponents";
 
 export const Container = styled.div`
   background-color: ${props => props.theme.bg2};
@@ -6,9 +7,12 @@ export const Container = styled.div`
   border-radius: 5px;
 
   padding: 1rem 4rem;
+  @media screen and (max-width: 460px) {
+    padding: 1rem 2rem;
+  }
 `;
-export const SkillRow = styled.div`
-  background-color: ${props => props.theme.bg1};
+export const Row = styled.div`
+  background-color: rgba(0, 0, 0, 0.3);
   width: 100%;
   margin: 1.5rem 0;
   border-radius: 5px;
@@ -26,64 +30,82 @@ export const SkillRow = styled.div`
     border-color: ${props => props.theme.primary};
   }
 `;
-export const SkillImage = styled.img`
+export const PlusButton = styled.img.attrs({
+  src: "/icons/plus.svg"
+})`
   margin: 0 1rem;
   border-radius: 10px;
   background-color: ${props => props.theme.primary};
   /* padding: 0.5rem; */
   width: 6rem;
   height: 6rem;
-`;
-
-export const PlusButton = styled(SkillImage).attrs({
-  src: "/icons/plus.svg"
-})`
   margin: auto;
   border-radius: 50%;
 `;
-export const SkillName = styled.p`
-  color: ${props => props.theme.txtBg2};
+
+export const Tooltip = styled(ReactTooltip)`
+  background-color: ${props => props.theme.bg2} !important;
+  /* border: 1px solid ${props => props.theme.primary}; */
+  &:after,
+  &:before {
+    border-top-color: ${props => props.theme.primary} !important;
+  }
+  &.__react_component_tooltip.show{
+  opacity: 1;
+
+  }
+  box-shadow: 0 2px 0 ${props => props.theme.primary};
+`;
+
+const basePseudoElement = css`
+  content: "";
+  width: 0;
+  height: 0;
+  position: absolute;
+`;
+
+export const SkillMenu = styled.div`
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 1rem;
+  border-radius: 5px;
+  position: relative;
+  &:before {
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    bottom: -8px;
+    left: 50%;
+    margin-left: -10px;
+    ${basePseudoElement}
+  }
+  &:after {
+    border-bottom-color: ${props => props.theme.primary};
+    border-bottom-style: solid;
+    border-bottom-width: 6px;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    top: -6px;
+    left: 50%;
+    margin-left: -8px;
+    ${basePseudoElement}
+  }
+`;
+
+export const SkillMenuItem = styled.div<{ delete?: boolean }>`
+  background-color: rgba(255, 255, 255, 0);
   font-family: Roboto, Arial;
+  color: ${props => props.theme.txtBg1};
   font-size: 2rem;
-  margin-left: 2rem;
+  padding: 0.5rem 1rem;
+  transition: background-color 0.2s ease-in-out;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 0.5rem 0;
+  &:hover {
+    background-color: ${props =>
+      props.delete ? props.theme.error : props.theme.primary};
+  }
+  @media screen and (max-width: 400px) {
+    padding: 1rem 2rem;
+  }
 `;
-
-export const FixedInfo = styled.div`
-  margin-left: auto;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-right: 2rem;
-`;
-
-const iconSize = "2rem";
-
-export const DamageIcon = styled.img.attrs({
-  src: "/icons/damage.svg"
-})`
-  height: ${iconSize};
-  width: ${iconSize};
-  margin: 0 0.5rem;
-`;
-export const ManaIcon = styled.div`
-  height: ${iconSize};
-  width: ${iconSize};
-  background-color: #54adff;
-  margin: 0 0.5rem;
-  border-radius: 50%;
-`;
-export const Info = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.74rem;
-  font-family: Roboto, Arial;
-  color: ${props => props.theme.txtBg2};
-  margin: 0 0.7rem;
-  text-transform: capitalize;
-`;
-
-export const DamageTypeIcon = styled(DamageIcon).attrs({
-  src: "/icons/dmgtype.svg"
-})``;

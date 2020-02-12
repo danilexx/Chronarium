@@ -1,17 +1,16 @@
 import { useRouter } from "next/router";
 import { useList } from "react-use";
+
+import { Portal } from "react-portal";
 import {
   Container,
-  SkillRow,
-  SkillImage,
-  SkillName,
-  FixedInfo,
+  Row,
   PlusButton,
-  Info,
-  ManaIcon,
-  DamageIcon,
-  DamageTypeIcon
+  Tooltip,
+  SkillMenu,
+  SkillMenuItem
 } from "./styles";
+import SkillCard from "-/src/components/SkillCard";
 import useAwait from "-/src/utils/hooks/useAwait";
 import { getSkills } from "-/src/services";
 import { getPush } from "-/src/components/MasteringAdventure/utils";
@@ -19,14 +18,22 @@ import { getPush } from "-/src/components/MasteringAdventure/utils";
 const Skills = () => {
   const router = useRouter();
   const { adventureId } = router.query;
-  const [skills, { set }] = useList([]);
+  const [skills, { set, updateAt }] = useList([]);
   const [isLoading, fetch, { toggle }] = useAwait(getSkills(adventureId));
+  const toggleMenu = currentIndex => {
+    const currentSkill = skills[currentIndex];
+    const currentCondition = currentSkill.isMenuShowed;
+    set(data => data.map(e => ({ ...e, isMenuShowed: false })));
+    updateAt(currentIndex, {
+      ...currentSkill,
+      isMenuShowed: !currentCondition
+    });
+    console.log(skills);
+  };
   React.useEffect(() => {
-    console.log("carreguei fds");
     const getAsync = async () => {
       try {
         const response = await fetch();
-        console.log(response.data);
         set(response.data);
       } catch (err) {
         console.error(err);
@@ -39,33 +46,40 @@ const Skills = () => {
   }
   return (
     <Container>
-      <SkillRow onClick={goToCreateSkill}>
+      <Row onClick={goToCreateSkill}>
         <PlusButton />
-      </SkillRow>
-      {skills.length > 0 &&
-        skills.map((skill, index) => {
-          const { name, type, value, mana_cost, icon } = skill;
-          return (
-            <SkillRow>
-              <SkillImage src={icon ? icon.url : "/images/skill.svg"} />
-              <SkillName>{name}</SkillName>
-              <FixedInfo>
-                <Info>
-                  {type}
-                  <DamageTypeIcon />
-                </Info>
-                <Info>
-                  {value}
-                  <DamageIcon />
-                </Info>
-                <Info>
-                  {mana_cost}
-                  <ManaIcon />
-                </Info>
-              </FixedInfo>
-            </SkillRow>
-          );
-        })}
+      </Row>
+      {skills.map((skill, index) => (
+        <>
+          <SkillCard
+            onClick={() => toggleMenu(index)}
+            data-tip
+            skill={skill}
+            key={skill.id}
+          />
+          {skill.isMenuShowed && (
+            <SkillMenu>
+              <SkillMenuItem>Update</SkillMenuItem>
+              <SkillMenuItem delete>Delete</SkillMenuItem>
+            </SkillMenu>
+          )}
+          {index === 0 && (
+            <Portal>
+              <Tooltip
+                multline
+                // clickable
+                place="top"
+                // event="click"
+                effect="solid"
+              >
+                Hello <br />
+                Hello <br />
+                Hello <br />
+              </Tooltip>
+            </Portal>
+          )}
+        </>
+      ))}
     </Container>
   );
 };

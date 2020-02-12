@@ -1,5 +1,6 @@
-import ReactTooltip from "react-tooltip";
 import styled, { css } from "-/src/utils/StyledComponents";
+
+export { default as Tooltip } from "-/src/components/Tooltip";
 
 export const Container = styled.div`
   background-color: ${props => props.theme.bg2};
@@ -41,20 +42,6 @@ export const PlusButton = styled.img.attrs({
   height: 6rem;
   margin: auto;
   border-radius: 50%;
-`;
-
-export const Tooltip = styled(ReactTooltip)`
-  background-color: ${props => props.theme.bg2} !important;
-  /* border: 1px solid ${props => props.theme.primary}; */
-  &:after,
-  &:before {
-    border-top-color: ${props => props.theme.primary} !important;
-  }
-  &.__react_component_tooltip.show{
-  opacity: 1;
-
-  }
-  box-shadow: 0 2px 0 ${props => props.theme.primary};
 `;
 
 const basePseudoElement = css`
@@ -101,6 +88,7 @@ export const SkillMenuItem = styled.div<{ delete?: boolean }>`
   border-radius: 5px;
   cursor: pointer;
   margin: 0.5rem 0;
+
   &:hover {
     background-color: ${props =>
       props.delete ? props.theme.error : props.theme.primary};

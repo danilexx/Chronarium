@@ -1,15 +1,7 @@
 import { useRouter } from "next/router";
 import { useList } from "react-use";
-import { Portal } from "react-portal";
 import UpdateSkillPopup from "./updateSkillPopup";
-import {
-  Container,
-  Row,
-  PlusButton,
-  Tooltip,
-  SkillMenu,
-  SkillMenuItem
-} from "./styles";
+import { Container, Row, PlusButton, SkillMenu, SkillMenuItem } from "./styles";
 import SkillCard from "-/src/components/SkillCard";
 import useAwait from "-/src/utils/hooks/useAwait";
 import { getSkills, deleteSkill } from "-/src/services";
@@ -70,7 +62,6 @@ const Skills = () => {
         <>
           <SkillCard
             onClick={() => toggleMenu(index)}
-            data-tip
             skill={skill}
             key={skill.id}
           />
@@ -86,21 +77,6 @@ const Skills = () => {
                 Delete
               </SkillMenuItem>
             </SkillMenu>
-          )}
-          {index === 0 && (
-            <Portal>
-              <Tooltip
-                multline
-                // clickable
-                place="top"
-                // event="click"
-                effect="solid"
-              >
-                Hello <br />
-                Hello <br />
-                Hello <br />
-              </Tooltip>
-            </Portal>
           )}
         </>
       ))}

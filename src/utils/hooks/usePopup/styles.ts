@@ -1,11 +1,13 @@
 import styled from "../../StyledComponents";
 
+import customScrollBar from "-/src/utils/customScrollBar";
+
 const getColor = (props: any) =>
   props.error ? props.theme.error : props.theme.primary;
 
 export const PopupContainer = styled.div<{ error?: boolean }>`
   --color: ${getColor}
-  background-color: ${props => props.theme.bg1};
+  background-color: ${props => props.theme.bg2};
   color: ${props => props.theme.txtBg1};
   font-size: 2rem;
   font-family: "Roboto", "Arial";
@@ -18,7 +20,7 @@ export const PopupContainer = styled.div<{ error?: boolean }>`
   @media screen and (max-width: 600px) {
     max-width: 90vw;
   }
-  z-index: 20;
+  z-index: 55;
 `;
 
 export const PopupBackground = styled.div`
@@ -54,6 +56,9 @@ export const Message = styled.p`
 
 export const PopupBody = styled.div`
   padding: 1rem 2rem;
+  max-height: 80vh;
+  overflow: auto;
+  ${customScrollBar}
 `;
 
 export const Buttons = styled.div`

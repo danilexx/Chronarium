@@ -203,6 +203,18 @@ export const createSkill = (adventrureId: number) =>
 export const getSkills = (adventureId: number) =>
   createAxiosRequest<any>(`/adventures/${adventureId}/skills`);
 
+export const createItem = (adventrureId: number) =>
+  createAxiosRequest<
+    any,
+    {
+      name: string;
+      description: string;
+    }
+  >(`/adventures/${adventrureId}/items`, "post");
+
+export const getItems = (adventureId: number) =>
+  createAxiosRequest<any>(`/adventures/${adventureId}/items`);
+
 // api.interceptors.response.use(
 //   response => {
 //     // Return a successful response back to the calling service

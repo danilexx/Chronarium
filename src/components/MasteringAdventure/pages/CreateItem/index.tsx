@@ -20,7 +20,8 @@ const CreateItemValidationSchema = Yup.object({
   name: Yup.string().required("Required"),
   description: Yup.string().required("Required"),
   skills: Yup.array(Yup.number()).required("You must have at least one skill"),
-  main_attribute: Yup.string().required("Required")
+  main_attribute: Yup.string().required("Required"),
+  main_attribute_value: Yup.string().required("Required")
 });
 const attributes = [
   {

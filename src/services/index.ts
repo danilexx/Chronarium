@@ -225,3 +225,10 @@ export const updateSkill = (adventureId: number, skillId: number) =>
     `/adventures/${adventureId}/skills/${skillId}`,
     "put"
   );
+export const deleteItem = (adventureId: number, itemId: number) =>
+  createAxiosRequest<any>(
+    `/adventures/${adventureId}/items/${itemId}`,
+    "delete"
+  );
+export const updateItem = (adventureId: number, itemId: number) =>
+  createAxiosRequest<any>(`/adventures/${adventureId}/items/${itemId}`, "put");

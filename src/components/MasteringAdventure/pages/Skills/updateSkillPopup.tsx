@@ -55,20 +55,23 @@ const UpdateSkillPopup = ({ skill, methods, cb }) => {
   const [Popup] = usePopup("base");
   const { adventure } = React.useContext(AdventureContext);
   const [isUploading, upload, { toggleUploading }] = useAwait(uploadImage);
-  const [isLoading, create, { toggle }] = useAwait(
+  const [isLoading, update, { toggle }] = useAwait(
     updateSkill(adventure.id, skill.id)
   );
   const handleSubmit = async data => {
     data.type = data.type.value;
     try {
       let icon_id = skill.icon ? skill.icon.id : null;
-      if (data.skillIcon && skill.icon && skill.icon.url !== data.skillIcon) {
+      const hasOldIcon = !!skill.icon;
+      const hasNewIcon = data.skillIcon && data.skillIcon !== skill.icon?.url;
+      const areBothEqual = skill.icon?.url === data.skillIcon;
+      if (hasNewIcon && !areBothEqual) {
         const uploadResponse = await upload(
           getFileFormDataFromImageUri(data.skillIcon)
         );
         icon_id = uploadResponse.data.id;
       }
-      const response = await create({ ...data, icon_id });
+      const response = await update({ ...data, icon_id });
       if (cb) {
         cb(response.data);
       }
@@ -81,7 +84,7 @@ const UpdateSkillPopup = ({ skill, methods, cb }) => {
   return (
     <Popup {...methods}>
       <PopupHead>
-        <Title>Update {skill.name}</Title>
+        <Title>Update Skill</Title>
       </PopupHead>
       <PopupBody>
         <Form
@@ -93,7 +96,7 @@ const UpdateSkillPopup = ({ skill, methods, cb }) => {
           validationSchema={SkillValidationSchema}
         >
           <ImageDrop
-            {...(skill.icon ? { defaultValue: skill.icon.url } : {})}
+            defaultValue={skill.icon && skill.icon.url}
             name="skillIcon"
           />
           <Input name="name" />

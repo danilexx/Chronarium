@@ -16,7 +16,7 @@ import {
   ItemTooltip
 } from "-/src/components/tooltips";
 
-const ItemCard = ({ item }) => {
+const ItemCard = ({ item, ...props }) => {
   const { skills, main_attribute_value, main_attribute } = item;
   return (
     <>
@@ -29,7 +29,7 @@ const ItemCard = ({ item }) => {
           getContent={() => <ItemTooltip item={item} />}
         />
       </Portal>
-      <ItemRow data-for={`item:${item.id}`} data-tip>
+      <ItemRow data-for={`item:${item.id}`} data-tip {...props}>
         <ItemImage src={item.icon ? item.icon.url : "/images/item.svg"} />
         <ItemName>{item.name}</ItemName>
         <FixedInfo>

@@ -13,7 +13,12 @@ const BaseImageDrop: React.FC<BaseProps> = ({
   defaultValue = "",
   ...props
 }) => {
-  const [imgUrl, setImgUrl] = useState(defaultValue);
+  const [imgUrl, setImgUrl] = useState("");
+  React.useEffect(() => {
+    if (defaultValue) {
+      setImgUrl(defaultValue);
+    }
+  }, [defaultValue]);
   const onDrop = useCallback(acceptedFiles => {
     let data;
     (async () => {
@@ -30,7 +35,7 @@ const BaseImageDrop: React.FC<BaseProps> = ({
     accept: "image/*"
   });
   const image = useMemo(() => {
-    if (imgUrl !== "") {
+    if (imgUrl && imgUrl !== "") {
       return imgUrl;
     }
     if (isDragActive) {

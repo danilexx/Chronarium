@@ -162,7 +162,6 @@ const FriendsMenu: React.FC<Props> = ({
       });
       const pendingAdventure = ws.subscribe(`pendingAdventures:${user.id}`);
       pendingAdventure.on("new:request", (data: any) => {
-        console.log("chegou");
         pushPendingAdventures(data);
       });
       const friendships = ws.subscribe(`friendship:${user.id}`);

@@ -4,7 +4,7 @@ export const ItemImage = styled.img`
   margin: 0 1rem;
   border-radius: 5px;
   background-color: ${props => props.theme.primary};
-  padding: 0.5rem;
+  /* padding: 0.5rem; */
   width: 6rem;
   height: 6rem;
 `;

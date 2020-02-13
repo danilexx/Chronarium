@@ -24,7 +24,7 @@ const InfoPopup: React.FC<Props & InfoProps> = ({
       <PopupBody>
         <Message>{message}</Message>
         <Buttons>
-          <Button onClick={handleOk}>Beleza</Button>
+          <Button onClick={handleOk}>Ok</Button>
         </Buttons>
       </PopupBody>
     </Popup>

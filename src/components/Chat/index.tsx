@@ -2,12 +2,12 @@ import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import useFetch from "use-http";
 import dynamic from "next/dynamic";
-import { useList, useEffectOnce } from "react-use";
+import { useList, useEffectOnce, useKey } from "react-use";
+import { useForm } from "react-hook-form";
 import { useStoreState } from "-/src/utils/EasyPeasy";
 import formatMessages from "-/src/utils/formatMessages";
 import { AdventureContext } from "-/src/components/MasteringAdventure";
 import isServer from "-/src/utils/isServer";
-import example from "./example";
 import messagesToElement from "-/src/utils/messagesToElement";
 import {
   Container,
@@ -17,14 +17,17 @@ import {
   OtherPeopleMessage,
   MessageOwner,
   UserInput,
-  Input,
-  Send
+  Send,
+  ChatInput,
+  ChatForm,
+  ButtonWrapper
 } from "./styles";
 import { getMessages, sendMessage } from "-/src/services";
 import useAwait from "-/src/utils/hooks/useAwait";
 
 const Chat = () => {
   const { adventure } = React.useContext(AdventureContext);
+  const methods = useForm();
   const windowRef = React.useRef<HTMLDivElement>(null);
   const user = useStoreState(state => state.user);
   const [isLoading, fetch, { toggle }] = useAwait(getMessages(adventure.id));
@@ -50,10 +53,12 @@ const Chat = () => {
       }
     })();
   }, []);
-  const handleSend = async () => {
-    setText("");
-    await sendMessage(adventure.id)({ message: text });
+  const handleSend = async data => {
+    const { message } = data;
+    await sendMessage(adventure.id)({ message });
+    methods.setValue("message", "");
   };
+  // useKey("Enter", handleSend, undefined, [text]);
   React.useEffect(() => {
     scrollWindowToBottom(false);
   }, [messages]);
@@ -87,14 +92,21 @@ const Chat = () => {
       <Title>Chat</Title>
       <Window ref={windowRef}>{messagesElement}</Window>
       <UserInput>
-        <Input
-          onChange={handleTextChange}
-          rows={1}
-          placeholder="Type your message here"
-          maxRows={5}
-          name="message"
-        />
-        <Send onClick={handleSend} />
+        <ChatForm methods={methods} onSubmit={handleSend}>
+          <ChatInput
+            style={{
+              marginBottom: 0
+            }}
+            placeholder="Type your message here"
+            prettyName=""
+            isFull
+            noError
+            name="message"
+          />
+          <ButtonWrapper type="submit">
+            <Send />
+          </ButtonWrapper>
+        </ChatForm>
       </UserInput>
     </Container>
   );

@@ -5,9 +5,10 @@ export const Container = styled.div`
   flex-direction: row;
   width: 100%;
   background-color: ${props => props.theme.bg2};
-  box-shadow: 0px 5px 0 ${props => props.theme.primary};
+  box-shadow: 0px 5px 0px ${props => props.theme.primary};
   border-radius: 5px;
   margin-bottom: 5px;
+  flex-wrap: wrap;
 `;
 
 export const NavigatorItem = styled.div`

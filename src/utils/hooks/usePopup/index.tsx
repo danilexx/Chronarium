@@ -12,6 +12,7 @@ import {
   ErrorProps,
   InfoProps,
   FieldProps,
+  SelectSkillProps,
   Props
 } from "./types";
 import {
@@ -19,7 +20,8 @@ import {
   ErrorPopup,
   InfoPopup,
   addFriend,
-  FieldPopup
+  FieldPopup,
+  SelectSkillPopup
 } from "./components";
 
 const SelectPopup = (type: string) => {
@@ -39,6 +41,9 @@ const SelectPopup = (type: string) => {
     case "field": {
       return FieldPopup;
     }
+    case "selectSkill": {
+      return SelectSkillPopup;
+    }
     default: {
       return BasePopup;
     }
@@ -49,6 +54,9 @@ function usePopup(popupType: "error"): [React.FC<Props & ErrorProps>, Options];
 function usePopup(popupType: "base"): [React.FC<Props>, Options];
 function usePopup(popupType: "addFriend"): [React.FC<Props>, Options];
 function usePopup(popupType: "field"): [React.FC<Props & FieldProps>, Options];
+function usePopup(
+  popupType: "selectSkill"
+): [React.FC<Props & SelectSkillProps>, Options];
 function usePopup(popupType: PopupTypes = "base"): any {
   const [isOn, toggle] = useToggle(false);
   const [message, setMessage] = useState("");

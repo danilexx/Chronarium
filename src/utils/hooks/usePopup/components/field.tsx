@@ -1,4 +1,5 @@
 import { useKey } from "react-use";
+import { useForm } from "react-hook-form";
 import { Props, FieldProps } from "../types";
 import Popup from "./base";
 import {
@@ -7,12 +8,14 @@ import {
   Message,
   PopupBody,
   Buttons,
-  StyledInput,
+  // StyledInput,
   Error
 } from "../styles";
 import { LoadingButton } from "-/src/components/Button";
 import useAwait from "-/src/utils/hooks/useAwait";
 import { addFriend } from "-/src/services";
+import { BaseForm } from "-/src/components/Form";
+import Input from "-/src/components/Input";
 
 const Field: React.FC<FieldProps & Props> = ({
   message,
@@ -31,37 +34,31 @@ const Field: React.FC<FieldProps & Props> = ({
       mainFieldRef.current.focus();
     }
   }, [isOn]);
-  const [field, setField] = React.useState("");
-  const send = () => {
+  const methods = useForm();
+  const send = data => {
     if (callback) {
-      callback(field);
+      callback(data.field);
     }
   };
-  useKey("Enter", send, undefined, [field]);
   return (
     <Popup {...props}>
       <PopupHead>
         <Title>{title}</Title>
       </PopupHead>
-      <PopupBody>
-        <Message>
-          {message}
-          <StyledInput
-            ref={mainFieldRef}
-            value={field}
-            onChange={e => {
-              setField(e.target.value);
-            }}
-            placeholder={fieldName}
-          />
-          {errorMessage !== "" && <Error>{errorMessage}</Error>}
-        </Message>
-        <Buttons>
-          <LoadingButton loading={isLoading} onClick={send}>
-            {buttonText}
-          </LoadingButton>
-        </Buttons>
-      </PopupBody>
+      <BaseForm methods={methods} onSubmit={send}>
+        <PopupBody>
+          <Message>
+            {message}
+            <Input name="field" prettyName={fieldName} />
+            {errorMessage !== "" && <Error>{errorMessage}</Error>}
+          </Message>
+          <Buttons>
+            <LoadingButton type="submit" loading={isLoading}>
+              {buttonText}
+            </LoadingButton>
+          </Buttons>
+        </PopupBody>
+      </BaseForm>
     </Popup>
   );
 };

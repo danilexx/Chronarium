@@ -7,8 +7,41 @@ interface Props {
   onSubmit?: any;
   children: any | any[];
   validationSchema?: any;
+  methods?: any;
 }
 type FormProps = Props & React.ButtonHTMLAttributes<any>;
+export const BaseForm: React.FC<FormProps> = ({
+  defaultValues,
+  children,
+  onSubmit,
+  methods,
+  validationSchema,
+  ...props
+}) => {
+  const { handleSubmit }: { handleSubmit: any } = methods;
+  return (
+    // @ts-ignore
+    <InnerForm onSubmit={handleSubmit(onSubmit) as any} {...props}>
+      <FormContext {...methods}>
+        {Array.isArray(children)
+          ? children.map((child: any) => {
+              return child.props.name
+                ? React.createElement(child.type, {
+                    ...{
+                      ...child.props,
+                      register: methods.register,
+                      errors: methods.errors,
+                      control: methods.control,
+                      key: child.props.name
+                    }
+                  })
+                : child;
+            })
+          : children}
+      </FormContext>
+    </InnerForm>
+  );
+};
 const Form: React.FC<FormProps> = ({
   defaultValues,
   children,

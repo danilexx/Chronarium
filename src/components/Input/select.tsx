@@ -1,6 +1,7 @@
 import React from "react";
 
 import { ErrorMessage, useFormContext, Controller } from "react-hook-form";
+import { lighten } from "polished";
 import {
   StyledInput,
   Container,
@@ -9,6 +10,7 @@ import {
   StyledSelect,
   SelectLabel
 } from "./styles";
+import { ThemeContext } from "-/src/utils/StyledComponents";
 import isServer from "-/src/utils/isServer";
 
 interface Props {
@@ -25,9 +27,15 @@ interface Props {
   min?: number;
   control?: any;
   options?: any;
+  portalMenu?: boolean;
   defaultValue?: { value: any; label: string };
 }
-
+const portalStyles = {
+  menuPortal: provided => ({
+    ...provided,
+    zIndex: 90
+  })
+};
 export type Ref = HTMLInputElement;
 
 const Select = React.forwardRef<Ref, Props>(
@@ -40,6 +48,7 @@ const Select = React.forwardRef<Ref, Props>(
       register,
       control,
       options,
+      portalMenu = true,
       ...props
     },
     ref
@@ -48,6 +57,7 @@ const Select = React.forwardRef<Ref, Props>(
     const prettyRest = rest.join("");
     const label = prettyName || firstLetter.toUpperCase() + prettyRest;
     // const fieldValue = watch(name, false);
+    const theme = React.useContext(ThemeContext);
     const { triggerValidation } = useFormContext();
     return (
       <>
@@ -55,10 +65,14 @@ const Select = React.forwardRef<Ref, Props>(
           <SelectLabel>{label}</SelectLabel>
           <Controller
             as={<StyledSelect />}
-            menuPortalTarget={!isServer() && document.body}
+            {...(!isServer() && portalMenu === true
+              ? { menuPortalTarget: document.body }
+              : {})}
+            // menuPortalTarget={!isServer() && document.body}
             classNamePrefix="react-select"
             control={control}
             options={options}
+            styles={portalStyles}
             isSearchable={false}
             defaultValue={defaultValue}
             rules={{ required: true }}

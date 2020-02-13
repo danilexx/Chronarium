@@ -1,7 +1,7 @@
 export const theme = {
-  bg1: "#2B2B2B",
+  bg1: "#1C1C1C",
   txtBg1: "#FAFAFA",
-  bg2: "#1F1F1F",
+  bg2: "#141414",
   txtBg2: "#FAFAFA",
   gray1: "#959595",
   gray2: "#B6B6B6",
@@ -9,7 +9,11 @@ export const theme = {
   txtPrimary: "#FAFAFA",
   error: "#FF254C",
   txtError: "#FAFAFA",
-  green: "#00CA69"
+  green: "#00CA69",
+  attributes: {
+    strength: "#FF3333",
+    agility: "#00CA69"
+  }
 };
 
 export type ITheme = typeof theme;

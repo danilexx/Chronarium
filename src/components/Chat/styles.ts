@@ -1,5 +1,8 @@
 import Textarea from "react-autosize-textarea";
 import styled, { css } from "-/src/utils/StyledComponents";
+import Input from "-/src/components/Input";
+import { BaseForm } from "-/src/components/Form";
+import customScrollBar from "-/src/utils/customScrollBar";
 
 export const Container = styled.div`
   width: 100%;
@@ -23,30 +26,7 @@ export const Window = styled.div`
   display: flex;
   flex-direction: column;
   overflow: auto;
-  /* width */
-  ::-webkit-scrollbar {
-    width: 1rem;
-
-    border-radius: 5px;
-  }
-
-  /* Track */
-  ::-webkit-scrollbar-track {
-    background: transparent;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-  }
-
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: rgba(151, 70, 255, 0.5);
-    border-radius: 5px;
-  }
-
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: rgba(151, 70, 255, 0.7);
-  }
+  ${customScrollBar}
 `;
 
 const messageStyles = css`
@@ -125,22 +105,41 @@ export const UserInput = styled.div`
   align-items: flex-end;
 `;
 
-export const Input = styled(Textarea)`
-  flex: 1;
-  font-size: 2rem;
-  padding: 1.25rem 1rem;
-  border-radius: 5px;
-  font-family: Roboto, Arial;
-  border: none;
-  color: ${props => props.theme.bg2};
-  resize: none;
-`;
+// export const Input = styled(Textarea)`
+//   flex: 1;
+//   font-size: 2rem;
+//   padding: 1.25rem 1rem;
+//   border-radius: 5px;
+//   font-family: Roboto, Arial;
+//   border: none;
+//   color: ${props => props.theme.bg2};
+//   resize: none;
+// `;
 
-export const Send = styled.img.attrs({ src: "/icons/send.svg" })`
-  padding: 1rem 4rem;
+export const ButtonWrapper = styled.button`
+  border: none;
   background-color: ${props => props.theme.primary};
   border-radius: 5px;
   margin-left: 1rem;
   height: 5rem;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const Send = styled.img.attrs({ src: "/icons/send.svg" })`
+  padding: 1rem 4rem;
+  height: 5rem;
+`;
+
+export const ChatForm = styled(BaseForm)<any>`
+  display: flex;
+`;
+export const ChatInput = styled(Input).attrs({
+  isFull: true
+})<any>`
+  padding-top: 1.2rem;
+  padding-bottom: 1.2rem;
+  flex: 1;
 `;

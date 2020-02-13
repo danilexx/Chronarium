@@ -10,6 +10,7 @@ export interface Props {
   toggle: (nextValue?: boolean) => void;
   important?: boolean;
   error?: boolean;
+  closeOnPopupClick?: boolean;
 }
 
 export interface InfoProps {
@@ -32,4 +33,27 @@ export interface FieldProps {
   isLoading: boolean;
   errorMessage: string;
 }
-export type PopupTypes = "info" | "base" | "error" | "addFriend" | "field";
+
+interface Skill {
+  name: string;
+  description: string;
+  icon: null | {
+    url: string;
+  };
+  mana_cost: number;
+  value: number;
+  type: string;
+}
+
+export interface SelectSkillProps {
+  callback?: (skill: Skill) => void;
+  adventureId: number;
+  selectedSkills?: number[];
+}
+export type PopupTypes =
+  | "info"
+  | "base"
+  | "error"
+  | "addFriend"
+  | "field"
+  | "selectSkill";

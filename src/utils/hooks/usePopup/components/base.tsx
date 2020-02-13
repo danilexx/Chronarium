@@ -11,6 +11,7 @@ const Popup: React.FC<Props> = ({
   isOn,
   toggle,
   important = false,
+  closeOnPopupClick = false,
   error = false
 }) => {
   const { width, height } = useWindowSize();
@@ -20,10 +21,22 @@ const Popup: React.FC<Props> = ({
     if (important) return;
     toggle(false);
   };
-  useClickAway(ref, close);
+  const customClose = e => {
+    if (closeOnPopupClick) {
+      close();
+    }
+    const isChildOfPopup = e.path.some(
+      element => element.attributes && element.attributes["data-popup"]
+    );
+    if (!isChildOfPopup) {
+      close();
+    }
+  };
+  useClickAway(ref, customClose);
   useKey("Escape", close);
   const pop = (state: any) => (
     <PopupContainer
+      data-popup
       error={error}
       ref={ref}
       style={{

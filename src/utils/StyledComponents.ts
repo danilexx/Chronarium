@@ -11,9 +11,17 @@ const {
   keyframes,
   ThemeProvider,
   createGlobalStyle,
-  ServerStyleSheet
+  ServerStyleSheet,
+  ThemeContext
   // ... etc
 } = (styledComponents as any) as ThemedStyledComponentsModule<ITheme>;
 
-export { css, keyframes, ThemeProvider, createGlobalStyle, ServerStyleSheet };
+export {
+  css,
+  keyframes,
+  ThemeProvider,
+  ThemeContext,
+  createGlobalStyle,
+  ServerStyleSheet
+};
 export default styled;

@@ -14,6 +14,10 @@ interface Props {
   optional?: boolean;
   max?: number;
   min?: number;
+  isFull?: boolean;
+  noError?: boolean;
+  style?: any;
+  step?: string;
 }
 
 export type Ref = HTMLInputElement;
@@ -24,26 +28,29 @@ const Input = React.forwardRef<Ref, Props>(
       type = "text",
       name,
       prettyName,
-      register,
-      errors,
       controlled = false,
       optional = false,
       max = 999,
       min = 0,
+      isFull = false,
+      noError = false,
+      style = {},
       ...props
     },
     ref
   ) => {
+    const { triggerValidation, register, errors, control } = useFormContext();
     const [firstLetter, ...rest] = name;
     const prettyRest = rest.join("");
-    const label = prettyName || firstLetter.toUpperCase() + prettyRest;
-    // const fieldValue = watch(name, false);
-    const { triggerValidation } = useFormContext();
+    const label =
+      prettyName !== undefined
+        ? prettyName
+        : firstLetter.toUpperCase() + prettyRest;
 
     const component = React.useMemo(
       () => (
         <StyledInput
-          ref={register || ref}
+          ref={register}
           type={type}
           name={name}
           max={max}
@@ -66,13 +73,15 @@ const Input = React.forwardRef<Ref, Props>(
     );
     return (
       <>
-        <Container>
+        <Container style={style} isFull={isFull}>
           {component}
           <Label>{label}</Label>
         </Container>
-        <ErrorContainer>
-          <ErrorMessage errors={errors} name={name} />
-        </ErrorContainer>
+        {noError || (
+          <ErrorContainer>
+            <ErrorMessage errors={errors} name={name} />
+          </ErrorContainer>
+        )}
       </>
     );
   }

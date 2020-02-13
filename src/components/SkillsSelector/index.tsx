@@ -11,9 +11,14 @@ import {
 import usePopup from "-/src/utils/hooks/usePopup";
 import SkillCard from "-/src/components/SkillCard";
 
-const BaseSkillsSelector = ({ adventureId, onChange }) => {
+const BaseSkillsSelector = ({
+  adventureId,
+  onChange,
+  defaultValue = [],
+  popupOptions = {}
+}) => {
   const [Popup, popupProps] = usePopup("selectSkill");
-  const [skills, { push, updateAt }] = useList([]);
+  const [skills, { set, push, updateAt }] = useList([]);
   const [operation, setOperation] = React.useState("add");
   const [index, setIndex] = React.useState(0);
   const handleAdd = () => {
@@ -21,7 +26,6 @@ const BaseSkillsSelector = ({ adventureId, onChange }) => {
     popupProps.toggle();
   };
   const handleSelectSkill = skill => {
-    console.log(skill);
     if (operation === "add") {
       push(skill);
     } else if (operation === "update") {
@@ -37,10 +41,14 @@ const BaseSkillsSelector = ({ adventureId, onChange }) => {
     popupProps.toggle();
   };
   React.useEffect(() => {
+    set(defaultValue);
+  }, [defaultValue]);
+  React.useEffect(() => {
     if (onChange) {
       onChange(skills.map(e => e.id));
     }
   }, [skills]);
+  const totalProps = { ...popupProps, ...popupOptions };
   return (
     <Container>
       <Title>Skills</Title>
@@ -65,18 +73,18 @@ const BaseSkillsSelector = ({ adventureId, onChange }) => {
         callback={handleSelectSkill}
         adventureId={adventureId}
         selectedSkills={skills.map(e => e.id)}
-        {...popupProps}
+        {...totalProps}
       />
     </Container>
   );
 };
 
-const SkillsSelector = ({ name, ...props }) => {
+const SkillsSelector = ({ name, defaultValue = [], ...props }) => {
   const { errors, control } = useFormContext();
   return (
     <>
       <Controller
-        as={<BaseSkillsSelector />}
+        as={<BaseSkillsSelector defaultValue={defaultValue} />}
         name={name}
         control={control}
         {...props}

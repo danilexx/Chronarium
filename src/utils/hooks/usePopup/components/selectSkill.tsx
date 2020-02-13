@@ -39,6 +39,9 @@ const popup: React.FC<Props & SelectSkillProps> = ({
     () => skills.filter(skill => !selectedSkills.some(e => e === skill.id)),
     [skills, selectedSkills]
   );
+  const handleOk = () => {
+    toggle(false);
+  };
   return (
     <Popup {...props}>
       <PopupHead>
@@ -54,7 +57,12 @@ const popup: React.FC<Props & SelectSkillProps> = ({
             />
           ))
         ) : (
-          <Message>There aren't any skills avaible</Message>
+          <Message>
+            There aren't any skills avaible{" "}
+            <Buttons>
+              <Button onClick={handleOk}>Ok</Button>
+            </Buttons>
+          </Message>
         )}
       </PopupBody>
     </Popup>

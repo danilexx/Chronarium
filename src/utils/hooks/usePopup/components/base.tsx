@@ -39,7 +39,6 @@ const Popup: React.FC<Props> = ({
       data-popup
       error={error}
       ref={ref}
-      closeOnPopupClick={closeOnPopupClick}
       style={{
         top: Math.round(height / 2),
         left: Math.round(width / 2),

@@ -7,6 +7,7 @@ interface Props {
   onSubmit?: any;
   children: any | any[];
   validationSchema?: any;
+  methods?: any;
 }
 type FormProps = Props & React.ButtonHTMLAttributes<any>;
 export const BaseForm: React.FC<FormProps> = ({

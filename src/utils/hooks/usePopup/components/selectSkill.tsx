@@ -14,8 +14,8 @@ const popup: React.FC<Props & SelectSkillProps> = ({
   ...props
 }) => {
   const { toggle } = props;
-  const [skills, { set }] = useList([]);
-  const [isLoading, fetch, { toggleLoading }] = useAwait(
+  const [skills, { set }] = useList<any>([]);
+  const [isLoading, fetch, { toggle: toggleLoading }] = useAwait(
     getSkills(adventureId)
   );
   React.useEffect(() => {
@@ -24,6 +24,8 @@ const popup: React.FC<Props & SelectSkillProps> = ({
         const response = await fetch();
         set(response.data);
       } catch (err) {
+        toggleLoading(false);
+        toggle(false);
         console.error(err);
       }
     };
@@ -36,7 +38,10 @@ const popup: React.FC<Props & SelectSkillProps> = ({
     toggle(false);
   };
   const filteredSkills = React.useMemo(
-    () => skills.filter(skill => !selectedSkills.some(e => e === skill.id)),
+    () =>
+      skills.filter(
+        skill => !(selectedSkills && selectedSkills.some(e => e === skill.id))
+      ),
     [skills, selectedSkills]
   );
   const handleOk = () => {

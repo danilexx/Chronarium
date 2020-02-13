@@ -11,8 +11,9 @@ import usePopup from "-/src/utils/hooks/usePopup";
 const Items = () => {
   const [, methods] = usePopup("base");
   const router = useRouter();
-  const { adventureId } = router.query;
-  const [items, { set, updateAt, removeAt }] = useList([]);
+  const { adventureId: advId } = router.query;
+  const adventureId = Number(advId);
+  const [items, { set, updateAt, removeAt }] = useList<any>([]);
   const [isLoading, fetch, { toggle }] = useAwait(getItems(adventureId));
   const toggleMenu = currentIndex => {
     const currentSkill = items[currentIndex];
@@ -37,7 +38,7 @@ const Items = () => {
   const goToCreateItem = () => {
     getPush(router)("/create-item");
   };
-  const handleDelete = async (id, index) => {
+  const handleDelete = async (id: number, index: number) => {
     removeAt(index);
     await deleteItem(adventureId, id)();
   };

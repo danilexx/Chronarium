@@ -4,7 +4,7 @@ import { Container } from "./styles";
 import Form from "-/src/components/Form";
 import Input from "-/src/components/Input";
 import Textarea from "-/src/components/Input/textarea";
-import Select from "-/src/components/Input/Select";
+import Select from "-/src/components/Input/select";
 import ImageDrop from "-/src/components/ImageDrop";
 import { FormHeader } from "-/src/components/shared/form";
 import { LoadingButton } from "-/src/components/Button";
@@ -51,7 +51,9 @@ const damageTypes = [
 const CreateSkill = () => {
   const { adventure } = React.useContext(AdventureContext);
   const router = useRouter();
-  const [isUploading, upload, { toggleUploading }] = useAwait(uploadImage);
+  const [isUploading, upload, { toggle: toggleUploading }] = useAwait(
+    uploadImage
+  );
   const [isLoading, create, { toggle }] = useAwait(createSkill(adventure.id));
 
   const handleSkillCreation = async data => {
@@ -68,6 +70,7 @@ const CreateSkill = () => {
       getPush(router)("/skills");
     } catch (err) {
       toggle(false);
+      toggleUploading(false);
       console.error(err);
     }
   };

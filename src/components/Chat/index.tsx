@@ -8,7 +8,6 @@ import { useStoreState } from "-/src/utils/EasyPeasy";
 import formatMessages from "-/src/utils/formatMessages";
 import { AdventureContext } from "-/src/components/MasteringAdventure";
 import isServer from "-/src/utils/isServer";
-import example from "./example";
 import messagesToElement from "-/src/utils/messagesToElement";
 import {
   Container,

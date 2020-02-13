@@ -17,6 +17,7 @@ interface Props {
   isFull?: boolean;
   noError?: boolean;
   style?: any;
+  step?: string;
 }
 
 export type Ref = HTMLInputElement;
@@ -49,14 +50,7 @@ const Input = React.forwardRef<Ref, Props>(
     const component = React.useMemo(
       () => (
         <StyledInput
-          ref={currentRef => {
-            if (register) {
-              register(currentRef);
-            }
-            if (ref) {
-              ref(currentRef);
-            }
-          }}
+          ref={register}
           type={type}
           name={name}
           max={max}

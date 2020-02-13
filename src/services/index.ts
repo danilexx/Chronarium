@@ -35,8 +35,8 @@ type post = <T = any, R = AxiosResponse<T>>(
 ) => Promise<R>;
 
 type Method = get & post;
-
-const selectApiMethod = (method: "get" | "post" | "put" | "delete"): Method => {
+type MethodString = "get" | "post" | "put" | "delete";
+const selectApiMethod = (method: string = "get"): Method => {
   switch (method) {
     case "get": {
       return api.get;

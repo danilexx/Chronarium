@@ -11,14 +11,14 @@ import {
 import usePopup from "-/src/utils/hooks/usePopup";
 import SkillCard from "-/src/components/SkillCard";
 
-const BaseSkillsSelector = ({
-  adventureId,
-  onChange,
-  defaultValue = [],
-  popupOptions = {}
-}) => {
+const BaseSkillsSelector: React.FC<{
+  adventureId?: any;
+  onChange?: any;
+  defaultValue?: any[];
+  popupOptions?: any;
+}> = ({ adventureId, onChange, defaultValue = [], popupOptions = {} }) => {
   const [Popup, popupProps] = usePopup("selectSkill");
-  const [skills, { set, push, updateAt }] = useList([]);
+  const [skills, { set, push, updateAt }] = useList<any>([]);
   const [operation, setOperation] = React.useState("add");
   const [index, setIndex] = React.useState(0);
   const handleAdd = () => {
@@ -79,12 +79,12 @@ const BaseSkillsSelector = ({
   );
 };
 
-const SkillsSelector = ({ name, defaultValue = [], ...props }) => {
+const SkillsSelector = ({ name, ...props }) => {
   const { errors, control } = useFormContext();
   return (
     <>
       <Controller
-        as={<BaseSkillsSelector defaultValue={defaultValue} />}
+        as={<BaseSkillsSelector />}
         name={name}
         control={control}
         {...props}

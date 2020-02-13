@@ -6,7 +6,7 @@ import { Container } from "./styles";
 import Form from "-/src/components/Form";
 import Input from "-/src/components/Input";
 import Textarea from "-/src/components/Input/textarea";
-import Select from "-/src/components/Input/Select";
+import Select from "-/src/components/Input/select";
 import ImageDrop from "-/src/components/ImageDrop";
 import { FormHeader } from "-/src/components/shared/form";
 import { LoadingButton } from "-/src/components/Button";
@@ -54,7 +54,9 @@ const SkillValidationSchema = Yup.object({
 const UpdateSkillPopup = ({ skill, methods, cb }) => {
   const [Popup] = usePopup("base");
   const { adventure } = React.useContext(AdventureContext);
-  const [isUploading, upload, { toggleUploading }] = useAwait(uploadImage);
+  const [isUploading, upload, { toggle: toggleUploading }] = useAwait(
+    uploadImage
+  );
   const [isLoading, update, { toggle }] = useAwait(
     updateSkill(adventure.id, skill.id)
   );
@@ -77,6 +79,7 @@ const UpdateSkillPopup = ({ skill, methods, cb }) => {
       }
       methods.toggle(false);
     } catch (err) {
+      toggleUploading(false);
       toggle(false);
       console.error(err);
     }

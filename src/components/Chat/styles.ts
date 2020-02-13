@@ -133,12 +133,12 @@ export const Send = styled.img.attrs({ src: "/icons/send.svg" })`
   height: 5rem;
 `;
 
-export const ChatForm = styled(BaseForm)`
+export const ChatForm = styled(BaseForm)<any>`
   display: flex;
 `;
 export const ChatInput = styled(Input).attrs({
   isFull: true
-})`
+})<any>`
   padding-top: 1.2rem;
   padding-bottom: 1.2rem;
   flex: 1;

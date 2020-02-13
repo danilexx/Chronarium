@@ -1,13 +1,11 @@
 import { Portal } from "react-portal";
 import {
-  Container,
   ItemRow,
   ItemImage,
   ItemName,
   Attribute,
   FixedInfo,
-  SkillIcon,
-  PlusButton
+  SkillIcon
 } from "./styles";
 import Tooltip from "-/src/components/Tooltip";
 import {

@@ -1,6 +1,6 @@
 import styled from "-/src/utils/StyledComponents";
 
-export const SkillRow = styled.div`
+export const SkillRow = styled.div<any>`
   background-color: rgba(0, 0, 0, 0.3);
   width: 100%;
   margin: 1.5rem 0;

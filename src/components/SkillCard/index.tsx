@@ -13,7 +13,17 @@ import {
 } from "./styles";
 import { SkillTooltip } from "-/src/components/tooltips";
 
-const SkillCard = ({ skill, attributes = [], textStyle, ...props }) => {
+interface Props {
+  attributes: string[];
+  textStyle: any;
+  skill: any;
+}
+const SkillCard: React.FC<any> = ({
+  skill,
+  attributes = [],
+  textStyle = {},
+  ...props
+}) => {
   const { name, type, value, mana_cost, icon } = skill;
   return (
     <>

@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useList } from "react-use";
-import UpdateSkillPopup from "./UpdateSkillPopup";
+import UpdateSkillPopup from "./UpSkill";
 import { Container, Row, PlusButton, SkillMenu, SkillMenuItem } from "./styles";
 import SkillCard from "-/src/components/SkillCard";
 import useAwait from "-/src/utils/hooks/useAwait";

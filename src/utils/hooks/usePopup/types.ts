@@ -10,6 +10,7 @@ export interface Props {
   toggle: (nextValue?: boolean) => void;
   important?: boolean;
   error?: boolean;
+  closeOnPopupClick?: boolean;
 }
 
 export interface InfoProps {

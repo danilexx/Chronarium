@@ -1,13 +1,18 @@
 import { useRouter } from "next/router";
 import { useList } from "react-use";
+import dynamic from "next/dynamic";
 import { Container, Row, PlusButton, ItemMenuItem, ItemMenu } from "./styles";
 import { getPush } from "-/src/components/MasteringAdventure/utils";
 import useAwait from "-/src/utils/hooks/useAwait";
 import { getItems, deleteItem } from "-/src/services";
 import ItemCard from "-/src/components/ItemCard";
-import UpdateItemPopup from "-/src/components/MasteringAdventure/pages/Items/UpdateItemPopup";
 import usePopup from "-/src/utils/hooks/usePopup";
 
+const UpdateItemPopup = dynamic(
+  () =>
+    import("-/src/components/MasteringAdventure/pages/Items/UpdateItemPopup"),
+  { ssr: false }
+);
 const Items = () => {
   const [, methods] = usePopup("base");
   const router = useRouter();

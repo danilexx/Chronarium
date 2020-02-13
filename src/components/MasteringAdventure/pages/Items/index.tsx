@@ -5,7 +5,7 @@ import { getPush } from "-/src/components/MasteringAdventure/utils";
 import useAwait from "-/src/utils/hooks/useAwait";
 import { getItems, deleteItem } from "-/src/services";
 import ItemCard from "-/src/components/ItemCard";
-import UpdateItemPopup from "./UpdateItemPopup";
+import UpdateItemPopup from "-/src/components/MasteringAdventure/pages/Items/UpdateItemPopup";
 import usePopup from "-/src/utils/hooks/usePopup";
 
 const Items = () => {

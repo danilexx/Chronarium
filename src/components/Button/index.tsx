@@ -29,10 +29,16 @@ interface LoadingProps {
 export const LoadingButton: React.FC<LoadingProps & ButtonType> = ({
   children,
   loading = false,
+  onClick,
   ...props
 }) => {
+  const handleFn = e => {
+    if (!loading && onClick) {
+      onClick(e);
+    }
+  };
   return (
-    <Button {...props}>
+    <Button onClick={handleFn} {...props}>
       {loading ? "Loading..." : children}
       <ButtonLoadingBar isGoing={loading} />
     </Button>

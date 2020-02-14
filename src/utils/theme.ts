@@ -12,7 +12,9 @@ export const theme = {
   green: "#00CA69",
   attributes: {
     strength: "#FF3333",
-    agility: "#00CA69"
+    agility: "#00CA69",
+    intelligence: "#2596FF",
+    faith: "#F4980E"
   }
 };
 

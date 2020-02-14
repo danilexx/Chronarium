@@ -43,9 +43,9 @@ export const Attribute = styled.img.attrs<{ instance: "strength" | "agility" }>(
     src: `/attributes/${props.instance}.svg`
   })
 )<{ instance: "strength" | "agility" }>`
-  width: 4rem;
-  height: 4rem;
-  padding: 0.75rem;
+  width: 4.5rem;
+  height: 4.5rem;
+  padding: 0.5rem;
   margin: 0 0.5rem;
   border-radius: 50%;
   background-color: ${props =>

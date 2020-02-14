@@ -18,7 +18,7 @@ const BaseSkillsSelector: React.FC<{
   popupOptions?: any;
 }> = ({ adventureId, onChange, defaultValue = [], popupOptions = {} }) => {
   const [Popup, popupProps] = usePopup("selectSkill");
-  const [skills, { set, push, updateAt }] = useList<any>([]);
+  const [skills, { set, push, updateAt }] = useList<any>(defaultValue || []);
   const [operation, setOperation] = React.useState("add");
   const [index, setIndex] = React.useState(0);
   const handleAdd = () => {
@@ -42,7 +42,7 @@ const BaseSkillsSelector: React.FC<{
   };
   React.useEffect(() => {
     set(defaultValue);
-  }, [defaultValue]);
+  }, []);
   React.useEffect(() => {
     if (onChange) {
       onChange(skills.map(e => e.id));
@@ -81,10 +81,11 @@ const BaseSkillsSelector: React.FC<{
 
 const SkillsSelector = ({ name, ...props }) => {
   const { errors, control } = useFormContext();
+  const defaultValue = control.defaultValuesRef?.current?.skills;
   return (
     <>
       <Controller
-        as={<BaseSkillsSelector />}
+        as={<BaseSkillsSelector defaultValue={defaultValue} />}
         name={name}
         control={control}
         {...props}

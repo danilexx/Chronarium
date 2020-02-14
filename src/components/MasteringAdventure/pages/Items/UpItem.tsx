@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import usePopup from "-/src/utils/hooks/usePopup";
 import { PopupBody, PopupHead, Title } from "-/src/utils/hooks/usePopup/styles";
 import { Container } from "./styles";
-import { BaseForm } from "-/src/components/Form";
+import Form from "-/src/components/Form";
 import Input from "-/src/components/Input";
 import Textarea from "-/src/components/Input/textarea";
 import Select from "-/src/components/Input/select";
@@ -17,12 +17,16 @@ import { getPush } from "-/src/components/MasteringAdventure/utils";
 import useAwait from "-/src/utils/hooks/useAwait";
 import getFileFormDataFromImageUri from "-/src/utils/getFileFormDataFromImageUri";
 import SkillsSelector from "-/src/components/SkillsSelector";
+import MainAttributeValueInput from "../../sub/MainAttributeValueInput";
 
 const updateItemValidationSchema = Yup.object({
   name: Yup.string().required("Required"),
   description: Yup.string().required("Required"),
   skills: Yup.array(Yup.number()).required("You must have at least one skill"),
-  main_attribute: Yup.string().required("Required"),
+  main_attribute: Yup.object({
+    value: Yup.string(),
+    label: Yup.string()
+  }).required("Required"),
   main_attribute_value: Yup.string().required("Required")
 });
 const attributes = [
@@ -45,22 +49,21 @@ const attributes = [
 ];
 
 const UpdateItemPopup = ({ item, methods, cb }) => {
-  const formMethods = useForm({
-    defaultValues: item,
-    validationSchema: updateItemValidationSchema
-  });
+  // const formMethods = useForm({
+
+  // });
   React.useEffect(() => {
-    const { setValue } = formMethods;
-    Object.entries(item).forEach(([key, value]) => {
-      if (key === "main_attribute") {
-        setValue(
-          key,
-          attributes.find(e => e.value === value)
-        );
-      } else setValue(key, value);
-    });
+    // const { setValue } = formMethods;
+    // Object.entries(item).forEach(([key, value]) => {
+    //   if (key === "main_attribute") {
+    //     setValue(
+    //       key,
+    //       attributes.find(e => e.value === value)
+    //     );
+    //   } else setValue(key, value);
+    // });
   }, [item]);
-  const mainAttribute = formMethods.watch("main_attribute");
+  // const mainAttribute = formMethods.watch("main_attribute");
   const [Popup] = usePopup("base");
   const { adventure } = React.useContext(AdventureContext);
   const [isUploading, upload, { toggle: toggleUploading }] = useAwait(
@@ -93,6 +96,9 @@ const UpdateItemPopup = ({ item, methods, cb }) => {
       console.error(err);
     }
   };
+  const defaultAttribute = attributes.find(
+    e => e.value === item.main_attribute
+  );
   return (
     <Popup {...methods}>
       <PopupHead>
@@ -100,7 +106,16 @@ const UpdateItemPopup = ({ item, methods, cb }) => {
       </PopupHead>
       <PopupBody>
         <FormHeader>Item Creation</FormHeader>
-        <BaseForm methods={formMethods} onSubmit={handleSubmit}>
+        <Form
+          defaultValues={{
+            ...item,
+            main_attribute: attributes.find(
+              e => e.value === item.main_attribute
+            )
+          }}
+          validationSchema={updateItemValidationSchema}
+          onSubmit={handleSubmit}
+        >
           <ImageDrop
             defaultValue={item.icon && item.icon.url}
             name="itemIcon"
@@ -111,15 +126,9 @@ const UpdateItemPopup = ({ item, methods, cb }) => {
             portalMenu={false}
             name="main_attribute"
             prettyName="Main Attribute"
-            defaultValue={attributes[0]}
             options={attributes}
           />
-          <Input
-            name="main_attribute_value"
-            max={999}
-            type="number"
-            prettyName={`Required ${mainAttribute?.label} to Equip`}
-          />
+          <MainAttributeValueInput />
 
           <SkillsSelector
             defaultValue={item.skills}
@@ -134,7 +143,7 @@ const UpdateItemPopup = ({ item, methods, cb }) => {
           >
             Update
           </LoadingButton>
-        </BaseForm>
+        </Form>
       </PopupBody>
     </Popup>
   );

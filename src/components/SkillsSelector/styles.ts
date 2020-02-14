@@ -57,3 +57,18 @@ export const ErrorContainer = styled.p`
   margin: 0 0.8rem;
   margin-bottom: 0.8rem;
 `;
+
+export const RemoveButton = styled.img.attrs({
+  src: "/icons/deny.svg"
+})`
+  background-color: ${props => props.theme.error};
+  padding: 1rem;
+  width: 4rem;
+  height: 4rem;
+  margin: 0 1rem;
+  border-radius: 5px;
+  opacity: 0.8;
+  &:hover {
+    opacity: 1;
+  }
+`;

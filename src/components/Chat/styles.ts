@@ -90,7 +90,7 @@ export const OtherPeopleMessage = styled.div<{ chatPin: boolean }>`
 export const MessageOwner = styled.p`
   color: ${props => props.theme.primary};
   font-size: 1.5rem;
-  margin: 0;
+  margin: 0.5rem 0;
   margin-bottom: 0.5rem;
 `;
 

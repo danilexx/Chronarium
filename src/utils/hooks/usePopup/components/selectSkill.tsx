@@ -63,7 +63,7 @@ const popup: React.FC<Props & SelectSkillProps> = ({
           ))
         ) : (
           <Message>
-            There aren't any skills avaible{" "}
+            There aren't any skills avaiable{" "}
             <Buttons>
               <Button onClick={handleOk}>Ok</Button>
             </Buttons>

@@ -17,11 +17,13 @@ interface Props {
   attributes: string[];
   textStyle: any;
   skill: any;
+  children: React.ReactNode;
 }
 const SkillCard: React.FC<any> = ({
   skill,
   attributes = [],
   textStyle = {},
+  children,
   ...props
 }) => {
   const { name, type, value, mana_cost, icon } = skill;
@@ -46,6 +48,7 @@ const SkillCard: React.FC<any> = ({
             </Info>
           </FixedInfo>
         )}
+        {children}
       </SkillRow>
       <Portal>
         <Tooltip

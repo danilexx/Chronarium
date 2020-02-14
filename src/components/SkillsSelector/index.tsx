@@ -6,7 +6,8 @@ import {
   PlusContainer,
   Title,
   Skills,
-  ErrorContainer
+  ErrorContainer,
+  RemoveButton
 } from "./styles";
 import usePopup from "-/src/utils/hooks/usePopup";
 import SkillCard from "-/src/components/SkillCard";
@@ -18,7 +19,9 @@ const BaseSkillsSelector: React.FC<{
   popupOptions?: any;
 }> = ({ adventureId, onChange, defaultValue = [], popupOptions = {} }) => {
   const [Popup, popupProps] = usePopup("selectSkill");
-  const [skills, { set, push, updateAt }] = useList<any>(defaultValue || []);
+  const [skills, { set, push, updateAt, removeAt }] = useList<any>(
+    defaultValue || []
+  );
   const [operation, setOperation] = React.useState("add");
   const [index, setIndex] = React.useState(0);
   const handleAdd = () => {
@@ -36,6 +39,7 @@ const BaseSkillsSelector: React.FC<{
     }
   };
   const updateSelectedSkill = nextIndex => {
+    if (!skills[nextIndex]) return;
     setOperation("update");
     setIndex(nextIndex);
     popupProps.toggle();
@@ -48,6 +52,10 @@ const BaseSkillsSelector: React.FC<{
       onChange(skills.map(e => e.id));
     }
   }, [skills]);
+  const removeSkill = (currentIndex, e) => {
+    e.stopPropagation();
+    removeAt(currentIndex);
+  };
   const totalProps = { ...popupProps, ...popupOptions };
   return (
     <Container>
@@ -65,7 +73,9 @@ const BaseSkillsSelector: React.FC<{
               skill={skill}
               key={skill.id}
               onClick={() => updateSelectedSkill(skillIndex)}
-            />
+            >
+              <RemoveButton onClick={e => removeSkill(skillIndex, e)} />
+            </SkillCard>
           ))}
         </Skills>
       )}

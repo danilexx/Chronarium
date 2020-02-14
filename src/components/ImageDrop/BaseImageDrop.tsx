@@ -1,7 +1,7 @@
 import { useMemo, useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import getImgDataUrl from "-/src/utils/getImgDataUrl";
-import { Container, ImageDisplay } from "./styles";
+import { Container, ImageDisplay, ResetImageIcon, Wrapper } from "./styles";
 
 export interface BaseProps {
   onChange?: (file: string) => void;
@@ -43,11 +43,20 @@ const BaseImageDrop: React.FC<BaseProps> = ({
     }
     return "/icons/image.svg";
   }, [imgUrl, isDragActive]);
+  const resetImage = () => {
+    setImgUrl("");
+    if (onChange) {
+      onChange("");
+    }
+  };
   return (
-    <Container {...getRootProps()}>
-      <input {...getInputProps()} />
-      <ImageDisplay src={image} />
-    </Container>
+    <Wrapper>
+      <Container {...getRootProps()}>
+        <input {...getInputProps()} />
+        <ImageDisplay src={image} />
+      </Container>
+      {imgUrl !== "" && <ResetImageIcon onClick={resetImage} />}
+    </Wrapper>
   );
 };
 

@@ -1,12 +1,13 @@
 import { useRouter } from "next/router";
 import { useList } from "react-use";
 import UpdateSkillPopup from "./UpSkill";
-import { Container, Row, PlusButton, SkillMenu, SkillMenuItem } from "./styles";
+import { Container, Row, PlusButton } from "./styles";
 import SkillCard from "-/src/components/SkillCard";
 import useAwait from "-/src/utils/hooks/useAwait";
 import { getSkills, deleteSkill } from "-/src/services";
 import { getPush } from "-/src/components/MasteringAdventure/utils";
 import usePopup from "-/src/utils/hooks/usePopup";
+import { Menu, MenuItem } from "../../styles";
 
 const Skills = () => {
   const [, methods] = usePopup("base");
@@ -67,17 +68,14 @@ const Skills = () => {
             key={skill.id}
           />
           {skill.isMenuShowed && (
-            <SkillMenu>
-              <SkillMenuItem onClick={() => handleUpdate(skill, index)}>
+            <Menu>
+              <MenuItem onClick={() => handleUpdate(skill, index)}>
                 Update
-              </SkillMenuItem>
-              <SkillMenuItem
-                delete
-                onClick={() => handleDelete(skill.id, index)}
-              >
+              </MenuItem>
+              <MenuItem delete onClick={() => handleDelete(skill.id, index)}>
                 Delete
-              </SkillMenuItem>
-            </SkillMenu>
+              </MenuItem>
+            </Menu>
           )}
         </>
       ))}

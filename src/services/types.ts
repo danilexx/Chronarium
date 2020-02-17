@@ -26,6 +26,11 @@ export interface UserDBModel {
   avatar_id: number | null;
   avatar: null | Avatar;
 }
+export interface PlayerModel extends UserDBModel {
+  isOwner: boolean;
+  master?: MasterModel;
+  character?: Character;
+}
 export interface DecodedTokenModel {
   uid: number;
   data: UserDBModel;
@@ -35,6 +40,7 @@ export interface MasterModel {
   name: string;
   id: number;
   user_id: number;
+  avatar?: Avatar;
 }
 
 export interface MasterCreatingModel {

@@ -13,7 +13,8 @@ import {
   AdventureModel,
   AdventureCreatingModel,
   Message,
-  PendingFriend
+  PendingFriend,
+  PlayerModel
 } from "./types";
 
 export const api = axios.create({
@@ -232,3 +233,6 @@ export const deleteItem = (adventureId: number, itemId: number) =>
   );
 export const updateItem = (adventureId: number, itemId: number) =>
   createAxiosRequest<any>(`/adventures/${adventureId}/items/${itemId}`, "put");
+
+export const getUsersFromAdventure = (adventureId: number) =>
+  createAxiosRequest<PlayerModel[], any>(`/adventures/${adventureId}/users`);

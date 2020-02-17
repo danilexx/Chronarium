@@ -57,7 +57,7 @@ const CreateItem = () => {
   const handleItemCreation = async data => {
     data.main_attribute = data.main_attribute.value;
     try {
-      let icon_id = null;
+      let icon_id: null | number = null;
       if (data.itemIcon) {
         const uploadResponse = await upload(
           getFileFormDataFromImageUri(data.itemIcon)

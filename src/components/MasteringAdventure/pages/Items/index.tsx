@@ -1,12 +1,13 @@
 import { useRouter } from "next/router";
 import { useList } from "react-use";
-import { Container, Row, PlusButton, ItemMenuItem, ItemMenu } from "./styles";
+import { Container, Row, PlusButton } from "./styles";
 import { getPush } from "-/src/components/MasteringAdventure/utils";
 import useAwait from "-/src/utils/hooks/useAwait";
 import { getItems, deleteItem } from "-/src/services";
 import ItemCard from "-/src/components/ItemCard";
 import UpdateItemPopup from "-/src/components/MasteringAdventure/pages/Items/UpItem.tsx";
 import usePopup from "-/src/utils/hooks/usePopup";
+import { MenuItem, Menu } from "../../styles";
 
 const Items = () => {
   const [, methods] = usePopup("base");
@@ -67,17 +68,12 @@ const Items = () => {
               key={item.id}
             />
             {item.isMenuShowed && (
-              <ItemMenu>
-                <ItemMenuItem onClick={() => handleUpdate(item)}>
-                  Update
-                </ItemMenuItem>
-                <ItemMenuItem
-                  delete
-                  onClick={() => handleDelete(item.id, index)}
-                >
+              <Menu>
+                <MenuItem onClick={() => handleUpdate(item)}>Update</MenuItem>
+                <MenuItem delete onClick={() => handleDelete(item.id, index)}>
                   Delete
-                </ItemMenuItem>
-              </ItemMenu>
+                </MenuItem>
+              </Menu>
             )}
           </>
         ))}

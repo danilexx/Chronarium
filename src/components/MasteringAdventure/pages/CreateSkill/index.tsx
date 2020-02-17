@@ -59,7 +59,7 @@ const CreateSkill = () => {
   const handleSkillCreation = async data => {
     data.type = data.type.value;
     try {
-      let icon_id = null;
+      let icon_id: null | number = null;
       if (data.skillIcon) {
         const uploadResponse = await upload(
           getFileFormDataFromImageUri(data.skillIcon)

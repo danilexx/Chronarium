@@ -1,12 +1,33 @@
 import { createContext } from "react";
 import { getAdventure } from "-/src/services";
 import { Column } from "-/src/components/shared";
-import { Home, Scenes, Items, Skills, CreateSkill, CreateItem } from "./pages";
+import {
+  Home,
+  Scenes,
+  Items,
+  Skills,
+  CreateSkill,
+  CreateItem,
+  Players
+} from "./pages";
 import { Navigator } from "./sub";
 import ShallowScreens, { ShallowScreen } from "-/src/components/ShallowScreen";
+import { AdventureModel } from "-/src/services/types";
 
-export const AdventureContext = createContext<{ adventure: any }>({
-  adventure: null
+export const AdventureContext = createContext<{
+  adventure: AdventureModel;
+}>({
+  adventure: {
+    id: 0,
+    name: "",
+    description: "",
+    hasPassword: false,
+    lobby: {
+      id: 0,
+      maxPlayers: 0
+    },
+    owner_id: 0
+  }
 });
 
 const MasteringAdventure = ({ adventure }) => {
@@ -21,7 +42,8 @@ const MasteringAdventure = ({ adventure }) => {
             "items",
             "skills",
             "create-skill",
-            "create-item"
+            "create-item",
+            "players"
           ]}
         >
           <RouterPage route="home">
@@ -41,6 +63,9 @@ const MasteringAdventure = ({ adventure }) => {
           </RouterPage>
           <RouterPage route="create-item">
             <CreateItem />
+          </RouterPage>
+          <RouterPage route="players">
+            <Players />
           </RouterPage>
         </ShallowScreens>
       </AdventureContext.Provider>

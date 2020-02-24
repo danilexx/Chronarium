@@ -8,6 +8,7 @@ import {
   Message,
   PopupBody,
   Buttons,
+  TitleMessage,
   // StyledInput,
   Error
 } from "../styles";
@@ -17,7 +18,7 @@ import { addFriend } from "-/src/services";
 import { BaseForm } from "-/src/components/Form";
 import Input from "-/src/components/Input";
 
-const Field: React.FC<FieldProps & Props> = ({
+const Field: React.FC<FieldProps & Props & { fieldProps?: any }> = ({
   message,
   errorMessage,
   isLoading,
@@ -25,6 +26,7 @@ const Field: React.FC<FieldProps & Props> = ({
   title,
   buttonText,
   callback,
+  fieldProps,
   ...props
 }) => {
   const { isOn } = props;
@@ -34,6 +36,7 @@ const Field: React.FC<FieldProps & Props> = ({
       mainFieldRef.current.focus();
     }
   }, [isOn]);
+  const { prettyName = "" } = props;
   const methods = useForm();
   const send = data => {
     if (callback) {
@@ -48,12 +51,16 @@ const Field: React.FC<FieldProps & Props> = ({
       <BaseForm methods={methods} onSubmit={send}>
         <PopupBody>
           <Message>
-            {message}
-            <Input name="field" prettyName={fieldName} />
+            <TitleMessage>{message}</TitleMessage>
+            <Input
+              name="field"
+              prettyName={prettyName !== "" ? prettyName : fieldName}
+              {...fieldProps}
+            />
             {errorMessage !== "" && <Error>{errorMessage}</Error>}
           </Message>
           <Buttons>
-            <LoadingButton type="submit" loading={isLoading}>
+            <LoadingButton isFull type="submit" loading={isLoading}>
               {buttonText}
             </LoadingButton>
           </Buttons>

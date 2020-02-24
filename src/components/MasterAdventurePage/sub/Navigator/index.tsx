@@ -1,5 +1,6 @@
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { Container, NavigatorItem } from "./styles";
+import getAdventurePush from "-/src/utils/getAdventurePush";
 
 interface LinkProps {
   children: React.ReactNode;
@@ -8,11 +9,8 @@ interface LinkProps {
 
 const Link: React.FC<LinkProps> = ({ children, to }) => {
   const router = useRouter();
-  const route = "/mastering/[adventureId]/[step]";
-  const as = `/mastering/${router.query.adventureId}/${to}`;
-  function handleShallowRouting() {
-    Router.push(route, as || route, { shallow: true });
-  }
+  const handleShallowRouting = () => getAdventurePush(router)(to);
+
   return (
     <NavigatorItem onClick={handleShallowRouting}>{children}</NavigatorItem>
   );

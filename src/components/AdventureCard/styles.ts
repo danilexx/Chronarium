@@ -12,6 +12,7 @@ export const Container = styled.div`
   transition: transform 0.2s ease-in-out;
   will-change: transform;
   height: fit-content;
+  cursor: pointer;
   &:hover {
     transform: translateY(-5px);
   }
@@ -24,7 +25,7 @@ export const Adventures = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: center;
   width: 100%;
 `;
 export const AdventureImageContainer = styled.div`

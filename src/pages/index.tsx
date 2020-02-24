@@ -1,5 +1,12 @@
+import PageTitle from "../components/PageTitle";
+
 const home = () => {
-  return <>Bom dia</>;
+  return (
+    <>
+      <PageTitle message="Chronarium" />
+      Bom dia
+    </>
+  );
 };
 
 export default home;

@@ -18,10 +18,10 @@ import { AdventureModel } from "-/src/services/types";
 import getSafeAdventureImage from "-/src/utils/getSafeAdventureImage";
 import Link from "../Link";
 
-interface Props {
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
   adventure?: AdventureModel;
 }
-const AdventureCard: React.FC<Props> = ({ adventure }) => {
+const AdventureCard: React.FC<Props> = ({ adventure, ...props }) => {
   if (!adventure) {
     return (
       <Container>
@@ -53,12 +53,12 @@ const AdventureCard: React.FC<Props> = ({ adventure }) => {
   }
   const image = getSafeAdventureImage(adventure);
   return (
-    <Container>
+    <Container {...props}>
       <AdventureImageContainer>
         <AdventureImage src={image} />
-        <Link href={`/mastering/${adventure.id}/home`}>
+        {/* <Link href={`/adventures/${adventure.id}/home`}>
           <PlayButton src="/icons/play.svg" />
-        </Link>
+        </Link> */}
       </AdventureImageContainer>
       <AdventureInfo>
         <Title>{adventure.name}</Title>

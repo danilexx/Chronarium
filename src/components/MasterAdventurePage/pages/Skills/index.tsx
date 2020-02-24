@@ -5,7 +5,7 @@ import { Container, Row, PlusButton } from "./styles";
 import SkillCard from "-/src/components/SkillCard";
 import useAwait from "-/src/utils/hooks/useAwait";
 import { getSkills, deleteSkill } from "-/src/services";
-import { getPush } from "-/src/components/MasteringAdventure/utils";
+import { getPush } from "-/src/components/MasterAdventurePage/utils";
 import usePopup from "-/src/utils/hooks/usePopup";
 import { Menu, MenuItem } from "../../styles";
 

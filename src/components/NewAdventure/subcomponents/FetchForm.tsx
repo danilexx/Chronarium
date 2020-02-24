@@ -101,7 +101,7 @@ const FetchForm: React.FC<FormProps> = ({ setIndex, index, onResize }) => {
         avatar_id: adventureIconId
       });
       nextTask();
-      Router.push(`/mastering/${adventureResponse.data.id}/home`);
+      Router.push(`/adventures/${adventureResponse.data.id}/home`);
       resetState();
     } catch (err) {
       console.error(err);

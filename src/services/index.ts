@@ -138,7 +138,12 @@ export const getMyAdventures = createAxiosRequest<AdventureModel[]>(
 );
 
 export const getAdventure = (adventureId: number) =>
-  createAxiosServerAuthRequest(`/adventures/${adventureId}`, "get");
+  createAxiosServerAuthRequest<AdventureModel, any>(
+    `/adventures/${adventureId}`,
+    "get"
+  );
+export const getClientAdventure = (adventureId: number) =>
+  createAxiosRequest<AdventureModel, any>(`/adventures/${adventureId}`, "get");
 
 export const getMessages = (adventureId: number) =>
   createAxiosRequest(`/adventures/${adventureId}/social_messages`);
@@ -236,3 +241,38 @@ export const updateItem = (adventureId: number, itemId: number) =>
 
 export const getUsersFromAdventure = (adventureId: number) =>
   createAxiosRequest<PlayerModel[], any>(`/adventures/${adventureId}/users`);
+
+export const removePlayer = (adventureId: number, playerId: number) =>
+  createAxiosRequest<any, any>(
+    `/adventures/${adventureId}/users/${playerId}`,
+    "delete"
+  );
+interface sucess {
+  ok: boolean;
+}
+interface error {
+  error: {
+    message: string;
+  };
+}
+type maybe = sucess | error;
+export const enterPrivateAdventure = (adventureId: number) =>
+  createAxiosRequest<maybe, { password: string }>(
+    `/adventures/${adventureId}`,
+    "post"
+  );
+export const createCharacter = (adventrureId: number) =>
+  createAxiosRequest<
+    any,
+    {
+      name: string;
+      icon_id?: number;
+      appearance: string;
+      lore: string;
+      personality: string;
+      age: string;
+      height: string;
+      gender: string;
+      race: string;
+    }
+  >(`/adventures/${adventrureId}/items`, "post");

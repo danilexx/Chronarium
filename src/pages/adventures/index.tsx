@@ -1,5 +1,5 @@
 import React from "react";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 import { Column } from "-/src/components/shared";
 import { Header } from "-/src/components/Header";
 import useUserRoute from "-/src/utils/hooks/useUserRoute";
@@ -10,6 +10,8 @@ import { AdventureModel } from "-/src/services/types";
 import getSafeAdventureImage from "-/src/utils/getSafeAdventureImage";
 import Button from "-/src/components/Button";
 import { EmptyMessage } from "-/src/components/AdventureCard/styles";
+import PageTitle from "-/src/components/PageTitle";
+import usePopup from "-/src/utils/hooks/usePopup";
 
 const parts = [
   { label: "Home", path: "/" },
@@ -22,29 +24,51 @@ const adventures = ({
   adventuresData: AdventureModel[];
 }) => {
   // useUserRoute();
+  const router = useRouter();
+  const [Popup, options] = usePopup("adventurePassword");
+  const [activeAdventureId, setActiveAdventureId] = React.useState(0);
+  const enterAdventure = async (adventureId, hasPassword) => {
+    if (hasPassword) {
+      setActiveAdventureId(adventureId);
+      options.toggle(true);
+    } else {
+      router.push(`/adventures/${adventureId}/home`);
+    }
+  };
   return (
-    <Column isFull>
-      <Breadcumb parts={parts} />
-      <Header>Adventures</Header>
-      {adventuresData.length > 0 ? (
-        <Adventures>
-          {adventuresData.map(adventure => {
-            return <AdventureCard adventure={adventure} />;
-          })}
-        </Adventures>
-      ) : (
-        <EmptyMessage>
-          Sorry, no adventures{" "}
-          <Button
-            onClick={() => {
-              Router.push("/mastering/new");
-            }}
-          >
-            Create One
-          </Button>
-        </EmptyMessage>
-      )}
-    </Column>
+    <>
+      <Column isFull>
+        <PageTitle message="Adventures" />
+        <Breadcumb parts={parts} />
+        <Header>Adventures</Header>
+        {adventuresData.length > 0 ? (
+          <Adventures>
+            {adventuresData.map(adventure => {
+              return (
+                <AdventureCard
+                  onClick={() =>
+                    enterAdventure(adventure.id, adventure.hasPassword)
+                  }
+                  adventure={adventure}
+                />
+              );
+            })}
+          </Adventures>
+        ) : (
+          <EmptyMessage>
+            Sorry, no adventures{" "}
+            <Button
+              onClick={() => {
+                Router.push("/mastering/new");
+              }}
+            >
+              Create One
+            </Button>
+          </EmptyMessage>
+        )}
+      </Column>
+      <Popup {...options} adventureId={activeAdventureId} />
+    </>
   );
 };
 

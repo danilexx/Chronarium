@@ -15,7 +15,7 @@ export const Step = styled.img<{ active?: boolean }>`
   border-radius: 5px;
   transition: all 0.2s ease-in-out;
   background-color: ${props =>
-    props.active ? props.theme.primary : props.theme.bg1};
+    props.active ? props.theme.primary : props.theme.bg2};
   height: 8rem;
   width: 8rem;
   margin: 0.5rem 0;

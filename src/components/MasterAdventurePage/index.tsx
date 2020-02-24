@@ -30,7 +30,7 @@ export const AdventureContext = createContext<{
   }
 });
 
-const MasteringAdventure = ({ adventure }) => {
+const AdventurePage = ({ adventure }) => {
   return (
     <Column isFull>
       <Navigator />
@@ -82,4 +82,4 @@ const RouterPage: React.FC<Props> = ({ children, ...props }) => (
   <ShallowScreen {...props}>{children}</ShallowScreen>
 );
 
-export default MasteringAdventure;
+export default AdventurePage;

@@ -12,8 +12,9 @@ import { PlayerModel } from "-/src/services/types";
 // import { PlayerTooltip } from "-/src/components/tooltips";
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   player: PlayerModel;
+  me?: boolean;
 }
-const PlayerCard: React.FC<Props> = ({ player, ...props }) => {
+const PlayerCard: React.FC<Props> = ({ player, me, ...props }) => {
   // const { skills, main_attribute_value, main_attribute } = player;
   return (
     <>
@@ -29,7 +30,7 @@ const PlayerCard: React.FC<Props> = ({ player, ...props }) => {
       <PlayerRow data-for="player:0" data-tip {...props}>
         <PlayerImage src="/images/profile.svg" />
         <PlayerName>
-          {player.username}
+          {me ? `Me: ${player.username}` : player.username}
           {player.master &&
             ` ( ${player.isOwner ? "Owner:" : "Master:"} ${
               player.master.name

@@ -1,11 +1,11 @@
 import { useRouter } from "next/router";
 import { useList } from "react-use";
 import { Container, Row, PlusButton } from "./styles";
-import { getPush } from "-/src/components/MasteringAdventure/utils";
+import { getPush } from "-/src/components/MasterAdventurePage/utils";
 import useAwait from "-/src/utils/hooks/useAwait";
 import { getItems, deleteItem } from "-/src/services";
 import ItemCard from "-/src/components/ItemCard";
-import UpdateItemPopup from "-/src/components/MasteringAdventure/pages/Items/UpItem.tsx";
+import UpdateItemPopup from "-/src/components/MasterAdventurePage/pages/Items/UpItem";
 import usePopup from "-/src/utils/hooks/usePopup";
 import { MenuItem, Menu } from "../../styles";
 

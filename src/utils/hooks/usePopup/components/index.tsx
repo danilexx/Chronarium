@@ -4,3 +4,5 @@ export { default as ErrorPopup } from "./error";
 export { default as addFriend } from "./addFriend";
 export { default as FieldPopup } from "./field";
 export { default as SelectSkillPopup } from "./selectSkill";
+export { default as AdventurePassword } from "./adventurePassword";
+export { default as LoadingPopup } from "./loading";

@@ -6,7 +6,7 @@ import { useList, useEffectOnce, useKey } from "react-use";
 import { useForm } from "react-hook-form";
 import { useStoreState } from "-/src/utils/EasyPeasy";
 import formatMessages from "-/src/utils/formatMessages";
-import { AdventureContext } from "-/src/components/MasteringAdventure";
+import { AdventureContext } from "-/src/components/MasterAdventurePage";
 import isServer from "-/src/utils/isServer";
 import messagesToElement from "-/src/utils/messagesToElement";
 import {

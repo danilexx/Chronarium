@@ -1,4 +1,5 @@
 import React from "react";
+import { useRouter } from "next/router";
 import { getMyMasteringAdventures } from "-/src/services";
 import { AdventureModel } from "-/src/services/types";
 import { Column } from "-/src/components/shared";
@@ -16,6 +17,12 @@ const parts = [
 ];
 
 const mastering = ({ adventures }: { adventures: AdventureModel[] }) => {
+  const router = useRouter();
+  const goToAdventure = adventureId => {
+    const route = "/adventures/[adventureId]/[step]";
+    const as = `/adventures/${adventureId}/home`;
+    router.push(route, as || route, { shallow: true });
+  };
   useUserRoute();
   return (
     <Column isFull>
@@ -24,7 +31,12 @@ const mastering = ({ adventures }: { adventures: AdventureModel[] }) => {
       <Adventures>
         <CreateAdventureCard />
         {adventures.map(adventure => (
-          <AdventureCard adventure={adventure} />
+          <AdventureCard
+            onClick={() => {
+              goToAdventure(adventure.id);
+            }}
+            adventure={adventure}
+          />
         ))}
       </Adventures>
     </Column>

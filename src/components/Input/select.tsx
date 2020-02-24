@@ -28,6 +28,7 @@ interface Props {
   control?: any;
   options?: any;
   portalMenu?: boolean;
+  noError?: boolean;
   defaultValue?: { value: any; label: string };
 }
 const portalStyles = {
@@ -49,6 +50,8 @@ const Select = React.forwardRef<Ref, Props>(
       control,
       options,
       portalMenu = true,
+      errors,
+      noError,
       ...props
     },
     ref
@@ -57,7 +60,6 @@ const Select = React.forwardRef<Ref, Props>(
     const prettyRest = rest.join("");
     const label = prettyName || firstLetter.toUpperCase() + prettyRest;
     // const fieldValue = watch(name, false);
-    const theme = React.useContext(ThemeContext);
     const { triggerValidation } = useFormContext();
     return (
       <>
@@ -74,14 +76,19 @@ const Select = React.forwardRef<Ref, Props>(
             options={options}
             styles={portalStyles}
             isSearchable={false}
-            defaultValue={defaultValue}
             rules={{ required: true }}
             onChange={([selected]) => {
               // React Select return object instead of value for selection
               return { value: selected };
             }}
+            defaultValue={defaultValue}
             name={name}
           />
+          {noError || (
+            <ErrorContainer style={{ margin: "0.8rem" }}>
+              <ErrorMessage errors={errors} name={name} />
+            </ErrorContainer>
+          )}
         </Container>
       </>
     );

@@ -30,6 +30,7 @@ export const PopupBackground = styled.div`
   height: 100%;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.6);
+  z-index: 61;
 `;
 
 export const PopupHead = styled.div`
@@ -63,7 +64,7 @@ export const PopupBody = styled.div`
 `;
 
 export const Buttons = styled.div`
-  margin: 1rem;
+  margin: 1rem 0;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -85,4 +86,10 @@ export const StyledInput = styled.input`
 export const Error = styled.b`
   color: ${props => props.theme.error};
   font-size: 1.5rem;
+`;
+
+export const TitleMessage = styled.p`
+  font-size: 2rem;
+  margin: 0 auto;
+  margin-bottom: 1rem;
 `;

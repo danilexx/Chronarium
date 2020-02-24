@@ -32,6 +32,7 @@ export interface FieldProps {
   buttonText: string;
   isLoading: boolean;
   errorMessage: string;
+  prettyName?: string;
 }
 
 interface Skill {
@@ -56,4 +57,6 @@ export type PopupTypes =
   | "error"
   | "addFriend"
   | "field"
-  | "selectSkill";
+  | "selectSkill"
+  | "adventurePassword"
+  | "loading";

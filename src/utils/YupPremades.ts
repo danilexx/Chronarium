@@ -28,7 +28,7 @@ export const hasNumber = (): [string, any, any] => [
 
 export const Email = (): [string] => ["Email invalido"];
 
-export const Required = (): [string] => ["Obrigatorio"];
+export const Required = (): [string] => ["Required"];
 
 export const EmailEqual = (): [string, any, any] => [
   "isEqual",

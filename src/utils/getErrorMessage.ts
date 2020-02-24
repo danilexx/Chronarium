@@ -13,7 +13,7 @@ const getErrorMessage = (error: any): string => {
     const [type, newMessage] = error.response.data.error
       ? error.response.data.error.message.split(":")
       : error.response.data.split(":");
-    message = newMessage;
+    message = newMessage === "5432" ? "Server Offline" : newMessage;
   } else {
     message = error.message;
   }

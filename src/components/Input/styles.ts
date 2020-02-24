@@ -71,7 +71,7 @@ export const Container = styled.div<{ isFull?: boolean }>`
   display: flex;
   flex-direction: column;
   padding: 0;
-  margin-bottom: 0.8rem;
+  /* margin-bottom: 0.8rem; */
   position: relative;
   ${props =>
     props.isFull &&
